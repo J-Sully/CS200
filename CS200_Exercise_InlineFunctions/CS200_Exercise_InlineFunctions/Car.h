@@ -17,13 +17,13 @@ using namespace std;
  Car
  -----------------------
  - make: string
- - year : int
+ - year : unsigned int
  -----------------------
  + Car()
  + setMake(m: string) : void
  + getMake() : string
- + setYear(y: int) : void
- + getYear() : int
+ + setYear(y: unsigned int) : void
+ + getYear() : unsigned int
  ----------------------
  */
 
@@ -37,7 +37,7 @@ public:
   void setMake (string m)       { make = m; }
   void setYear (unsigned int y) { year = y; }
   string getMake()              { return make; }
-  int getYear()                 { return year; }
+  unsigned int getYear()        { return year; }
 };
 
 #endif /* CAR_H */
