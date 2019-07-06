@@ -1,4 +1,4 @@
-//CarDemo.cpp
+//CS200_Exercise_InlineFunctions
 #include <iostream>
 
 #include "Car.h"

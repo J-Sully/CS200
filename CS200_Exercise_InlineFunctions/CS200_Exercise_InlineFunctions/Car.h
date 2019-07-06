@@ -17,12 +17,9 @@ using namespace std;
  Car
  -----------------------
  - make: string
- - year : unsigned int
+ - year : int
  -----------------------
  + Car()
- + Car(m : string)
- + Car(y : unsigned int)
- + Car(m : string, y : unsigned int)
  + setMake(m: string) : void
  + getMake() : string
  + setYear(y: int) : void

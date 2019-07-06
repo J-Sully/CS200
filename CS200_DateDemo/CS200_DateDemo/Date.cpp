@@ -75,9 +75,9 @@ string Date::getMonthS(bool military) const{
 
 
 void Date::getMilitaryDate(stringstream &output) const {
-  output << setw(2) << setfill('0') << day << getMonthS(true) << setw(4) << setfill('0') << year << endl;
+  output << setw(2) << setfill('0') << day << getMonthS(true) << setw(4) << setfill('0') << year;
 }
 
 void Date::getRegularDate(stringstream &output) const {
-  output << getMonthS(false) << ' ' << day << ", " << year << endl;
+  output << getMonthS(false) << ' ' << day << ", " << year;
 }

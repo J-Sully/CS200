@@ -20,7 +20,7 @@ int main(int argc, const char * argv[]) {
   output.str("");
   
   today.getRegularDate(output);
-  cout << output.str() << endl << endl;
+  cout << output.str() << endl;
   
   return 0;
 }
