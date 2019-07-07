@@ -21,13 +21,14 @@ using namespace std;
  - speed : unsigned int
  -----------------------
  + Car()
- + setMake(m: string) : void
+ + setMake(m : string) : void
  + getMake() : string
- + setYear(y: int) : void
+ + setYear(y : int) : void
  + getYear() : int
- + setSpeed(s: int) : void
+ + setSpeed(s : int) : void
  + getSpeed() : int
  + accelerate() : void
+ + writeStatus(ss : stringstream) : void
  ----------------------
  */
 
@@ -39,7 +40,7 @@ private:
     double speed = 0;
     
 public:
-    Car(string, unsigned int);
+    Car(string m, unsigned int y);
     void setMake (string m)       { make = m; }
     void setYear (unsigned int y) { year = y; }
     void setSpeed(unsigned int s) { speed = s; }
@@ -48,6 +49,7 @@ public:
     unsigned int getSpeed() const { return speed; }
     void accelerate()             { speed += 5; }
     void brake()                  { speed = speed - 5 >= 0 ? speed - 5 : 0; }
+    void writeStatus(stringstream &output);
     
 };
 
