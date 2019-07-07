@@ -25,8 +25,8 @@ using namespace std;
  + Car(m : string, y : unsigned int)
  + setMake(m: string) : void
  + getMake() : string
- + setYear(y: int) : void
- + getYear() : int
+ + setYear(y: unsigned int) : void
+ + getYear() : unsigned int
  ----------------------
  */
 
@@ -34,17 +34,17 @@ class Car {
   
 private:
   string make;
-  int year;
+  unsigned int year;
   
 public:
   Car();
   Car(string);
   Car(unsigned int);
   Car(string, unsigned int);
-  void setMake (string m)  { make = m; }
-  void setYear (int y)     { year = y; }
-  string getMake()         { return make; }
-  int getYear()            { return year; }
+  void setMake (string m)       { make = m; }
+  void setYear (unsigned int y) { year = y; }
+  string getMake()              { return make; }
+  unsigned int getYear()        { return year; }
 };
 
 #endif /* CAR_H */
