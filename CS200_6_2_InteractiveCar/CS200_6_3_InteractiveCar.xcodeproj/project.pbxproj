@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4288407E22D1405C006AF923 /* CS200_Lab6_2_AccBrake.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4288407D22D1405C006AF923 /* CS200_Lab6_2_AccBrake.cpp */; };
-		4288408622D1406F006AF923 /* Car.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4288408422D1406F006AF923 /* Car.cpp */; };
+		4254506622D2A2AA002373B4 /* CS200_6_3_InteractiveCar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4254506522D2A2AA002373B4 /* CS200_6_3_InteractiveCar.cpp */; };
+		4254506E22D2A2BA002373B4 /* Car.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4254506C22D2A2BA002373B4 /* Car.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		4288407822D1405C006AF923 /* CopyFiles */ = {
+		4254506022D2A2AA002373B4 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -24,14 +24,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		4288407A22D1405C006AF923 /* CS200_Lab6_2_AccBrake */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CS200_Lab6_2_AccBrake; sourceTree = BUILT_PRODUCTS_DIR; };
-		4288407D22D1405C006AF923 /* CS200_Lab6_2_AccBrake.cpp */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.cpp.cpp; path = CS200_Lab6_2_AccBrake.cpp; sourceTree = "<group>"; tabWidth = 2; };
-		4288408422D1406F006AF923 /* Car.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Car.cpp; sourceTree = "<group>"; };
-		4288408522D1406F006AF923 /* Car.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Car.h; sourceTree = "<group>"; };
+		4254506222D2A2AA002373B4 /* CS200_6_3_InteractiveCar */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CS200_6_3_InteractiveCar; sourceTree = BUILT_PRODUCTS_DIR; };
+		4254506522D2A2AA002373B4 /* CS200_6_3_InteractiveCar.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CS200_6_3_InteractiveCar.cpp; sourceTree = "<group>"; };
+		4254506C22D2A2BA002373B4 /* Car.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Car.cpp; sourceTree = "<group>"; };
+		4254506D22D2A2BA002373B4 /* Car.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Car.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		4288407722D1405C006AF923 /* Frameworks */ = {
+		4254505F22D2A2AA002373B4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -41,97 +41,97 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		4288407122D1405C006AF923 = {
+		4254505922D2A2AA002373B4 = {
 			isa = PBXGroup;
 			children = (
-				4288407C22D1405C006AF923 /* CS200_Lab6_2_AccBrake */,
-				4288407B22D1405C006AF923 /* Products */,
+				4254506422D2A2AA002373B4 /* CS200_6_3_InteractiveCar */,
+				4254506322D2A2AA002373B4 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		4288407B22D1405C006AF923 /* Products */ = {
+		4254506322D2A2AA002373B4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4288407A22D1405C006AF923 /* CS200_Lab6_2_AccBrake */,
+				4254506222D2A2AA002373B4 /* CS200_6_3_InteractiveCar */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		4288407C22D1405C006AF923 /* CS200_Lab6_2_AccBrake */ = {
+		4254506422D2A2AA002373B4 /* CS200_6_3_InteractiveCar */ = {
 			isa = PBXGroup;
 			children = (
-				4288407D22D1405C006AF923 /* CS200_Lab6_2_AccBrake.cpp */,
-				4288408422D1406F006AF923 /* Car.cpp */,
-				4288408522D1406F006AF923 /* Car.h */,
+				4254506522D2A2AA002373B4 /* CS200_6_3_InteractiveCar.cpp */,
+				4254506C22D2A2BA002373B4 /* Car.cpp */,
+				4254506D22D2A2BA002373B4 /* Car.h */,
 			);
-			path = CS200_Lab6_2_AccBrake;
+			path = CS200_6_3_InteractiveCar;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		4288407922D1405C006AF923 /* CS200_Lab6_2_AccBrake */ = {
+		4254506122D2A2AA002373B4 /* CS200_6_3_InteractiveCar */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4288408122D1405C006AF923 /* Build configuration list for PBXNativeTarget "CS200_Lab6_2_AccBrake" */;
+			buildConfigurationList = 4254506922D2A2AA002373B4 /* Build configuration list for PBXNativeTarget "CS200_6_3_InteractiveCar" */;
 			buildPhases = (
-				4288407622D1405C006AF923 /* Sources */,
-				4288407722D1405C006AF923 /* Frameworks */,
-				4288407822D1405C006AF923 /* CopyFiles */,
+				4254505E22D2A2AA002373B4 /* Sources */,
+				4254505F22D2A2AA002373B4 /* Frameworks */,
+				4254506022D2A2AA002373B4 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = CS200_Lab6_2_AccBrake;
-			productName = CS200_Lab6_2_AccBrake;
-			productReference = 4288407A22D1405C006AF923 /* CS200_Lab6_2_AccBrake */;
+			name = CS200_6_3_InteractiveCar;
+			productName = CS200_6_2_InteractiveCar;
+			productReference = 4254506222D2A2AA002373B4 /* CS200_6_3_InteractiveCar */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		4288407222D1405C006AF923 /* Project object */ = {
+		4254505A22D2A2AA002373B4 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = "Jessie Sully";
 				TargetAttributes = {
-					4288407922D1405C006AF923 = {
+					4254506122D2A2AA002373B4 = {
 						CreatedOnToolsVersion = 10.1;
 					};
 				};
 			};
-			buildConfigurationList = 4288407522D1405C006AF923 /* Build configuration list for PBXProject "CS200_Lab6_2_AccBrake" */;
+			buildConfigurationList = 4254505D22D2A2AA002373B4 /* Build configuration list for PBXProject "CS200_6_3_InteractiveCar" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 			);
-			mainGroup = 4288407122D1405C006AF923;
-			productRefGroup = 4288407B22D1405C006AF923 /* Products */;
+			mainGroup = 4254505922D2A2AA002373B4;
+			productRefGroup = 4254506322D2A2AA002373B4 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				4288407922D1405C006AF923 /* CS200_Lab6_2_AccBrake */,
+				4254506122D2A2AA002373B4 /* CS200_6_3_InteractiveCar */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		4288407622D1405C006AF923 /* Sources */ = {
+		4254505E22D2A2AA002373B4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4288408622D1406F006AF923 /* Car.cpp in Sources */,
-				4288407E22D1405C006AF923 /* CS200_Lab6_2_AccBrake.cpp in Sources */,
+				4254506E22D2A2BA002373B4 /* Car.cpp in Sources */,
+				4254506622D2A2AA002373B4 /* CS200_6_3_InteractiveCar.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		4288407F22D1405C006AF923 /* Debug */ = {
+		4254506722D2A2AA002373B4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -190,7 +190,7 @@
 			};
 			name = Debug;
 		};
-		4288408022D1405C006AF923 /* Release */ = {
+		4254506822D2A2AA002373B4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -242,7 +242,7 @@
 			};
 			name = Release;
 		};
-		4288408222D1405C006AF923 /* Debug */ = {
+		4254506A22D2A2AA002373B4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -250,7 +250,7 @@
 			};
 			name = Debug;
 		};
-		4288408322D1405C006AF923 /* Release */ = {
+		4254506B22D2A2AA002373B4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -261,25 +261,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		4288407522D1405C006AF923 /* Build configuration list for PBXProject "CS200_Lab6_2_AccBrake" */ = {
+		4254505D22D2A2AA002373B4 /* Build configuration list for PBXProject "CS200_6_3_InteractiveCar" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				4288407F22D1405C006AF923 /* Debug */,
-				4288408022D1405C006AF923 /* Release */,
+				4254506722D2A2AA002373B4 /* Debug */,
+				4254506822D2A2AA002373B4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4288408122D1405C006AF923 /* Build configuration list for PBXNativeTarget "CS200_Lab6_2_AccBrake" */ = {
+		4254506922D2A2AA002373B4 /* Build configuration list for PBXNativeTarget "CS200_6_3_InteractiveCar" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				4288408222D1405C006AF923 /* Debug */,
-				4288408322D1405C006AF923 /* Release */,
+				4254506A22D2A2AA002373B4 /* Debug */,
+				4254506B22D2A2AA002373B4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 4288407222D1405C006AF923 /* Project object */;
+	rootObject = 4254505A22D2A2AA002373B4 /* Project object */;
 }

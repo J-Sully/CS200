@@ -30,54 +30,50 @@ void brake(Car &car);
 
 
 int main(int argc, const char * argv[]) {
-    Car car = {"Toyota", 1998};
-    stringstream output;
-    
-    accelerate(car);
-    accelerate(car);
-    accelerate(car);
-    
-    brake(car);
-    brake(car);
-    brake(car);
-    brake(car);
-    
-    
-    
-    
-    
-    
-    return 0;
+  Car car = {"Toyota", 1998};
+  
+  accelerate(car);
+  accelerate(car);
+  accelerate(car);
+  
+  brake(car);
+  brake(car);
+  brake(car);
+  brake(car);
+  
+  return 0;
 }
- 
+
+// printing with the correct format
 void accelerate(Car &car) {
-    stringstream output;
-    cout << "Accelerating..." << endl;
-    car.accelerate();
+  stringstream output;
+  cout << "Accelerating..." << endl;
+  car.accelerate();
+  car.writeStatus(output);
+  cout << output.str() << endl << endl;
+  output.clear();
+  output.str("");
+}
+
+//printing with the correct format
+void brake(Car &car) {
+  stringstream output;
+  cout << "Braking...";
+  if (car.getSpeed() != 0) {
+    car.brake();
+    car.writeStatus(output);
+    cout << endl << output.str() << endl << endl;
+    output.clear();
+    output.str("");
+  }
+  else {
+    cout << "Error: can't brake a car that's standing still." << endl;
     car.writeStatus(output);
     cout << output.str() << endl << endl;
     output.clear();
     output.str("");
+  }  
 }
 
-void brake(Car &car) {
-    stringstream output;
-    cout << "Braking...";
-    if (car.getSpeed() != 0) {
-        car.brake();
-        car.writeStatus(output);
-        cout << endl << output.str() << endl << endl;
-        output.clear();
-        output.str("");
-    }
-    else {
-        cout << "Error: can't brake a car that's standing still." << endl;
-        car.writeStatus(output);
-        cout << output.str() << endl << endl;
-        output.clear();
-        output.str("");
-    }
-    
-}
 
 
