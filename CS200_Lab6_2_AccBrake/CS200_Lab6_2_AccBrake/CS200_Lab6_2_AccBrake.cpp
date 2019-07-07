@@ -22,18 +22,28 @@
 //
 
 #include <iostream>
+#include <sstream>
 #include "Car.h"
+
+void accelerate(Car &car);
+void brake(Car &car);
+
 
 int main(int argc, const char * argv[]) {
     Car car = {"Toyota", 1998};
     stringstream output;
     
-    cout << "Accelerating..." << endl;
-    car.accelerate();
-    car.writeStatus(output);
-    cout << output.str() << endl;
-    output.clear();
-    output.str("");
+    accelerate(car);
+    accelerate(car);
+    accelerate(car);
+    
+    brake(car);
+    brake(car);
+    brake(car);
+    brake(car);
+    
+    
+    
     
     
     
@@ -42,6 +52,31 @@ int main(int argc, const char * argv[]) {
  
 void accelerate(Car &car) {
     stringstream output;
+    cout << "Accelerating..." << endl;
+    car.accelerate();
+    car.writeStatus(output);
+    cout << output.str() << endl << endl;
+    output.clear();
+    output.str("");
+}
+
+void brake(Car &car) {
+    stringstream output;
+    cout << "Braking...";
+    if (car.getSpeed() != 0) {
+        car.brake();
+        car.writeStatus(output);
+        cout << endl << output.str() << endl << endl;
+        output.clear();
+        output.str("");
+    }
+    else {
+        cout << "Error: can't brake a car that's standing still." << endl;
+        car.writeStatus(output);
+        cout << output.str() << endl << endl;
+        output.clear();
+        output.str("");
+    }
     
 }
 
