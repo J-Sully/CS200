@@ -51,8 +51,6 @@ void accelerate(Car &car) {
   car.accelerate();
   car.writeStatus(output);
   cout << output.str() << endl << endl;
-  output.clear();
-  output.str("");
 }
 
 //printing with the correct format
@@ -61,18 +59,12 @@ void brake(Car &car) {
   cout << "Braking...";
   if (car.getSpeed() != 0) {
     car.brake();
-    car.writeStatus(output);
-    cout << endl << output.str() << endl << endl;
-    output.clear();
-    output.str("");
   }
   else {
     cout << "Error: can't brake a car that's standing still." << endl;
-    car.writeStatus(output);
-    cout << output.str() << endl << endl;
-    output.clear();
-    output.str("");
-  }  
+  }
+  car.writeStatus(output);
+  cout << output.str() << endl << endl;
 }
 
 
