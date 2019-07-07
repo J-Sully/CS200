@@ -10,10 +10,11 @@
 #include <sstream>
 
 Car::Car(string m, unsigned int y){
-    make = m;
-    year = y;
+  make = m;
+  year = y;
 }
 
 void Car::writeStatus (stringstream &output) {
-    output << "Make: " << getMake() << " Year: " << getYear() << " Speed: " << getSpeed() << " mph";
+  output << "Make: " << getMake() << " Year: " << getYear() << " Speed: " << getSpeed() << " mph";
 }
+
