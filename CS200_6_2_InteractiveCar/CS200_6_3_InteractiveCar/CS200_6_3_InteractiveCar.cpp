@@ -12,61 +12,94 @@
 
 void accelerate(Car &car);
 void brake(Car &car);
+void printStatus(Car &car);
 
-string menu {
-    
-}
+const string MAINMENU = { R"(
+Enter:
+  1 | Accelerate Car
+  2 | Brake Car
+  3 | Quit
+Choice: )"
+};
 
 int main(int argc, const char * argv[]) {
-    stringstream output;
-    stringstream ss;
-    string make, sYear, input;
-    unsigned int year;
-    
-    cout << "Please enter the make of your car: ";
-    getline(cin, make);
-    cout << endl << "Please enter the year of your car: ";
-    getline(cin, sYear);
-    ss.str(sYear);
-    ss >> year;
+  stringstream output;
+  stringstream ss;
+  string make, sYear, input;
+  unsigned int year, selection;
+  
+  cout << "Please enter the make of your car: ";
+  getline(cin, make);
+  cout << endl << "Please enter the year of your car: ";
+  getline(cin, sYear);
+  ss.str(sYear);
+  ss >> year;
+  ss.clear();
+  ss.str("");
+  Car car = {make, year};
+  
+  printStatus(car);
+  
+  do {
+    cout << MAINMENU;
+    getline(cin, input);
+    ss.str(input);
+    ss >> selection;
     ss.clear();
     ss.str("");
-    Car car = {make, year};
     
-    do {
-        
-    } while (input != "
+    switch (selection) {
+      case 1:
+        accelerate(car);
+        break;
+      
+      case 2:
+        brake(car);
+        break;
+      
+      case 3:
+        cout << "Goodbye!";
+        break;
+      
+      default:
+        cout << endl << "Error, please enter a valid selection" << endl;
+    }
     
-    return 0;
+    
+    
+    
+    
+  } while (input != "3");
+  
+  return 0;
 }
 
 // printing with the correct format
 void accelerate(Car &car) {
-    stringstream output;
-    cout << "Accelerating..." << endl;
-    car.accelerate();
-    car.writeStatus(output);
-    cout << output.str() << endl << endl;
-    output.clear();
-    output.str("");
+  stringstream output;
+  cout << endl << "Accelerating..." << endl;
+  car.accelerate();
+  printStatus(car);
 }
 
 //printing with the correct format
 void brake(Car &car) {
-    stringstream output;
-    cout << "Braking...";
-    if (car.getSpeed() != 0) {
-        car.brake();
-        car.writeStatus(output);
-        cout << endl << output.str() << endl << endl;
-        output.clear();
-        output.str("");
-    }
-    else {
-        cout << "Error: can't brake a car that's standing still." << endl;
-        car.writeStatus(output);
-        cout << output.str() << endl << endl;
-        output.clear();
-        output.str("");
-    }
+  cout << endl << "Braking...";
+  if (car.getSpeed() != 0) {
+    car.brake();
+  }
+  else {
+    cout << "Error: can't brake a car that's standing still." << endl;
+  }
+  printStatus(car);
 }
+
+void printStatus(Car &car) {
+  stringstream output;
+  
+  car.writeStatus(output);
+  cout << "Current Status: " << endl << output.str() << endl;
+  output.clear();
+  output.str("");
+}
+
