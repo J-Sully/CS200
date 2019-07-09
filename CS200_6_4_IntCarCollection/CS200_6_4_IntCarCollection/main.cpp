@@ -9,11 +9,12 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include <float.h>
 
 #include "Car.h"
 
-void printStatus(Car &car);
-void printCars (vector<Car> &collection);
+void printCars (const vector<Car> &collection);
+int getCarSelectionInput(const vector<Car>& carCollection, const string& operation);
 
 const string MAINMENU = { R"(
 Enter:
@@ -26,19 +27,16 @@ Enter:
 Choice: )"
 };
 
-const int PRINTOP = 1;
-const int ADDOP = 2;
-const int REMOP = 3;
-const int ACCOP = 4;
-const int BRAKEOP = 5;
-const int QUITOP = 6;
-
+enum operation { PRINTOP = 1, ADDOP, REMOP, ACCOP, BRAKEOP, QUITOP };
+const int CANCELOP = -1;
+const int INVALIDOP = -2;
 
 int main(int argc, const char * argv[]) {
   stringstream output;
   stringstream ss;
   string make, sYear, input;
   unsigned int year, selection;
+  int index;
   vector<Car> carCollection;
   
   do {
@@ -50,9 +48,10 @@ int main(int argc, const char * argv[]) {
     ss.clear();
     ss.str("");
     
+    
     switch (selection) {
       case PRINTOP:
-        if (carCollection.size() > 0) {
+        if (!carCollection.empty()) {
           printCars(carCollection);
         }
         else {
@@ -60,129 +59,83 @@ int main(int argc, const char * argv[]) {
         }
         break;
         
-      case ADDOP: {
+      case ADDOP:
         cout << endl << "Please enter the make of your car: ";
         getline(cin, make);
-        cout << endl << "Please enter the year of your car: ";
+        cout << "Please enter the year of your car: ";
         getline(cin, sYear);
         ss.str(sYear);
+        year = 0;
         ss >> year;
         
-        Car car = {make, year};
-        carCollection.push_back(car);
-        car.~Car();}
+        carCollection.emplace_back(make, year);
         printCars(carCollection);
         break;
         
       case REMOP:
-        if (carCollection.size() >= 1) {
-          do {
-            selection = 0;
-            printCars(carCollection);
-            cout << endl << "Please enter car to remove: ";
-            getline(cin, input);
-            ss.str(input);
-            ss >> selection;
-            ss.clear();
-            ss.str("");
+        if (!carCollection.empty()) {
+          index = getCarSelectionInput(carCollection, "remove");
+          if (index != CANCELOP) {
+            carCollection.erase(carCollection.begin() + index);
+            cout << endl << "Car " << (index+1) << " has been removed" << endl;
             
-            if (selection <= carCollection.size() && selection != 0) {
-              carCollection.erase(carCollection.begin() + selection - 1);
-              cout << endl << "Car " << selection << " has been removed" << endl;
-              printCars(carCollection);
+            if (carCollection.empty()) {
+              cout << "There are no cars in Collection" << endl;
             }
             else {
-              cout << "Error in input, please try again." << endl;
-              selection = 0;
+              printCars(carCollection);
             }
-          } while (selection > carCollection.size() + 1 || selection == 0 || !carCollection.empty());
+          }
+        }
+        else {
+          cout << endl << "Error, there are no cars in collection" << endl;
+        }
+        break;
+    
+      case ACCOP:
+        if (!carCollection.empty()) {
+          index = getCarSelectionInput(carCollection, "accelerate");
           
-          if (carCollection.empty()) {
-            cout << "There are no cars in Collection" << endl;
-          }
-          else {
+          if (index != CANCELOP) {
+            carCollection.at(index).accelerate();
+            cout << endl << "Car " << (index+1) << " has been accelerated" << endl;
             printCars(carCollection);
           }
         }
         else {
           cout << endl << "Error, there are no cars in collection" << endl;
         }
-        
         break;
     
-    case ACCOP:
-        if (carCollection.size() >= 1) {
-          do {
-            selection = 0;
-            printCars(carCollection);
-            cout << endl << "Please enter car to accelerate: ";
-            getline(cin, input);
-            ss.str(input);
-            ss >> selection;
-            ss.clear();
-            ss.str("");
-            
-            if (selection <= carCollection.size() && selection != 0) {
-              carCollection.at(selection - 1).accelerate();
-              cout << endl << "Car " << selection << " has been accelerated" << endl;
+      case BRAKEOP :
+        if (!carCollection.empty()) {
+          index = getCarSelectionInput(carCollection, "brake");
+          
+          if (index != CANCELOP) {
+            if (carCollection.at(index).getSpeed() > DBL_EPSILON) {
+              carCollection.at(index).brake();
+              cout << endl << "Car " << (index+1) << " is braking" << endl;
               printCars(carCollection);
             }
             else {
-              cout << "Error in input, please try again." << endl;
-              selection = 0;
+              cout << "Error, cannot brake stopped car" << endl;
             }
-          } while (selection > carCollection.size() || selection == 0);
+          }
         }
         else {
           cout << endl << "Error, there are no cars in collection" << endl;
         }
-        
-        break;
-    
-    case BRAKEOP :
-        if (carCollection.size() >= 1) {
-          do {
-            selection = 0;
-            printCars(carCollection);
-            cout << endl << "Please enter car to brake: ";
-            getline(cin, input);
-            ss.str(input);
-            ss >> selection;
-            ss.clear();
-            ss.str("");
-            
-            if (selection <= carCollection.size() && selection != 0) {
-              if (carCollection.at(selection - 1).getSpeed() > 0) {
-                carCollection.at(selection - 1).brake();
-                cout << endl << "Car " << selection << " is braking" << endl;
-                printCars(carCollection);
-              }
-              else {
-                cout << "Error, cannot brake stopped car" << endl;
-              }
-            }
-            else {
-              cout << "Error in input, please try again." << endl;
-              selection = 0;
-            }
-          } while (selection > carCollection.size() || selection == 0);
-        }
-        else {
-          cout << endl << "Error, there are no cars in collection" << endl;
-        }
-        
         break;
       
-    case QUITOP :
-        cout << "Goodbye!";
+      case QUITOP :
+        cout << "Goodbye!" << endl;
         break;
         
-    default:
+      default:
         cout << endl << "Error, please enter a valid selection" << endl;
         break;
     }
-    
-    selection = 0;
+
     ss.clear();
     ss.str("");
     
@@ -191,20 +144,41 @@ int main(int argc, const char * argv[]) {
   return 0;
 }
 
-void printStatus(Car &car) {
-  stringstream output;
-  
-  car.writeStatus(output);
-  cout << "Current Status: " << endl << output.str() << endl;
-  output.clear();
-  output.str("");
-}
-
-void printCars (vector<Car> &collection) {
+void printCars (const vector<Car> &collection) {
   stringstream output;
   
   for (int i=0; i < collection.size(); i++) {
     collection.at(i).writeStatus(output);
-    cout << endl << i + 1 << ": " << output.str() << endl;
+    cout << i + 1 << ": " << output.str() << endl;
+    output.clear();
+    output.str("");
   }
+}
+
+int getCarSelectionInput(const vector<Car>& carCollection, const string& operation) {
+  int selection;
+  string input;
+  stringstream ss;
+  do {
+    selection = INVALIDOP;
+    printCars(carCollection);
+    // add an option to cancel operation
+    cout << carCollection.size()+1 << ": Cancel operation" << endl;
+    cout << endl << "Please enter car to " << operation << ": ";
+    getline(cin, input);
+    ss.str(input);
+    ss >> selection;
+    ss.clear();
+    ss.str("");
+    selection--;
+    
+    if (selection == carCollection.size()) {
+      selection = CANCELOP;
+    }
+    else if (selection < 0 || selection >= carCollection.size() ) {
+      cout << "Error in input, please try again." << endl;
+      selection = INVALIDOP;
+    }
+  } while (selection == INVALIDOP);
+  return selection;
 }

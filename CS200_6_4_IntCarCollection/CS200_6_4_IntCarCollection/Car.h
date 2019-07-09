@@ -40,16 +40,16 @@ private:
   double speed = 0;
   
 public:
-  Car(string m, unsigned int y);
-  void setMake (string m)       { make = m; }
+  Car(string make, unsigned int year);
+  void setMake (const string& m){ make = m; }
   void setYear (unsigned int y) { year = y; }
   void setSpeed(unsigned int s) { speed = s; }
-  string getMake() const        { return make; }
+  const string& getMake() const { return make; }
   unsigned int getYear() const  { return year; }
   unsigned int getSpeed() const { return speed; }
   void accelerate()             { speed += 5; }
   void brake()                  { speed = speed - 5 >= 0 ? speed - 5 : 0; }
-  void writeStatus(stringstream &output);
+  void writeStatus(stringstream &output) const;
   
 };
 
