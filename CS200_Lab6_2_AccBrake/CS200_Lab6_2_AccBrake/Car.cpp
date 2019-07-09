@@ -9,9 +9,9 @@
 #include "Car.h"
 #include <sstream>
 
-Car::Car(string m, unsigned int y){
-  make = m;
-  year = y;
+Car::Car(string make, unsigned int year){
+  mMake = make;
+  mYear = year;
 }
 
 void Car::writeStatus (stringstream &output) {

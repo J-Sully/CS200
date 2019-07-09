@@ -16,9 +16,9 @@ using namespace std;
  -----------------------
  Car
  -----------------------
- - make: string
- - year : unsigned int
- - speed : unsigned int
+ - mMake: string
+ - mYear : unsigned int
+ - mSpeed : unsigned int
  -----------------------
  + Car()
  + setMake(m : string) : void
@@ -35,23 +35,23 @@ using namespace std;
 class Car {
   
 private:
-  string make;
-  unsigned int year;
-  double speed = 0;
+  string mMake;
+  unsigned int mYear = 0;
+  double mSpeed = 0;
   
 public:
   Car(string m, unsigned int y);
   
-  void setMake (string m)       { make = m; }
-  void setYear (unsigned int y) { year = y; }
-  void setSpeed(unsigned int s) { speed = s; }
+  void setMake (string make)       { mMake = make; }
+  void setYear (unsigned int year) { mYear = year; }
+  void setSpeed(unsigned int speed) { mSpeed = speed; }
   
-  string getMake() const        { return make; }
-  unsigned int getYear() const  { return year; }
-  unsigned int getSpeed() const { return speed; }
+  string getMake() const        { return mMake; }
+  unsigned int getYear() const  { return mYear; }
+  unsigned int getSpeed() const { return mSpeed; }
   
-  void accelerate()             { speed += 5; }
-  void brake()                  { speed = speed - 5 >= 0 ? speed - 5 : 0; }
+  void accelerate()             { mSpeed += 5; }
+  void brake()                  { mSpeed = mSpeed - 5 >= 0 ? mSpeed - 5 : 0; }
   
   void writeStatus(stringstream &output);
   
