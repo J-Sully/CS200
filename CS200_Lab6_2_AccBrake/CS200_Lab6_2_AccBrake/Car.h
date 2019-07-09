@@ -23,10 +23,10 @@ using namespace std;
  + Car()
  + setMake(m : string) : void
  + getMake() : string
- + setYear(y : int) : void
- + getYear() : int
- + setSpeed(s : int) : void
- + getSpeed() : int
+ + setYear(y : unsigned int) : void
+ + getYear() : unsigned int
+ + setSpeed(s : unsigned int) : void
+ + getSpeed() : unsigned int
  + accelerate() : void
  + writeStatus(ss : stringstream) : void
  ----------------------
@@ -36,19 +36,23 @@ class Car {
   
 private:
   string make;
-  int year;
+  unsigned int year;
   double speed = 0;
   
 public:
   Car(string m, unsigned int y);
+  
   void setMake (string m)       { make = m; }
   void setYear (unsigned int y) { year = y; }
   void setSpeed(unsigned int s) { speed = s; }
+  
   string getMake() const        { return make; }
   unsigned int getYear() const  { return year; }
   unsigned int getSpeed() const { return speed; }
+  
   void accelerate()             { speed += 5; }
   void brake()                  { speed = speed - 5 >= 0 ? speed - 5 : 0; }
+  
   void writeStatus(stringstream &output);
   
 };
