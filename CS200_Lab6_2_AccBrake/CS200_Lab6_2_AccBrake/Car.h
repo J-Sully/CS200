@@ -20,7 +20,7 @@ using namespace std;
  - mYear : unsigned int
  - mSpeed : unsigned int
  -----------------------
- + Car()
+ + Car(make : string, year : unsigned int)
  + setMake(make : string) : void
  + getMake() : string
  + setYear(year : unsigned int) : void
@@ -41,7 +41,7 @@ private:
   unsigned int mSpeed = 0;
   
 public:
-  Car(string m, unsigned int y);
+  Car(const string &make, unsigned int year);
   
   void setMake (const string &make) { mMake = make; }
   void setYear (unsigned int year)  { mYear = year; }

@@ -9,7 +9,7 @@
 #include "Car.h"
 #include <sstream>
 
-Car::Car(string make, unsigned int year){
+Car::Car(const string &make, unsigned int year){
   mMake = make;
   mYear = year;
 }
