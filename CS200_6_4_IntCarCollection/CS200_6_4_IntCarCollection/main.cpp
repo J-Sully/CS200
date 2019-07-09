@@ -98,7 +98,9 @@ int main(int argc, const char * argv[]) {
           
           if (index != CANCELOP) {
             carCollection.at(index).accelerate();
-            cout << endl << "Car " << (index+1) << " has been accelerated" << endl;
+            cout << endl << "Car " << (index+1)
+                 << " has been accelerated.  New speed "
+                 << carCollection.at(index).getSpeed() << " mph" << endl;
             printCars(carCollection);
           }
         }
@@ -114,7 +116,9 @@ int main(int argc, const char * argv[]) {
           if (index != CANCELOP) {
             if (carCollection.at(index).getSpeed() > DBL_EPSILON) {
               carCollection.at(index).brake();
-              cout << endl << "Car " << (index+1) << " is braking" << endl;
+              cout << endl << "Car " << (index+1)
+              << " is braking.  New speed "
+              << carCollection.at(index).getSpeed() << " mph" << endl;
               printCars(carCollection);
             }
             else {
