@@ -21,15 +21,15 @@ using namespace std;
  - mSpeed : unsigned int
  -----------------------
  + Car()
- + setMake(m : string) : void
+ + setMake(make : string) : void
  + getMake() : string
- + setYear(y : unsigned int) : void
+ + setYear(year : unsigned int) : void
  + getYear() : unsigned int
- + setSpeed(s : unsigned int) : void
+ + setSpeed(speed : unsigned int) : void
  + getSpeed() : unsigned int
  + accelerate() : void
  + brake() : void
- + writeStatus(ss : stringstream) : void
+ + writeStatus(output : stringstream) : void
  ----------------------
  */
 
