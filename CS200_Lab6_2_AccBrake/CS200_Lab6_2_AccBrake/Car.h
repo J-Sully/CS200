@@ -28,6 +28,7 @@ using namespace std;
  + setSpeed(s : unsigned int) : void
  + getSpeed() : unsigned int
  + accelerate() : void
+ + brake() : void
  + writeStatus(ss : stringstream) : void
  ----------------------
  */
