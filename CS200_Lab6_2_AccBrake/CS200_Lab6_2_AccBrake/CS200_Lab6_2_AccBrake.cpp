@@ -23,6 +23,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <float.h>
 #include "Car.h"
 
 void accelerate(Car &car);
@@ -30,7 +31,7 @@ void brake(Car &car);
 
 
 int main(int argc, const char * argv[]) {
-  Car car = {"Toyota", 1998};
+  Car car("Toyota", 1998);
   
   accelerate(car);
   accelerate(car);
@@ -56,8 +57,8 @@ void accelerate(Car &car) {
 //printing with the correct format
 void brake(Car &car) {
   stringstream output;
-  cout << "Braking...";
-  if (car.getSpeed() != 0) {
+  cout << "Braking..." << endl;
+  if (car.getSpeed() > DBL_EPSILON) {
     car.brake();
   }
   else {

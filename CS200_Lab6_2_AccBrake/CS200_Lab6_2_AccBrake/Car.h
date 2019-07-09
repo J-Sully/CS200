@@ -48,7 +48,7 @@ public:
   unsigned int getYear() const  { return year; }
   unsigned int getSpeed() const { return speed; }
   void accelerate()             { speed += 5; }
-  void brake()                  { speed = speed - 5 >= 0 ? speed - 5 : 0; }
+  void brake()                  { speed = speed >= 5 ? speed - 5 : 0; }
   void writeStatus(stringstream &output);
   
 };
