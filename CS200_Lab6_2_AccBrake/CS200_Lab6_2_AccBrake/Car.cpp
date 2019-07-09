@@ -14,7 +14,7 @@ Car::Car(string make, unsigned int year){
   mYear = year;
 }
 
-void Car::writeStatus (stringstream &output) {
+void Car::writeStatus (stringstream &output) const {
   output << "Make: " << getMake()
          << " Year: " << getYear()
          << " Speed: " << getSpeed() << " mph";

@@ -37,23 +37,23 @@ class Car {
 private:
   string mMake;
   unsigned int mYear = 0;
-  double mSpeed = 0;
+  unsigned int mSpeed = 0;
   
 public:
   Car(string m, unsigned int y);
   
-  void setMake (string make)       { mMake = make; }
-  void setYear (unsigned int year) { mYear = year; }
+  void setMake (const string &make) { mMake = make; }
+  void setYear (unsigned int year)  { mYear = year; }
   void setSpeed(unsigned int speed) { mSpeed = speed; }
   
-  string getMake() const        { return mMake; }
+  const string& getMake() const { return mMake; }
   unsigned int getYear() const  { return mYear; }
   unsigned int getSpeed() const { return mSpeed; }
   
   void accelerate()             { mSpeed += 5; }
-  void brake()                  { mSpeed = mSpeed - 5 >= 0 ? mSpeed - 5 : 0; }
+  void brake()                  { mSpeed = mSpeed >= 5 ? mSpeed - 5 : 0; }
   
-  void writeStatus(stringstream &output);
+  void writeStatus(stringstream &output) const;
   
 };
 
