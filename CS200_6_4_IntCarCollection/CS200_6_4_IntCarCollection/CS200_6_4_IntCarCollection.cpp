@@ -9,7 +9,6 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
-
 #include "Car.h"
 
 void printCars (const vector<Car> &collection);
