@@ -12,6 +12,11 @@
 #include <string>
 using namespace std;
 
+//increment of acceleration
+const unsigned int INCACC = 5;
+//increment of braking
+const unsigned int INCBRAKE = 5;
+
 /*
  -----------------------
  Car
@@ -51,8 +56,8 @@ public:
   unsigned int getYear() const  { return mYear; }
   unsigned int getSpeed() const { return mSpeed; }
   
-  void accelerate() { mSpeed += 5; }
-  void brake()      { mSpeed = mSpeed >= 5 ? mSpeed - 5 : 0; }
+  void accelerate() { mSpeed += INCACC; }
+  void brake()      { mSpeed = mSpeed >= INCBRAKE ? mSpeed - INCBRAKE : 0; }
   
   void writeStatus(stringstream &output) const;
   

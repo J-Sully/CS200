@@ -12,8 +12,7 @@
 
 #include "Car.h"
 
-void printStatus(Car &car);
-void printCars (vector<Car> &collection);
+void printCars (const vector<Car> &collection);
 
 const string MAINMENU = { R"(
 Enter:
@@ -26,16 +25,9 @@ Enter:
 Choice: )"
 };
 
-const int PRINTOP = 1;
-const int ADDOP = 2;
-const int REMOP = 3;
-const int ACCOP = 4;
-const int BRAKEOP = 5;
-const int QUITOP = 6;
-
+enum operation { PRINTOP = 1, ADDOP, REMOP, ACCOP, BRAKEOP, QUITOP };
 
 int main(int argc, const char * argv[]) {
-  stringstream output;
   stringstream ss;
   string make, sYear, input;
   unsigned int year, selection;
@@ -52,7 +44,7 @@ int main(int argc, const char * argv[]) {
     
     switch (selection) {
       case PRINTOP:
-        if (carCollection.size() > 0) {
+        if (!carCollection.empty()) {
           printCars(carCollection);
         }
         else {
@@ -60,7 +52,8 @@ int main(int argc, const char * argv[]) {
         }
         break;
         
-      case ADDOP: {
+      case ADDOP:
+        year = 0;
         cout << endl << "Please enter the make of your car: ";
         getline(cin, make);
         cout << endl << "Please enter the year of your car: ";
@@ -68,14 +61,13 @@ int main(int argc, const char * argv[]) {
         ss.str(sYear);
         ss >> year;
         
-        Car car = {make, year};
-        carCollection.push_back(car);
-        car.~Car();}
+        carCollection.emplace_back(make, year);
+        
         printCars(carCollection);
         break;
         
       case REMOP:
-        if (carCollection.size() >= 1) {
+        if (!carCollection.empty()) {
           do {
             selection = 0;
             printCars(carCollection);
@@ -89,13 +81,12 @@ int main(int argc, const char * argv[]) {
             if (selection <= carCollection.size() && selection != 0) {
               carCollection.erase(carCollection.begin() + selection - 1);
               cout << endl << "Car " << selection << " has been removed" << endl;
-              printCars(carCollection);
             }
             else {
               cout << "Error in input, please try again." << endl;
               selection = 0;
             }
-          } while (selection > carCollection.size() + 1 || selection == 0 || !carCollection.empty());
+          } while (selection > carCollection.size() + 1 || selection == 0);
           
           if (carCollection.empty()) {
             cout << "There are no cars in Collection" << endl;
@@ -124,7 +115,9 @@ int main(int argc, const char * argv[]) {
             
             if (selection <= carCollection.size() && selection != 0) {
               carCollection.at(selection - 1).accelerate();
-              cout << endl << "Car " << selection << " has been accelerated" << endl;
+              cout << endl << "Car " << selection
+                   << " has been accelerated, the new speed is "
+                   << carCollection.at(selection - 1).getSpeed() << " mph" << endl;
               printCars(carCollection);
             }
             else {
@@ -154,7 +147,8 @@ int main(int argc, const char * argv[]) {
             if (selection <= carCollection.size() && selection != 0) {
               if (carCollection.at(selection - 1).getSpeed() > 0) {
                 carCollection.at(selection - 1).brake();
-                cout << endl << "Car " << selection << " is braking" << endl;
+                cout << endl << "Car " << selection << " is braking, the new speed is "
+                << carCollection.at(selection - 1).getSpeed() << " mph" << endl;
                 printCars(carCollection);
               }
               else {
@@ -182,7 +176,6 @@ int main(int argc, const char * argv[]) {
         break;
     }
     
-    selection = 0;
     ss.clear();
     ss.str("");
     
@@ -191,20 +184,13 @@ int main(int argc, const char * argv[]) {
   return 0;
 }
 
-void printStatus(Car &car) {
-  stringstream output;
-  
-  car.writeStatus(output);
-  cout << "Current Status: " << endl << output.str() << endl;
-  output.clear();
-  output.str("");
-}
-
-void printCars (vector<Car> &collection) {
+void printCars (const vector<Car> &collection) {
   stringstream output;
   
   for (int i=0; i < collection.size(); i++) {
     collection.at(i).writeStatus(output);
-    cout << endl << i + 1 << ": " << output.str() << endl;
+    cout << endl << i + 1 << ": " << output.str();
+    output.clear();
+    output.str("");
   }
 }
