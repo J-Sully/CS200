@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4296B8EA22D6BF170049C446 /* CS200_Lab7_2_VehicleInheritance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4296B8E922D6BF170049C446 /* CS200_Lab7_2_VehicleInheritance.cpp */; };
 		4296B8F222D6BFA90049C446 /* Vehicle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4296B8F022D6BFA90049C446 /* Vehicle.cpp */; };
+		42F1770622D6C593009B9F66 /* Sedan.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42F1770422D6C593009B9F66 /* Sedan.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,6 +29,8 @@
 		4296B8E922D6BF170049C446 /* CS200_Lab7_2_VehicleInheritance.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CS200_Lab7_2_VehicleInheritance.cpp; sourceTree = "<group>"; };
 		4296B8F022D6BFA90049C446 /* Vehicle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Vehicle.cpp; sourceTree = "<group>"; };
 		4296B8F122D6BFA90049C446 /* Vehicle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Vehicle.h; sourceTree = "<group>"; };
+		42F1770422D6C593009B9F66 /* Sedan.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Sedan.cpp; sourceTree = "<group>"; };
+		42F1770522D6C593009B9F66 /* Sedan.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Sedan.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +66,8 @@
 				4296B8E922D6BF170049C446 /* CS200_Lab7_2_VehicleInheritance.cpp */,
 				4296B8F022D6BFA90049C446 /* Vehicle.cpp */,
 				4296B8F122D6BFA90049C446 /* Vehicle.h */,
+				42F1770422D6C593009B9F66 /* Sedan.cpp */,
+				42F1770522D6C593009B9F66 /* Sedan.h */,
 			);
 			path = CS200_Lab7_2_VehicleInheritance;
 			sourceTree = "<group>";
@@ -125,6 +130,7 @@
 			files = (
 				4296B8F222D6BFA90049C446 /* Vehicle.cpp in Sources */,
 				4296B8EA22D6BF170049C446 /* CS200_Lab7_2_VehicleInheritance.cpp in Sources */,
+				42F1770622D6C593009B9F66 /* Sedan.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

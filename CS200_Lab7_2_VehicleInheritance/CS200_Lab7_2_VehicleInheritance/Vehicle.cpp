@@ -10,13 +10,12 @@
 
 #include <sstream>
 
-Vehicle::Vehicle(const string &make, unsigned int year){
-  mMake = make;
+Vehicle::Vehicle(unsigned int year, unsigned int mileage){
   mYear = year;
+  mMileage = mileage;
 }
 
 void Vehicle::writeStatus (stringstream &output) const {
-  output << "Make: " << getMake()
-  << " Year: " << getYear()
-  << " Speed: " << getSpeed() << " mph";
+  output << " Year: " << getYear()
+         << " Mileage: " << getMileage() << " mph";
 }

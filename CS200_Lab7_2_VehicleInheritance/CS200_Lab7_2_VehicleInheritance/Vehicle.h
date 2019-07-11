@@ -6,34 +6,25 @@
 //  Copyright © 2019 Jessie Sully. All rights reserved.
 //
 
-#ifndef Vehicle_h
-#define Vehicle_h
-
-#include <string>
+#include <sstream>
 using namespace std;
 
-//increment of acceleration
-const unsigned int INCACC = 5;
-//increment of braking
-const unsigned int INCBRAKE = 5;
+#ifndef Vehicle_h
+#define Vehicle_h
 
 /*
  -----------------------
  Vehicle
  -----------------------
- - mMake: string
  - mYear : unsigned int
- - mSpeed : unsigned int
+ - mMileage : unsigned int
  -----------------------
- + Vehicle(make : string, year : unsigned int)
- + setMake(make : string) : void
- + getMake() : string
+ + Vehicle()
+ + Vehicle(year : unsigned int, mileage : unsigned int)
  + setYear(year : unsigned int) : void
  + getYear() : unsigned int
- + setSpeed(s : unsigned int) : void
- + getSpeed() : unsigned int
- + accelerate() : void
- + brake() : void
+ + setMileage(mileage : unsigned int) : void
+ + getMileage() : unsigned int
  + writeStatus(output : stringstream) : void
  ----------------------
  */
@@ -41,26 +32,19 @@ const unsigned int INCBRAKE = 5;
 class Vehicle {
   
 private:
-  string mMake;
   unsigned int mYear = 0;
-  unsigned int mSpeed = 0;
+  unsigned int mMileage = 0;
   
 public:
-  Vehicle(const string &make, unsigned int year);
-  
-  void setMake (const string &make) { mMake = make; }
+  Vehicle(unsigned int year, unsigned int mileage);
+
   void setYear (unsigned int year)     { mYear = year; }
-  void setSpeed(unsigned int speed)     { mSpeed = speed; }
+  void setMileage(unsigned int mileage)     { mMileage = mileage; }
   
-  const string& getMake() const { return mMake; }
   unsigned int getYear() const  { return mYear; }
-  unsigned int getSpeed() const { return mSpeed; }
-  
-  void accelerate() { mSpeed += INCACC; }
-  void brake()      { mSpeed = mSpeed >= INCBRAKE ? mSpeed - INCBRAKE : 0; }
-  
-  void writeStatus(stringstream &output) const;
-  
+  unsigned int getMileage() const { return mMileage; }
+ 
+  void writeStatus(stringstream &output) const;  
 };
 
 #endif /* Vehicle_h */
