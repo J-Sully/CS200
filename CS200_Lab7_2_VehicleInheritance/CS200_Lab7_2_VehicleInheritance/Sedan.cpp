@@ -17,8 +17,8 @@ Sedan::Sedan (unsigned int year, unsigned int mileage, unsigned int doors,
 
 void Sedan::print(stringstream &output) {
   writeStatus(output);
-  output << "Number of doors: " << getDoors() << endl
-         << "This car is";
-  getHatchback() ? output << " not " : output << ' ';
-  output << "a hatchback sedan" << endl;
+  output << endl << " Doors: " << getDoors() << endl
+         << " Hatchback: ";
+  getHatchback() ? output << "yes" : output << "no";
+  output << endl;
 }

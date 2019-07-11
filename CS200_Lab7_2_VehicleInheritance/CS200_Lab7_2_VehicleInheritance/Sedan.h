@@ -14,6 +14,23 @@ using namespace std;
 
 #include "Vehicle.h"
 
+/*
+ -----------------------
+ Sedan :: Vehicle
+ -----------------------
+ - mDoors : unsigned int
+ - mHatchback : bool
+ -----------------------
+ + Sedan()
+ + Seday(year : unsigned int, mileage : unsigned int, doors : unsigned int, hatchback : bool)
+ + setDoors(doors : unsigned int) : void
+ + getDoors() : unsigned int
+ + setHatchback(hatchback : bool) : void
+ + getHatchback() : bool
+ + print(output : stringstream) : void
+ ----------------------
+ */
+
 class Sedan : Vehicle {
 private:
   unsigned int mDoors = 4;

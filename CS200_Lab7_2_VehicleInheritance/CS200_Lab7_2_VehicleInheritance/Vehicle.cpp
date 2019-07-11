@@ -16,6 +16,6 @@ Vehicle::Vehicle(unsigned int year, unsigned int mileage){
 }
 
 void Vehicle::writeStatus (stringstream &output) const {
-  output << " Year: " << getYear()
+  output << " Year: " << getYear() << endl
          << " Mileage: " << getMileage() << " mph";
 }
