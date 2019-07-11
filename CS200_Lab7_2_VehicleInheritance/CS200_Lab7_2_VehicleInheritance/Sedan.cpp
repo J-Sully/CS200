@@ -7,3 +7,18 @@
 //
 
 #include "Sedan.h"
+
+Sedan::Sedan (unsigned int year, unsigned int mileage, unsigned int doors,
+              bool hatchback) : Vehicle(year, mileage) {
+  
+  mDoors = doors;
+  mHatchback = hatchback;
+};
+
+void Sedan::print(stringstream &output) {
+  writeStatus(output);
+  output << "Number of doors: " << getDoors() << endl
+         << "This car is";
+  getHatchback() ? output << " not " : output << ' ';
+  output << "a hatchback sedan" << endl;
+}
