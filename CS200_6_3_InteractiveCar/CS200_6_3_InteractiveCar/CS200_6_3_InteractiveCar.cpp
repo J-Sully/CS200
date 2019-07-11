@@ -23,7 +23,6 @@ Choice: )"
 };
 
 int main(int argc, const char * argv[]) {
-  stringstream output;
   stringstream ss;
   string make, sYear, input;
   unsigned int year, selection;
@@ -58,25 +57,19 @@ int main(int argc, const char * argv[]) {
         break;
       
       case 3:
-        cout << "Goodbye!";
+        cout << "Goodbye!" << endl;
         break;
       
       default:
         cout << endl << "Error, please enter a valid selection" << endl;
     }
-    
-    
-    
-    
-    
-  } while (input != "3");
+  } while (selection != 3);
   
   return 0;
 }
 
 // printing with the correct format
 void accelerate(Car &car) {
-  stringstream output;
   cout << endl << "Accelerating..." << endl;
   car.accelerate();
   printStatus(car);
@@ -91,6 +84,7 @@ void brake(Car &car) {
   else {
     cout << "Error: can't brake a car that's standing still." << endl;
   }
+  cout << endl;
   printStatus(car);
 }
 

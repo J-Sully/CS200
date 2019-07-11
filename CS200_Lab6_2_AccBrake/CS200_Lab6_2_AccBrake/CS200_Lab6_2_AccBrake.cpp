@@ -30,7 +30,7 @@ void brake(Car &car);
 
 
 int main(int argc, const char * argv[]) {
-  Car car = {"Toyota", 1998};
+  Car car("Toyota", 1998);
   
   accelerate(car);
   accelerate(car);
@@ -64,7 +64,7 @@ void brake(Car &car) {
     cout << "Error: can't brake a car that's standing still." << endl;
   }
   car.writeStatus(output);
-  cout << output.str() << endl << endl;
+  cout << endl << output.str() << endl << endl;
 }
 
 

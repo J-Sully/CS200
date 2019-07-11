@@ -9,12 +9,14 @@
 #include "Car.h"
 #include <sstream>
 
-Car::Car(string m, unsigned int y){
-  make = m;
-  year = y;
+Car::Car(const string &make, unsigned int year){
+  mMake = make;
+  mYear = year;
 }
 
-void Car::writeStatus (stringstream &output) {
-  output << "Make: " << getMake() << " Year: " << getYear() << " Speed: " << getSpeed() << " mph";
+void Car::writeStatus (stringstream &output) const {
+  output << "Make: " << getMake()
+         << " Year: " << getYear()
+         << " Speed: " << getSpeed() << " mph";
 }
 
