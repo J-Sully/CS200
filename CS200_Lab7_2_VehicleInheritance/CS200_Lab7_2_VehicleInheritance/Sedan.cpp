@@ -6,6 +6,8 @@
 //  Copyright © 2019 Jessie Sully. All rights reserved.
 //
 
+#include <iostream>
+
 #include "Sedan.h"
 
 Sedan::Sedan (unsigned int year, unsigned int mileage, unsigned int doors,
@@ -15,10 +17,17 @@ Sedan::Sedan (unsigned int year, unsigned int mileage, unsigned int doors,
   mHatchback = hatchback;
 };
 
-void Sedan::print(stringstream &output) {
-  writeStatus(output);
-  output << endl << " Doors: " << getDoors() << endl
+void Sedan::writeStatus(stringstream &output) const {
+  Vehicle::writeStatus(output);
+  output << " Doors: " << getDoors() << endl
          << " Hatchback: ";
   getHatchback() ? output << "yes" : output << "no";
   output << endl;
 }
+
+void Sedan::print() const {
+  stringstream output;
+  writeStatus(output);
+  cout << output.str() << endl;
+}
+

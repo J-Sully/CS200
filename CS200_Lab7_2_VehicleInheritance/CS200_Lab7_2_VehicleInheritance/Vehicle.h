@@ -9,8 +9,8 @@
 #include <sstream>
 using namespace std;
 
-#ifndef Vehicle_h
-#define Vehicle_h
+#ifndef VEHICLE_H
+#define VEHICLE_H
 
 /*
  -----------------------
@@ -26,6 +26,7 @@ using namespace std;
  + setMileage(mileage : unsigned int) : void
  + getMileage() : unsigned int
  + writeStatus(output : stringstream) : void
+ + print() : void
  ----------------------
  */
 
@@ -36,7 +37,8 @@ private:
   unsigned int mMileage = 0;
   
 public:
-  Vehicle(unsigned int year, unsigned int mileage);
+  Vehicle() {}
+  Vehicle(unsigned int year, unsigned int mileage) : mYear(year), mMileage(mileage) {}
 
   void setYear (unsigned int year)     { mYear = year; }
   void setMileage(unsigned int mileage)     { mMileage = mileage; }
@@ -44,7 +46,8 @@ public:
   unsigned int getYear() const  { return mYear; }
   unsigned int getMileage() const { return mMileage; }
  
-  void writeStatus(stringstream &output) const;  
+  void writeStatus(stringstream &output) const;
+  void print() const;
 };
 
-#endif /* Vehicle_h */
+#endif /* VEHICLE_H */

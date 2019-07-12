@@ -8,14 +8,15 @@
 
 #include "Vehicle.h"
 
-#include <sstream>
-
-Vehicle::Vehicle(unsigned int year, unsigned int mileage){
-  mYear = year;
-  mMileage = mileage;
-}
+#include <iostream>
 
 void Vehicle::writeStatus (stringstream &output) const {
   output << " Year: " << getYear() << endl
-         << " Mileage: " << getMileage() << " mph";
+         << " Mileage: " << getMileage() << endl;
+}
+
+void Vehicle::print() const {
+  stringstream output;
+  writeStatus(output);
+  cout << output.str() << endl;
 }

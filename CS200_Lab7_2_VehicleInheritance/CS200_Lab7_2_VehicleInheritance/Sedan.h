@@ -6,8 +6,8 @@
 //  Copyright © 2019 Jessie Sully. All rights reserved.
 //
 
-#ifndef Sedan_h
-#define Sedan_h
+#ifndef SEDAN_H
+#define SEDAN_H
 
 #include <sstream>
 using namespace std;
@@ -27,26 +27,28 @@ using namespace std;
  + getDoors() : unsigned int
  + setHatchback(hatchback : bool) : void
  + getHatchback() : bool
- + print(output : stringstream) : void
+ + writeStatus(output : stringstream) : void
+ + print() : void
  ----------------------
  */
 
-class Sedan : Vehicle {
+class Sedan : public Vehicle {
 private:
   unsigned int mDoors = 4;
   bool mHatchback = false;
 
 public:
-  Sedan();
+  Sedan(){};
   Sedan (unsigned int year, unsigned int mileage, unsigned int doors, bool hatchback);
   
   void setDoors (unsigned int doors) { mDoors = doors; }
   void setHatchback (bool hatchback) { mHatchback = hatchback; }
   
-  unsigned int getDoors() { return mDoors; }
-  bool getHatchback() {return mHatchback; }
+  unsigned int getDoors() const { return mDoors; }
+  bool getHatchback() const {return mHatchback; }
   
-  void print(stringstream &output);
+  void writeStatus(stringstream &output) const;
+  void print() const;
 };
 
-#endif /* Sedan_h */
+#endif /* SEDAN_H */
