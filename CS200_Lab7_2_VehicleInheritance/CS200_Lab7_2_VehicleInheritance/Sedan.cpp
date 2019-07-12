@@ -10,19 +10,10 @@
 
 #include "Sedan.h"
 
-Sedan::Sedan (unsigned int year, unsigned int mileage, unsigned int doors,
-              bool hatchback) : Vehicle(year, mileage) {
-  
-  mDoors = doors;
-  mHatchback = hatchback;
-};
-
 void Sedan::writeStatus(stringstream &output) const {
   Vehicle::writeStatus(output);
   output << " Doors: " << getDoors() << endl
-         << " Hatchback: ";
-  getHatchback() ? output << "yes" : output << "no";
-  output << endl;
+         << " Hatchback: " << (getHatchback() ? "yes" : "no") << endl;
 }
 
 void Sedan::print() const {

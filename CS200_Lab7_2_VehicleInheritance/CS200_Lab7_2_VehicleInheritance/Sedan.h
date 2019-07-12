@@ -39,7 +39,7 @@ private:
 
 public:
   Sedan(){};
-  Sedan (unsigned int year, unsigned int mileage, unsigned int doors, bool hatchback);
+  Sedan (unsigned int year, unsigned int mileage, unsigned int doors, bool hatchback) : Vehicle(year, mileage), mDoors(doors), mHatchback(hatchback) {}
   
   void setDoors (unsigned int doors) { mDoors = doors; }
   void setHatchback (bool hatchback) { mHatchback = hatchback; }
