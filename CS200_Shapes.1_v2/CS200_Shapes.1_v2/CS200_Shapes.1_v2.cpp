@@ -1,6 +1,5 @@
-
 /*
- 
+ Assignment: Lab 1, Shapes Part 1
  */
 //  main.cpp
 //  CS200_Shapes.1
@@ -19,35 +18,62 @@ using namespace std;
 #include <cmath>
 #include <vector>
 
-class Shape {
-public:
-  string mName, mNameDimMin1, mNameDim;
-  vector<double> mDimensions;
-  double mCalcDimMin1, mCalcDim;
-  char mDimension;
-  
-  Shape(string &input);
-  void clear();
-  bool calculate (const string &, double &, double &, const double,
-                  const double, const double);
-  
-};
+/*Input file must be in format <object> <dimension1> <dimension2>
+ <dimension3> - no filler values for unused dimensions */
+const string INFILENAME = "Shapes.input.txt";
+const string OUTFILENAME = "Shapes.output.txt";
 
-Shape::Shape(string &input){
-  stringstream ss;
-  double dim1 = -1, dim2 = -1, dim3 = -1;
-  ss.str(input);
-  ss >> mName >> dim1 >> dim2 >> dim3;
-  
-}
+bool calculate (const string &, double &, double &, const double,
+                const double, const double);
+void writeStatement (bool &, stringstream &ss, const string &,
+                     double &, double &, const double, const double,
+                     const double);
+void parseData (const string &, string &, double &, double &,
+                double &);
 
-void Shape::clear() {
-  mName.clear();
-  mNameDimMin1.clear();
-  mNameDim.clear();
-  mDimensions.clear();
-  mCalcDimMin1 = 0;
-  mCalcDim = 0;
+int main(int argc, const char * argv[]) {
+  ifstream fin;
+  ofstream fout;
+  bool errorFound;
+  string name, input;
+  stringstream output;
+  double calculatedDimMin1, calculatedDim, dim1, dim2, dim3;
+  
+  fin.open(INFILENAME); //input file
+  fout.open(OUTFILENAME); //ouput file
+  
+  if (fin.good() && fout.good()) {
+    
+    while (getline(fin,input)) {
+      // reset values
+      calculatedDimMin1 = calculatedDim = 0;
+      dim1 = dim2 = dim3 = -1;
+      errorFound = false;
+      output.str("");
+      output.clear();
+      
+      //extract useful values from string
+      parseData(input, name, dim1, dim2, dim3);
+      
+      //calculate needed values, catch error if found
+      errorFound = calculate (name, calculatedDimMin1, calculatedDim,
+                              dim1, dim2, dim3);
+      
+      //write statements, even if error in calculation
+      writeStatement(errorFound, output, name, calculatedDimMin1,
+                     calculatedDim, dim1, dim2, dim3);
+      
+      //write to console, even if error in calculation
+      cout << output.str() << endl;
+      
+      //only write valid objects to file
+      if (!errorFound) {
+        
+        fout << output.str() << endl;
+      }
+    }
+  }
+  return 0;
 }
 
 /*calculatedDimMin1 is to indicat perimeter in 2D objects and surface
@@ -55,7 +81,7 @@ void Shape::clear() {
  for 3D objects. The boolean is used to flag any errors found to be
  handled.
  */
-bool Shape::calculate (const string &name, double &calculatedDimMin1,
+bool calculate (const string &name, double &calculatedDimMin1,
                 double &calculatedDim, const double dim1,
                 const double dim2, const double dim3) {
   bool errorFound = false;
@@ -66,10 +92,12 @@ bool Shape::calculate (const string &name, double &calculatedDimMin1,
     case 'S' :
       if (name == "SQUARE" && (dim1 + 1) > 0 && (dim2 + 1) == 0
           && (dim3 + 1) == 0) {
+        
         calculatedDimMin1 = 4 * dim1;
         calculatedDim = dim1 * dim1;
       }
       else {
+        
         errorFound = true;
       }
       break;
@@ -78,16 +106,18 @@ bool Shape::calculate (const string &name, double &calculatedDimMin1,
     case 'R' :
       if (name == "RECTANGLE" && (dim1 + 1) > 0 && (dim2 + 1) > 0
           && (dim3 + 1) == 0) {
+        
         calculatedDimMin1 = 2 * dim1 + 2 * dim2;
         calculatedDim = dim1 * dim2;
       }
       else {
+        
         errorFound = true;
       }
       break;
       
-      //for Circle - 2D, 1 variable, Cube - 3D, 1 variable,
-      //and Cylinder - 3D, 2 variables
+      /* for Circle - 2D, 1 variable, Cube - 3D, 1 variable, and
+       Cylinder - 3D, 2 variables */
     case 'C' :
       if (name == "CIRCLE" && (dim1 + 1) > 0 && (dim2 + 1) == 0
           && (dim3 + 1) == 0) {
@@ -104,10 +134,12 @@ bool Shape::calculate (const string &name, double &calculatedDimMin1,
       else if (name == "CYLINDER" && (dim1 + 1) > 0 && (dim2 + 1) > 0
                && (dim3 + 1) == 0) {
         
-        calculatedDimMin1 = 2 * M_PI * dim1 * dim1 + 2 * M_PI * dim1 * dim2;
+        calculatedDimMin1 = 2 * M_PI * dim1 * dim1 + 2 * M_PI * dim1
+        * dim2;
         calculatedDim = M_PI * dim1 * dim1 * dim2;
       }
       else {
+        
         errorFound = true;
       }
       break;
@@ -121,6 +153,7 @@ bool Shape::calculate (const string &name, double &calculatedDimMin1,
         calculatedDim = sqrt(3.0) / 4 * dim1 * dim1;
       }
       else {
+        
         errorFound = true;
       }
       break;
@@ -130,10 +163,12 @@ bool Shape::calculate (const string &name, double &calculatedDimMin1,
       if (name == "BOX" && (dim1 + 1) > 0 && (dim2 + 1) > 0
           && (dim3 + 1) > 0) {
         
-        calculatedDimMin1 = 2 * dim1 * dim2 + 2 * dim2 * dim3 + 2 * dim1 * dim3;
+        calculatedDimMin1 = 2 * dim1 * dim2 + 2 * dim2 * dim3 + 2
+        * dim1 * dim3;
         calculatedDim = dim1 * dim2 * dim3;
       }
       else {
+        
         errorFound = true;
       }
       break;
@@ -148,6 +183,7 @@ bool Shape::calculate (const string &name, double &calculatedDimMin1,
         calculatedDim = sqrt(3.0) / 4 * dim1 * dim1 * dim2;
       }
       else {
+        
         errorFound = true;
       }
       break;
@@ -161,225 +197,109 @@ bool Shape::calculate (const string &name, double &calculatedDimMin1,
   return errorFound;
 }
 
-
-
-const string INFILENAME = "Shapes.input.txt";
-const string OUTFILENAME = "Shapes.output.txt";
-
-//void makeInputFile();
-void saveData(vector<string> &);
-void loadData(vector<string> &);
-bool calculate (const string &, double &, double &, const double,
-                const double, const double);
-void doubleToString (double, string&);
-string& writeStatement (bool, const string &, double &, double &,
-                        const double, const double, const double);
-void parseNumber (const string &, long &, double &);
-void parseData (const string &, string &, double &, double &,
-                double &);
-
-
-
-int main(int argc, const char * argv[]) {
-  vector<string> data;
-  bool errorFound = false;
-  string name, output;
-  double calculatedDimMin1 = 0, calculatedDim = 0, dim1 = -1, dim2 = -1, dim3 = -1;
-  
- // makeInputFile();
-  loadData(data);
-  
-  for(int i = 0; i < data.size(); i++) {
-    parseData(data.at(i), name, dim1, dim2, dim3);
-    errorFound = calculate (name, calculatedDimMin1, calculatedDim, dim1, dim2, dim3);
-    
-    output = writeStatement(errorFound, name, calculatedDimMin1, calculatedDim, dim1, dim2, dim3);
-    data.at(i) = output;
-    cout << output << endl;
-    dim1 = -1;
-    dim2 = -1;
-    dim3 = -1;
-    errorFound = false;
-  }
-  
-  saveData(data);
-  
-  return 0;
-}
-
-/*
-void makeInputFile() {
-  ofstream fout;
-  
-  fout.open(INFILENAME);
-  if (fout.good()) {
-    fout << "SQUARE 14.5" << endl;
-    fout << "SQUARE 0" << endl;
-    fout << "RECTANGLE 14.5 4.65" << endl;
-    fout << "CIRCLE 14.5" << endl;
-    fout << "CUBE 13" << endl;
-    fout << "BOX 1 2 3" << endl;
-    fout << "SPHERE" << endl;
-    fout << "CYLINDER 1.23 0" << endl;
-    fout << "CYLINDER 50 1.23" << endl;
-    fout << "TRIANGLE 1.2" << endl;
-    fout << "PRISM 14.5 5" << endl;
-    fout << "SQUARE 14.5" << endl;
-    fout << "SQUARE 14.5" << endl;
-    fout << "SQUARE 14.5" << endl;
-    fout << "SQUARE 14.5" << endl;
-    
-    fout.close();
-  }
-}
- */
-
-//saves our output to a file
-void saveData(vector<string> &data) {
-  ofstream fout;
-  
-  fout.open(OUTFILENAME);
-  if (fout.good()) {
-    for(string s: data) {
-      fout << s << endl;
-    }
-  }
-}
-
-//loads our input from a file
-void loadData(vector<string> &data) {
-  ifstream fin;
-  string input;
-  
-  fin.open(INFILENAME);
-  if (fin.good()) {
-    while (getline(fin, input)) {
-      data.push_back(input);
-    }
-    fin.close();
-  }
-}
-
-
-
-/*
-void doubleToString (double value, string &output) {
-  stringstream ss;
-  
-  ss << fixed << setprecision(2) << value;
-  ss >> output;
-  ss.clear();
-}
- */
-
-/*Makes a readable statement to output from calculated data, switch
+/* Makes a readable statement to output from calculated data, switch
  is necessary since there are different names for variables and
- calculated values.
- */
-string& writeStatement (bool error, const string &name,
-                        double &calculatedDimMin1,
-                        double &calculatedDim, const double dim1,
-                        const double dim2, const double dim3) {
-  string output, sdim;
-  stringstream ss;
+ calculated values. */
+
+void writeStatement (bool &error, stringstream &output, const string
+                     &name, double &calculatedDimMin1,
+                     double &calculatedDim, const double dim1,
+                     const double dim2, const double dim3) {
+  
+  /*only make tailored statements for object that didn't fail
+   calculate */
   
   if (!error) {
     switch (name.at(0)) {
         
-        //for Square
+        //for Square - keywords: side, perimeter, area
       case 'S' :
         
-        //for Triangle
+        //for Triangle - keywords: side, perimeter, area
       case 'T':
-        ss << name << " side=" << fixed << setprecision(2) << dim1 << " perimeter=" << setprecision(2) << calculatedDimMin1 << " area=" << setprecision(2) << calculatedDim << endl;
-        ss >> output;
-        ss.clear();
+        output << name << " side=" << fixed << setprecision(2) << dim1
+        << " perimeter=" << calculatedDimMin1 << " area="
+        << calculatedDim;
         break;
         
-     /*
-        //for Rectangle
+        
+        //for Rectangle - keywords: length, width, perimeter, area
       case 'R' :
-        output = name + " length=" + doubleToString(dim1) + " width="
-        + doubleToString(dim2) + " perimeter="
-        + doubleToString(calculatedDimMin1) + " area="
-        + doubleToString(calculatedDim);
+        output << name << " length=" << fixed << setprecision(2)
+        << dim1 << " width=" << dim2 << " perimeter="
+        << calculatedDimMin1 << " area=" << calculatedDim;
         break;
         
         //for Circle, Cube, and Cylinder
       case 'C' :
         switch (name.at(1)) {
             
-            //for circle
+            //for Circle - keywords: radius, circumference, area
           case 'I':
-            output = name + " radius=" + doubleToString(dim1)
-            + " circumference="
-            + doubleToString(calculatedDimMin1) + " area="
-            + doubleToString(calculatedDim);
+            output << name << " radius=" << fixed << setprecision(2)
+            << dim1 << " circumference=" << calculatedDimMin1
+            << " area=" << calculatedDim;
             break;
             
-            //for cylinder
+            /*for Cylinder - keywords: radius, height, surface area,
+             volume */
           case 'Y' :
-            output = name + " radius=" + doubleToString(dim1)
-            + " height=" + doubleToString(dim2)
-            + " surface area="
-            + doubleToString(calculatedDimMin1) + " volume="
-            + doubleToString(calculatedDim);
+            output << name << " radius=" << fixed << setprecision(2)
+            << dim1 << " height=" << dim2 << " surface area="
+            << calculatedDimMin1 << " volume="
+            << calculatedDim;
             break;
             
-            //for cube
+            //for Cube - keywords: side, surface area, volume
           case 'U':
-            output = name + " side=" + doubleToString(dim1)
-            + " surface area="
-            + doubleToString(calculatedDimMin1) + " volume="
-            + doubleToString(calculatedDim);
+            output << name << " side=" << fixed << setprecision(2)
+            << dim1 << " surface area=" << calculatedDimMin1
+            << " volume=" << calculatedDim;
             break;
             
             //shouldn't get here unless name is wrong
           default:
-            output = "Invalid Object for: " + name;
+            output << "Invalid Object for: " << name;
+            error = true;
             break;
         }
         break;
         
-        //for Box
+        //for Box - keywords: length, width, height surface area, volume
       case 'B':
-        output = name + " length=" + doubleToString(dim1) + " width="
-        + doubleToString(dim2) + " height="
-        + doubleToString(dim3) + " surface area="
-        + doubleToString(calculatedDimMin1) + " volume="
-        + doubleToString(calculatedDim);
+        output << name << " length=" << fixed << setprecision(2)
+        << dim1 << " width=" << dim2 << " height=" << dim3
+        << " surface area=" << calculatedDimMin1 << " volume="
+        << calculatedDim;
         break;
         
-        //for Prism
+        //for Prism - keywords: side, height, surface area, volume
       case 'P' :
-        output = name + " side=" + doubleToString(dim1) + " height="
-        + doubleToString(dim2) + " surface area="
-        + doubleToString(calculatedDimMin1) + " volume="
-        + doubleToString(calculatedDim);
+        output << name << " side=" << fixed << setprecision(2) << dim1
+        << " height=" << dim2 << " surface area="
+        << calculatedDimMin1 << " volume=" << calculatedDim;
         break;
-      */
         
         // shouldn't get here unless name is wrong
       default:
-        output = "Invalid Object for: " + name;
+        output << "Invalid Object for: " << name;
+        error = true;
         break;
     }
   }
-  // carry over error from Calculating, could be either error
+  // for objects that failed in calculate
   else {
-    output = "Invalid Object or Parameters for: " + name;
+    output << "Invalid Object or Parameters for: " << name;
   }
-  
-  return output;
 }
 
 /*Helper function to determine how many variables needed for object
- and handles extracting them using helper function parseNumber
- */
+ and extracts values */
+
 void parseData (const string &input, string &name, double &dim1,
                 double &dim2, double &dim3) {
+  
   stringstream ss;
   ss.str(input);
   ss >> name >> dim1 >> dim2 >> dim3;
-  ss.clear();
 }
