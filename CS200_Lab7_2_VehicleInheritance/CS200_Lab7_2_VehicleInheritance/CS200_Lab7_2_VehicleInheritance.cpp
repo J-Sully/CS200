@@ -10,7 +10,6 @@
 #include "Sedan.h"
 
 int main(int argc, const char * argv[]) {
-  stringstream output;
   Vehicle car(1992, 40000);
   Sedan yaris(1994, 50500, 4, true);
   
