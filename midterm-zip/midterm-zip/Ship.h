@@ -30,10 +30,10 @@ using namespace std;
  + setLength (length : unsigned int) : void
  + setDisplacement (displacement : unsigned int) : void
  + getRegistry() : string
- + getRegistry() : string
- + getRegistry() : string
- + getRegistry() : unsigned int
- + getRegistry() : unsigned int
+ + getHomeport() : string
+ + getName() : string
+ + getLength() : unsigned int
+ + getDisplacement() : unsigned int
  ----------------------
  */
 

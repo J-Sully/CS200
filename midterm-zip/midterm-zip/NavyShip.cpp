@@ -24,6 +24,5 @@ void NavyShip::writeStatus(stringstream &output) const {
 void NavyShip::print() const {
   stringstream output;
   writeStatus(output);
-  cout << "Information for the Navy Ship " << getName() << ':' << endl
-  << output.str() << endl;
+  cout << output.str() << endl;
 }

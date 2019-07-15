@@ -24,6 +24,16 @@
  -----------------------
  + NavyShip()
  + NavyShip(registry : string, homeport : string, name : string, length : unsigned int, displacement : unsigned int, shipType : string, destination : string, numCrew : unsigned int, nuclearPowered : bool, maxSpeed: unsigned int)
+ + setShipType (shipType : string) : void
+ + setDestination (destination : string) : void
+ + setNumCrew (numCrew : unsigned int) : void
+ + setNuclearPowered (nuclearPowered : bool) : void
+ + setMaxSpeed (maxSpeed : unsigned int) : void
+ + getShipType() : string
+ + getDestination() : string
+ + getNumCrew() : unsigned int
+ + getNuclearPowered() : bool
+ + getMaxSpeed() : unsigned int
  ----------------------
  */
 
@@ -41,6 +51,18 @@ public:
       Ship(registry, homeport, name, length, displacement), mShipType(shipType),
       mDestination(destination), mNumCrew(numCrew), mNuclearPowered(nuclearPowered),
       mMaxSpeed(maxSpeed) {}
+  
+  void setShipType (const string &shipType)           { mShipType = shipType; }
+  void setDestination (const string &destination)     { mDestination = destination; }
+  void setNumCrew (unsigned int numCrew)                      { mNumCrew = numCrew; }
+  void setNuclearPowered (bool nuclearPowered)         { mNuclearPowered = nuclearPowered; }
+  void setMaxSpeed (unsigned int maxSpeed) { mMaxSpeed = maxSpeed; }
+  
+  const string& getShipType() const     { return mShipType; }
+  const string& getDestination() const  { return mDestination; }
+  const unsigned int getNumCrew() const { return mNumCrew; }
+  const bool getNuclearPowered() const  { return mNuclearPowered; }
+  unsigned int getMaxSpeed() const      { return mMaxSpeed; }
   
   void writeStatus(stringstream &output) const;
   void print() const;

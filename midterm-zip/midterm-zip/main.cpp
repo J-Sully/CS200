@@ -13,7 +13,7 @@
 #include "NavyShip.h"
 
 template<typename T>
-void printData(vector<T> ships);
+void printData(vector<T> &ships);
 
 int main(int argc, const char * argv[]) {
   vector<Ferry> ferries;
@@ -33,7 +33,7 @@ int main(int argc, const char * argv[]) {
 }
 
 template<typename T>
-void printData(vector<T> ships) {
+void printData(vector<T> &ships) {
   for (T s : ships) {
     s.print();
   }

@@ -22,6 +22,5 @@ void Ferry::writeStatus(stringstream &output) const {
 void Ferry::print() const {
   stringstream output;
   writeStatus(output);
-  cout << "Information for the Ferry " << getName() << ':' << endl
-       << output.str() << endl;
+  cout << output.str() << endl;
 }
