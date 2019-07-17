@@ -6,13 +6,6 @@
 	objectVersion = 50;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		428DC7B622DFD4750071182F /* CS200_Exercise9_2_MultiLayerInheritance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 428DC7B522DFD4750071182F /* CS200_Exercise9_2_MultiLayerInheritance.cpp */; };
-		428DC7BE22DFD4990071182F /* Alpha.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 428DC7BC22DFD4990071182F /* Alpha.cpp */; };
-		428DC7C122DFD4C90071182F /* Bravo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 428DC7BF22DFD4C90071182F /* Bravo.cpp */; };
-		428DC7C422DFD4F20071182F /* Charlie.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 428DC7C222DFD4F20071182F /* Charlie.cpp */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		428DC7B022DFD4750071182F /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -27,12 +20,8 @@
 
 /* Begin PBXFileReference section */
 		428DC7B222DFD4750071182F /* CS200_Exercise9_2_MultiLayerInheritance */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CS200_Exercise9_2_MultiLayerInheritance; sourceTree = BUILT_PRODUCTS_DIR; };
-		428DC7B522DFD4750071182F /* CS200_Exercise9_2_MultiLayerInheritance.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CS200_Exercise9_2_MultiLayerInheritance.cpp; sourceTree = "<group>"; };
-		428DC7BC22DFD4990071182F /* Alpha.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Alpha.cpp; sourceTree = "<group>"; };
 		428DC7BD22DFD4990071182F /* Alpha.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Alpha.h; sourceTree = "<group>"; };
-		428DC7BF22DFD4C90071182F /* Bravo.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Bravo.cpp; sourceTree = "<group>"; };
 		428DC7C022DFD4C90071182F /* Bravo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bravo.h; sourceTree = "<group>"; };
-		428DC7C222DFD4F20071182F /* Charlie.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Charlie.cpp; sourceTree = "<group>"; };
 		428DC7C322DFD4F20071182F /* Charlie.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Charlie.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -66,12 +55,8 @@
 		428DC7B422DFD4750071182F /* CS200_Exercise9_2_MultiLayerInheritance */ = {
 			isa = PBXGroup;
 			children = (
-				428DC7B522DFD4750071182F /* CS200_Exercise9_2_MultiLayerInheritance.cpp */,
-				428DC7BC22DFD4990071182F /* Alpha.cpp */,
 				428DC7BD22DFD4990071182F /* Alpha.h */,
-				428DC7BF22DFD4C90071182F /* Bravo.cpp */,
 				428DC7C022DFD4C90071182F /* Bravo.h */,
-				428DC7C222DFD4F20071182F /* Charlie.cpp */,
 				428DC7C322DFD4F20071182F /* Charlie.h */,
 			);
 			path = CS200_Exercise9_2_MultiLayerInheritance;
@@ -133,10 +118,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				428DC7C422DFD4F20071182F /* Charlie.cpp in Sources */,
-				428DC7C122DFD4C90071182F /* Bravo.cpp in Sources */,
-				428DC7BE22DFD4990071182F /* Alpha.cpp in Sources */,
-				428DC7B622DFD4750071182F /* CS200_Exercise9_2_MultiLayerInheritance.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
