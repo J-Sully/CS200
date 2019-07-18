@@ -35,10 +35,10 @@ private:
   
   
 public:
-  ReaderApp(){};
+  ReaderApp() {}
   ReaderApp(const string &name, double cost, const string &author,
             unsigned int yearPublished, const string &type, const string &OS,
-            unsigned int memoryGB) : PublishedWork(author, yearPublished), ElectronicDevice(type, OS, memoryGB), mName(name), mCost(cost) {}
+            unsigned int memoryGB) : PublishedWork(author, yearPublished), ElectronicDevice(type, OS, memoryGB), mName(name) {setCost(cost);}
   
   void setName (const string &name) { mName = name; }
   void setCost (double cost)        { if (cost >= 0) mCost = cost; }

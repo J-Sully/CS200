@@ -8,9 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		428DC7EE22DFF1850071182F /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 428DC7ED22DFF1850071182F /* main.cpp */; };
-		428DC7F622DFF1970071182F /* PublishedWork.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 428DC7F422DFF1970071182F /* PublishedWork.cpp */; };
-		428DC7F922DFF1A80071182F /* ElectronicDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 428DC7F722DFF1A80071182F /* ElectronicDevice.cpp */; };
-		428DC7FC22DFF1B90071182F /* ReaderApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 428DC7FA22DFF1B90071182F /* ReaderApp.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,11 +25,8 @@
 /* Begin PBXFileReference section */
 		428DC7EA22DFF1850071182F /* CS200_Lab9_5_MultipleInheritance */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CS200_Lab9_5_MultipleInheritance; sourceTree = BUILT_PRODUCTS_DIR; };
 		428DC7ED22DFF1850071182F /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		428DC7F422DFF1970071182F /* PublishedWork.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PublishedWork.cpp; sourceTree = "<group>"; };
 		428DC7F522DFF1970071182F /* PublishedWork.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PublishedWork.h; sourceTree = "<group>"; };
-		428DC7F722DFF1A80071182F /* ElectronicDevice.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ElectronicDevice.cpp; sourceTree = "<group>"; };
 		428DC7F822DFF1A80071182F /* ElectronicDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ElectronicDevice.h; sourceTree = "<group>"; };
-		428DC7FA22DFF1B90071182F /* ReaderApp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ReaderApp.cpp; sourceTree = "<group>"; };
 		428DC7FB22DFF1B90071182F /* ReaderApp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReaderApp.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -67,11 +61,8 @@
 			isa = PBXGroup;
 			children = (
 				428DC7ED22DFF1850071182F /* main.cpp */,
-				428DC7F422DFF1970071182F /* PublishedWork.cpp */,
 				428DC7F522DFF1970071182F /* PublishedWork.h */,
-				428DC7F722DFF1A80071182F /* ElectronicDevice.cpp */,
 				428DC7F822DFF1A80071182F /* ElectronicDevice.h */,
-				428DC7FA22DFF1B90071182F /* ReaderApp.cpp */,
 				428DC7FB22DFF1B90071182F /* ReaderApp.h */,
 			);
 			path = CS200_Lab9_5_MultipleInheritance;
@@ -134,9 +125,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				428DC7EE22DFF1850071182F /* main.cpp in Sources */,
-				428DC7F922DFF1A80071182F /* ElectronicDevice.cpp in Sources */,
-				428DC7FC22DFF1B90071182F /* ReaderApp.cpp in Sources */,
-				428DC7F622DFF1970071182F /* PublishedWork.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

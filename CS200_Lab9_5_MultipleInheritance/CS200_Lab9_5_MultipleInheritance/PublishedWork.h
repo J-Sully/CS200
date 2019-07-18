@@ -24,7 +24,7 @@ using namespace std;
  + setAuthor (author : string) : void
  + setYearPublished (year : unsigned int) : void
  + getAuthor() : string
- + getYearPublished() : int
+ + getYearPublished() : unsigned int
 
  ----------------------
  */
@@ -35,7 +35,7 @@ private:
   unsigned int mYearPublished = 0;
   
 public:
-  PublishedWork(){};
+  PublishedWork() {}
   PublishedWork(const string &author, unsigned int yearPublished) :
                 mAuthor(author), mYearPublished(yearPublished) {}
   
@@ -43,7 +43,7 @@ public:
   void setYearPublished (unsigned int year) { mYearPublished = year; }
   
   const string& getAuthor() const { return mAuthor; }
-  int getYearPublished() const    { return mYearPublished; }
+  unsigned int getYearPublished() const    { return mYearPublished; }
 };
 
 #endif /* PUBLISHEDWORK_H */

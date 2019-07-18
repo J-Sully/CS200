@@ -39,7 +39,7 @@ private:
   unsigned int mMemoryGB = 0;
   
 public:
-  ElectronicDevice(){};
+  ElectronicDevice() {}
   ElectronicDevice(const string &type, const string &OS, unsigned int memoryGB) :
                    mType(type), mOS(OS), mMemoryGB(memoryGB) {}
   
