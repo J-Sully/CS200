@@ -19,7 +19,7 @@
  - mBalance : float
  -----------------------
  + Charlie()
- + Charlie(situation : string, balance : float, status : bool, total : float, sentence : string, number : int)
+ + Charlie(number : int, sentence : string, status : bool, total : float, situation : string, balance : float)
  + setSituation (situation : string) : void
  + setBalance (balance : float) : void
  + getSituation() : string
@@ -33,9 +33,9 @@ private:
   float mBalance = 0;
   
 public:
-  Charlie() : Bravo() {};
-  Charlie (const string &situation, float balance, bool status, float total, int number, const string &sentence) :
-  Bravo(status, total, number, sentence), mSituation(situation), mBalance(balance) {}
+  Charlie() : Bravo() {}
+  Charlie (int number, const string &sentence, bool status, float total, const string &situation, float balance,) :
+  Bravo(number, sentence, status, total), mSituation(situation), mBalance(balance) {}
   
   void setSituation(const string &situation) { mSituation = situation; }
   void setBalance(float balance)             { mBalance = balance; }

@@ -13,13 +13,13 @@
 
 /*
  -----------------------
- Bravo : Charlie
+ Bravo : Alpha
  -----------------------
  - mStatus : bool
  - mTotal : float
  -----------------------
  + Bravo()
- + Bravo(status : bool, total : float, sentence : string, number : int)
+ + Bravo(sentence : string, number : int, status : bool, total : float)
  + setStatus (status : bool) : void
  + setTotal (total : float) : void
  + getStatus() : bool
@@ -33,8 +33,8 @@ private:
   float mTotal = 0;
   
 public:
-  Bravo() : Alpha() {};
-  Bravo (bool status, float total, int number, const string &sentence) :
+  Bravo() : Alpha() {}
+  Bravo (int number, const string &sentence, bool status, float total) :
          Alpha(number, sentence), mStatus(status), mTotal(total) {}
   
   void setStatus(bool status) { mStatus = status; }
