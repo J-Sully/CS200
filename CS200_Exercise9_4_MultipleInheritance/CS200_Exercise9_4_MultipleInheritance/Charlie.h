@@ -35,7 +35,7 @@ private:
   float mBalance = 0;
   
 public:
-  Charlie() : Bravo() {};
+  Charlie() : Alpha(), Bravo() {}
   Charlie (const string &situation, float balance, bool status,
            float total, int number, const string &sentence) :
            Alpha(number, sentence), Bravo(status, total),

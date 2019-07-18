@@ -34,7 +34,7 @@ private:
   string mSentence;
   
 public:
-  Alpha(){};
+  Alpha(){}
   Alpha(int number, const string &sentence) : mNumber(number), mSentence(sentence) {}
   
   void setNumber(int number)               { mNumber = number; }

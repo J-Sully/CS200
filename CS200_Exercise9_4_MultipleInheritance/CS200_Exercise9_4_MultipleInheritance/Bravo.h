@@ -9,8 +9,6 @@
 #ifndef BRAVO_H
 #define BRAVO_H
 
-#include "Alpha.h"
-
 /*
  -----------------------
  Bravo
@@ -33,7 +31,7 @@ private:
   float mTotal = 0;
   
 public:
-  Bravo() : Alpha() {};
+  Bravo() {}
   Bravo (bool status, float total) : mStatus(status), mTotal(total) {}
   
   void setStatus(bool status) { mStatus = status; }
