@@ -28,7 +28,7 @@
  ----------------------
  */
 
-class ReaderApp : PublishedWork, ElectronicDevice {
+class ReaderApp : public PublishedWork, public ElectronicDevice {
 private:
   string mName;
   double mCost = 0;
