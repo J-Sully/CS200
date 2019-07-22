@@ -35,7 +35,7 @@ using namespace std;
 
 class Person {
 private:
-  unsigned int mSSN;
+  unsigned int mSSN = 1111111111;
   Date mBirthday;
   
 public:
