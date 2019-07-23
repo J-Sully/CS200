@@ -32,6 +32,7 @@
 		428C6DEF22E6BF7900D74367 /* InventoryEntry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InventoryEntry.h; sourceTree = "<group>"; };
 		428C6DF222E6C22F00D74367 /* InventoryList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InventoryList.h; sourceTree = "<group>"; };
 		F6B961AD22E6E9B20080314A /* Units.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Units.h; sourceTree = "<group>"; };
+		F6B961AE22E7B6890080314A /* Alcohol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Alcohol.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +70,7 @@
 				F6B961AD22E6E9B20080314A /* Units.h */,
 				428C6DE922E679C800D74367 /* ProductItem.h */,
 				428C6DE622E6759800D74367 /* AlcoholicItem.h */,
+				F6B961AE22E7B6890080314A /* Alcohol.h */,
 				428C6DE322E66B7B00D74367 /* Entry.h */,
 				428C6DEF22E6BF7900D74367 /* InventoryEntry.h */,
 				428C6DF222E6C22F00D74367 /* InventoryList.h */,
