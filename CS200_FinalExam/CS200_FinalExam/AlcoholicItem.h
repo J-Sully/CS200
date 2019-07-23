@@ -91,15 +91,6 @@ public:
                   Alcohol::BEER, unitsPerServing, 1, bottlesPerCase) {}
 };
 
-class Aged {
-  Aged(unsigned int year) : mYear(year) {}
-  
-  void writeStatement(stringstream &output) const;
-  
-public:
-  unsigned int mYear = 1970;
-};
-
 
 class AgedAlcoholicItem : public AlcoholicItem {
 public:
