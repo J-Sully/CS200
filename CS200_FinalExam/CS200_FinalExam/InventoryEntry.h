@@ -12,17 +12,22 @@
 #include "InventoryItem.h"
 class InventoryEntry {
 public:
-  InventoryEntry(const string &ID, double price, unsigned int threshold, const string &unit, unsigned int quantity), mItem(ID, price, threshold, unit), mQuantity(quantity) {}
+  InventoryEntry(const string &ID, double price, unsigned int threshold, const string &unit, unsigned int stockAmt), mItem(ID, price, threshold, unit), mStockAmt(stockAmt) {}
   
   void setItem (const InventoryItem &item) { mItem = item; }
-  void setQuantity (unsigned int quantity) { mQuantity = quantity; }
+  void setQuantity (unsigned int stockAmt) { mStockAmt = stockAmt; }
   
   const InventoryItem& getItem() { return mItem; }
-  unsigned int getQuantity { return mQuantity; }
+  unsigned int getQuantity { return mStockAmt; }
+  
+  bool isLow() { return mStockAmt <= mItem.threshold()}
+  bool validateDecrease() { if (mStockAmt > 0) return true; }
+  void decrease() { mStockAmt--; }
+  void increase() { }
   
 private:
   InventoryItem mItem;
-  unsigned int mQuantity = 0;
+  unsigned int mStockAmt = 0;
 };
 
 #endif /* INVENTORYENTRY_H */

@@ -17,7 +17,9 @@ using namespace std;
 class InventoryList {
 public:
   InventoryList() {}
-  InventoryList(vector<InventoryEntry>)
+  InventoryList(vector<InventoryEntry> &entries) { if (!entries.empty()) mInventory.assign(entries.first(), entries.end())}
+  
+  void addItem(InventoryEntry &entry) { mInventory.push_back(entry); }
 private:
   vector<InventoryEntry> mInventory;
 };
