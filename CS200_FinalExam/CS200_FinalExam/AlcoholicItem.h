@@ -21,9 +21,11 @@ public:
   enum Type { BEER = 0, WINE, SPIRIT, LAST_TYPE };
   static const char* sTypeStrings[];
   static Type getAlcoholType(const string& type);
+  static const char* getAlcoholName(Type type);
   
   Alcohol(Type type) : mType(type) {}
   
+  Type getType() const { return mType; }
   double getExciseTax(double qty, Unit unit) const;
   
 private:
@@ -62,12 +64,24 @@ public:
   double getServingsPerCase() const { return mServingsPerBottle * mBottlesPerCase; }
   double getBottlesPerCase() const { return mBottlesPerCase; }
   
+  virtual void writeStatement(stringstream &output) const;
+  
 private:
   double mUnitsPerServing = 1;
   double mServingsPerBottle = 1;
   double mBottlesPerCase = 1;
 
 };
+
+/* virtual */
+void AlcoholicItem::writeStatement(stringstream &output) const {
+  InventoryItem::writeStatement(output);
+  output << "Alcohol Type: " << getAlcoholName(getType()) << endl
+         << getUnitName(getUnit()) << " per serving: " << mUnitsPerServing << endl
+         << "Servings per bottle: " << mServingsPerBottle << endl
+         << "Bottles per case " << mBottlesPerCase << endl;
+  
+}
 
 class BeerItem : public AlcoholicItem {
 public:
@@ -143,6 +157,11 @@ Alcohol::Type Alcohol::getAlcoholType(const string& type) {
     if (type == sTypeStrings[i]) break;
   }
   return static_cast<Type>(i);
+}
+
+/* static */
+const char* Alcohol::getAlcoholName(Alcohol::Type type) {
+  return sTypeStrings[static_cast<int>(type)];
 }
 
 #endif /* ALCOHOLICITEM_H */
