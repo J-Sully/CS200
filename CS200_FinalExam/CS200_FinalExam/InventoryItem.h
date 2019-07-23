@@ -14,18 +14,19 @@
 class InventoryItem : public Entry {
 public:
   InventoryItem() {}
-  InventoryItem(const string &ID, double price, unsigned int threshold, const string &unit) : mEntry(ID, quantity, price), mUnit(unit) { setThreshold(threshold); };
+  InventoryItem(const string &ID, double price, unsigned int threshold, const string &unit) : Entry(ID, price), mUnit(unit) { setThreshold(threshold); };
   
   void setThreshold(unsigned int threshold) { mThreshold = threshold; }
   void setUnit(const string &unit) { mUnit = unit; }
   
   
-  const string& getID() const { return mID; }
-  unsigned int getQuantity() const { return mQuantity; }
+  unsigned int getThreshold() const { return mThreshold; }
+  const string& getUnit() const { return mUnit; }
+  
   
 private:
   unsigned int mThreshold = 1;
   string mUnit; // liter, galon, box...
-}
+};
 
 #endif /* INVENTORYITEM_H */

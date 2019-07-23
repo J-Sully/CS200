@@ -15,7 +15,7 @@ using namespace std;
 class Entry {
 public:
   Entry() {}
-  Entry(const string &ID, double price) : mID(ID), {setPrice(price);};
+  Entry(const string &ID, double price) : mID(ID) {setPrice(price);};
   
   void setID(const string &ID) { mID = ID; }
   void setPrice(double price) { if(price >= 0) mPrice = price; }
@@ -26,6 +26,6 @@ public:
 private:
   string mID;
   double mPrice = 0;
-}
+};
 
 #endif /* ENTRY_H */

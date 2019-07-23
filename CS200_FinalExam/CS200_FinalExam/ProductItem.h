@@ -22,6 +22,6 @@ class ProductItem : public Entry {
   const vector<AlcoholicItem>& getIngredientList() { return mIngredientList; }
 private:
   vector<AlcoholicItem> mIngredientList;
-}
+};
 
 #endif /* PRODUCTITEM_H */
