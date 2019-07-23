@@ -8,8 +8,22 @@
 
 #include <iostream>
 
+#include "AlcoholicItem.h"
+
+using namespace std;
+
 int main(int argc, const char * argv[]) {
-  // insert code here...
-  std::cout << "Hello, World!\n";
+  BeerItem beer("Lagunitas", 13, 4);
+  beer.print();
+  
+  WineItem wine("Meiomi Pinot Noir", 191, 2017);
+  wine.print();
+  
+  SpiritItem spirit("Orendain Tequila Blanco", 180, 2019);
+  spirit.print();
+  
+  NonAlcoholicItem pretzels("Snyder's of Hanover Snaps Pretzels", 6.59, 3, OUNCES, 50, 1.06383);
+  pretzels.print();
+  
   return 0;
 }

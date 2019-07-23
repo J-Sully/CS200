@@ -5,7 +5,7 @@
 //  Created by Jessie Sully on 7/22/19.
 //  Copyright © 2019 Jessie Sully. All rights reserved.
 //
-
+/*
 #ifndef INVENTORYLIST_H
 #define INVENTORYLIST_H
 
@@ -22,6 +22,6 @@ public:
   void addItem(InventoryEntry &entry) { mInventory.push_back(entry); }
 private:
   vector<InventoryEntry> mInventory;
-};
+};*/
 
 #endif /* INVENTORYLIST_H */

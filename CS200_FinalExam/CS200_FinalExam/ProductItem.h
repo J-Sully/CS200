@@ -6,6 +6,7 @@
 //  Copyright © 2019 Jessie Sully. All rights reserved.
 //
 
+/*
 #ifndef PRODUCTITEM_H
 #define PRODUCTITEM_H
 
@@ -22,6 +23,6 @@ class ProductItem : public Entry {
   const vector<AlcoholicItem>& getIngredientList() { return mIngredientList; }
 private:
   vector<AlcoholicItem> mIngredientList;
-};
+};*/
 
 #endif /* PRODUCTITEM_H */

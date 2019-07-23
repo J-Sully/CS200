@@ -9,24 +9,77 @@
 #ifndef INVENTORYITEM_H
 #define INVENTORYITEM_H
 
-#include "Entry.h"
+#include <iomanip>
+#include <string>
+#include <sstream>
 
-class InventoryItem : public Entry {
+#include "Units.h"
+
+using namespace std;
+
+class InventoryItem {
 public:
-  InventoryItem() {}
-  InventoryItem(const string &ID, double price, unsigned int threshold, const string &unit) : Entry(ID, price), mUnit(unit) { setThreshold(threshold); };
+  InventoryItem(const string &ID, double price, unsigned int threshold, Unit unit)
+  : mID(ID), mPrice(price), mLowPurchaseThreshold(threshold), mUnit(unit) {}
   
-  void setThreshold(unsigned int threshold) { mThreshold = threshold; }
-  void setUnit(const string &unit) { mUnit = unit; }
+  virtual bool hasTax() const { return false; }
+  virtual double getTax(double servings) const { return 0; }
+  virtual double getTax(double qty, Unit unit) const { return 0; }
   
+  void setLowServingsThreshold(unsigned int threshold) { mLowPurchaseThreshold = threshold; }
+  void setID(const string& ID)  { mID = ID; }
+  void setPrice(double price) { if(price >= 0) mPrice = price; }
   
-  unsigned int getThreshold() const { return mThreshold; }
-  const string& getUnit() const { return mUnit; }
+  const string& getID() const { return mID; }
+  double getPrice() { return mPrice; }
+  unsigned int getLowServingsThreshold() const { return mLowPurchaseThreshold; }
   
+  virtual double getUnitsPerPurchase() const = 0;
+  virtual double getUnitsPerServing() const = 0;
+  
+  Unit getUnit() const { return mUnit; }
+  
+  virtual void writeStatement(stringstream &output) const;
+  void print() const;
   
 private:
-  unsigned int mThreshold = 1;
-  string mUnit; // liter, galon, box...
+  string mID;
+  double mPrice = 0;
+  unsigned int mLowPurchaseThreshold = 1;
+  Unit mUnit = OUNCES;
 };
+
+class NonAlcoholicItem : public InventoryItem {
+public:
+  NonAlcoholicItem(const string &ID, double price, unsigned int threshold,
+                   Unit unit, double unitsPerPurchase, double unitsPerServing)
+  : InventoryItem(ID, price, threshold, unit)
+  , mUnitsPerPurchase(unitsPerPurchase), mUnitsPerServing(unitsPerServing) {}
+                  
+  virtual double getUnitsPerPurchase() const { return mUnitsPerPurchase; }
+  virtual double getUnitsPerServing() const { return mUnitsPerServing; }
+  
+private:
+  double mUnitsPerPurchase = 1;
+  double mUnitsPerServing = 1;
+};
+
+/* virtual */
+void InventoryItem::writeStatement(stringstream &output) const {
+  const char* units = getUnitName(mUnit);
+  output << "ID: " << mID << endl
+         << "Purchase Price: $" << fixed << setprecision(2) << mPrice << setprecision(0)
+         << " for " << getUnitsPerPurchase() << " " << units << endl
+         << "Serving size: " << setprecision(3) << getUnitsPerServing() << " " << units << endl;
+  if (hasTax()) {
+    output << "Tax per serving: $" << setprecision(2) << getTax(1) << endl;
+  }
+}
+
+void InventoryItem::print() const {
+  stringstream output;
+  writeStatement(output);
+  cout << output.str() << endl;
+}
 
 #endif /* INVENTORYITEM_H */

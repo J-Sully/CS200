@@ -5,7 +5,7 @@
 //  Created by Jessie Sully on 7/22/19.
 //  Copyright © 2019 Jessie Sully. All rights reserved.
 //
-
+/*
 #ifndef INVENTORYENTRY_H
 #define INVENTORYENTRY_H
 
@@ -28,6 +28,6 @@ public:
 private:
   InventoryItem mItem;
   unsigned int mStockAmt = 0;
-};
+};*/
 
 #endif /* INVENTORYENTRY_H */

@@ -5,7 +5,7 @@
 //  Created by Jessie Sully on 7/22/19.
 //  Copyright © 2019 Jessie Sully. All rights reserved.
 //
-
+/*
 #ifndef ENTRY_H
 #define ENTRY_H
 
@@ -26,6 +26,6 @@ public:
 private:
   string mID;
   double mPrice = 0;
-};
+};*/
 
 #endif /* ENTRY_H */
