@@ -56,9 +56,9 @@ public:
   unsigned int getCapacity() const   { return mCapacity; }
   double getBasePrice() const { return mBasePrice; }
   
-  double getPotRevenue() const { return mBasePrice * mCapacity; }
-  void writeStatement(stringstream &output) const;
-  virtual void print() const;
+  virtual double getPotRevenue() const { return mBasePrice * mCapacity; }
+  virtual void writeStatement(stringstream &output) const;
+  void print() const;
   
 };
 
@@ -66,13 +66,13 @@ void Venue::writeStatement(stringstream &output) const {
   output << "Type of Venue: " << mType << endl
   << "Year opened: " << mYear << endl
   << "Occupant Capacity: " << mCapacity << endl
-  << "Base Price per Occupant: $" << fixed << setprecision(2) << mBasePrice << endl;
+  << "Base Price per Occupant: $" << fixed << setprecision(2) << mBasePrice << endl
+  << "Potential Revenue: $" << fixed << setprecision(2) << getPotRevenue() << endl;
 }
 
 void Venue::print() const {
   stringstream output;
   writeStatement(output);
-  output << "Potential Revenue: $" << fixed << setprecision(2) << getPotRevenue() << endl;
   cout << output.str() << endl;
 }
 

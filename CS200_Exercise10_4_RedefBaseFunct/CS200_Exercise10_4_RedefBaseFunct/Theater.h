@@ -60,9 +60,8 @@ public:
   const string& getAddress() const { return mAddress; }
   double getAvgConcessionSales() const { return mAvgConcessionSales; }
   
-  double getPotRevenue() const { return Venue::getPotRevenue() + mAvgConcessionSales; }
-  void writeStatement(stringstream &output) const;
-  virtual void print() const;
+  virtual double getPotRevenue() const { return Venue::getPotRevenue() + mAvgConcessionSales; }
+  virtual void writeStatement(stringstream &output) const;
 };
 
 void Theater::writeStatement(stringstream &output) const {
@@ -71,13 +70,4 @@ void Theater::writeStatement(stringstream &output) const {
   << "Address of Theater: " << mAddress << endl
   << "Average Concession Sales: $" << fixed << setprecision(2) << mAvgConcessionSales << endl;
 }
-
-void Theater::print() const {
-  stringstream output;
-  
-  writeStatement(output);
-  output << "Potential Revenue: $" << fixed << setprecision(2) << getPotRevenue() << endl;
-  cout << output.str() << endl;
-}
-
 #endif /* THEATER_H */
