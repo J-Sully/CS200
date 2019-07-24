@@ -22,7 +22,7 @@ int main(int argc, const char * argv[]) {
   SpiritItem spirit("Orendain Tequila Blanco", 180, 2019);
   spirit.print();
   
-  NonAlcoholicItem pretzels("Snyder's of Hanover Snaps Pretzels", 6.59, 3, OUNCES, 50, 1.06383);
+  NonAlcoholicItem pretzels("Snyder's of Hanover Snaps Pretzels", 6.59, 3, Unit::OUNCES, 50, 1.06383);
   pretzels.print();
   
   return 0;

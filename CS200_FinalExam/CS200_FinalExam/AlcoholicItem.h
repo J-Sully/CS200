@@ -20,7 +20,7 @@ using namespace std;
 class AlcoholicItem : public InventoryItem, public Alcohol {
 public:
   AlcoholicItem(const string &ID, double pricePerCase,
-                unsigned int thresholdCases, Unit unit, Alcohol::Type type,
+                unsigned int thresholdCases, Unit::Type unit, Alcohol::Type type,
                 double unitsPerServing, double servingsPerBottle,
                 double bottlesPerCase)
   : InventoryItem(ID, pricePerCase, thresholdCases, unit), Alcohol(type)
@@ -31,7 +31,7 @@ public:
   virtual double getTax(double servings) const
   { return getTax(servings * getUnitsPerServing(), getUnit()); }
   
-  virtual double getTax(double qty, Unit unit) const
+  virtual double getTax(double qty, Unit::Type unit) const
   { return getExciseTax(qty, unit); }
   
   virtual double getUnitsPerPurchase() const { return getUnitsPerCase(); }
@@ -66,7 +66,7 @@ class BeerItem : public AlcoholicItem {
 public:
   BeerItem(const string &ID, double pricePerCase, unsigned int thresholdCases = 2,
            double unitsPerServing = 12, double bottlesPerCase = 24)
-  : AlcoholicItem(ID, pricePerCase, thresholdCases, OUNCES,
+  : AlcoholicItem(ID, pricePerCase, thresholdCases, Unit::OUNCES,
                   Alcohol::BEER, unitsPerServing, 1, bottlesPerCase) {}
 };
 
@@ -74,9 +74,9 @@ public:
 class AgedAlcoholicItem : public AlcoholicItem {
 public:
   AgedAlcoholicItem(const string &ID, double pricePerCase, unsigned int year,
-                unsigned int thresholdCases, Unit unit, Alcohol::Type type,
-                double unitsPerServing, double servingsPerBottle,
-                double bottlesPerCase)
+                    unsigned int thresholdCases, Unit::Type unit, Alcohol::Type type,
+                    double unitsPerServing, double servingsPerBottle,
+                    double bottlesPerCase)
   : AlcoholicItem(ID, pricePerCase, thresholdCases, unit, type,
                   unitsPerServing, servingsPerBottle, bottlesPerCase), mYear(year) {}
   
@@ -97,7 +97,7 @@ public:
   WineItem(const string &ID, double pricePerCase, unsigned int year,
            unsigned int thresholdCases = 2, double unitsPerServing = .15,
            double servingsPerBottle = 5, double bottlesPerCase = 12)
-  : AgedAlcoholicItem(ID, pricePerCase, year, thresholdCases, LITERS,
+  : AgedAlcoholicItem(ID, pricePerCase, year, thresholdCases, Unit::LITERS,
                   Alcohol::WINE, unitsPerServing,
                   servingsPerBottle, bottlesPerCase) {}
 };
@@ -107,7 +107,7 @@ public:
   SpiritItem(const string &ID, double pricePerCase, unsigned int year,
              unsigned int thresholdCases = 2, double unitsPerServing = .0375,
              double servingsPerBottle = 20, double bottlesPerCase = 12)
-  : AgedAlcoholicItem(ID, pricePerCase, year, thresholdCases, LITERS,
+  : AgedAlcoholicItem(ID, pricePerCase, year, thresholdCases, Unit::LITERS,
                   Alcohol::SPIRIT, unitsPerServing,
                   servingsPerBottle, bottlesPerCase) {}
 };

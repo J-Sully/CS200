@@ -11,7 +11,7 @@
 
 #include <string>
 
-#include "Units.h"
+#include "Unit.h"
 
 class Alcohol {
 public:
@@ -23,7 +23,7 @@ public:
   Alcohol(Type type) : mType(type) {}
   
   Type getType() const { return mType; }
-  double getExciseTax(double qty, Unit unit) const;
+  double getExciseTax(double qty, Unit::Type unit) const;
   
 private:
   Type mType = SPIRIT;
@@ -34,8 +34,8 @@ private:
 /* static */ const char* Alcohol::sTypeStrings[] = { "beer", "wine", "spirit" };
 /* static */ const double Alcohol::sExciseTaxPerGallon[] = { 18, 3.4, 13.5 };
 
-double Alcohol::getExciseTax(double qty, Unit unit) const {
-  double gallons = convertUnits(qty, unit, GALLONS);
+double Alcohol::getExciseTax(double qty, Unit::Type unit) const {
+  double gallons = convertUnits(qty, unit, Unit::GALLONS);
   double taxPerGallon = sExciseTaxPerGallon[static_cast<int>(unit)];
   return gallons * taxPerGallon;
 }
