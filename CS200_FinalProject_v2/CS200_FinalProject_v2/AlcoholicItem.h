@@ -11,35 +11,49 @@
 
 #include "Alcohol.h"
 #include "InventoryItem.h"
+#include "Unit.h"
 
 class AlcoholicItem : public InventoryItem, public Alcohol {
 public:
-  AlcoholicItem(const string &ID, double pricePerUnit, unsigned int thresholdUnits, const string &unitPurchased, string &unitServed, const string &type, double unitsPerServing, double servingsPerBottle, double bottlesPerCase) :
-  InventoryItem(ID, pricePerCase, thresholdCases, unit), Alcohol(type), mUnitsPerServing(unitsPerServing), mServingsPerBottle(servingsPerBottle), mBottlesPerCase(bottlesPerCase) {}
+  AlcoholicItem(const string &ID, double price, double threshold, Unit::Type unit, double unitsRemaining, double unitsPerServing, double servingsPerBottle, double bottlesPerCase) :
+  InventoryItem(ID, pricePerCase, thresholdCases, unit), Alcohol(type),
+  mUnitsPerServing(unitsPerServing), mServingsPerBottle(servingsPerBottle),
+  mBottlesPerCase(bottlesPerCase) {}
   
   virtual bool hasTax() const { return true; }
   virtual double getTax(double servings) const
-  { return getTax(servings * getUnitsPerServing(), getUnit()); }
+    { return getTax(servings * getUnitsPerServing(), getUnit()); }
   
-  virtual double getTax(double qty, Unit unit) const
-  { return getExciseTax(qty, unit); }
+  virtual double getTax(double quantity, Unit::Type unit) const
+    { return getExciseTax(qty, unit); }
   
-  virtual double getUnitsPerPurchase() const { return getUnitsPerCase(); }
-  
-  virtual double getUnitsPerServing() const { return mUnitsPerServing; }
-  double getUnitsPerBottle() const { return mUnitsPerServing * mServingsPerBottle; }
-  double getUnitsPerCase() const { return mUnitsPerServing * mServingsPerBottle * mBottlesPerCase; }
   double getServingsPerBottle() const { return mServingsPerBottle; }
-  double getServingsPerCase() const { return mServingsPerBottle * mBottlesPerCase; }
   double getBottlesPerCase() const { return mBottlesPerCase; }
+  
+  double getUnitsPerBottle() const { return mUnitsPerServing * mServingsPerBottle; }
+  double getUnitsPerCase() const { return getUnitsPerBottle() * mBottlesPerCase; }
+  double getServingsPerCase() const { return mServingsPerBottle * mBottlesPerCase; }
+  
+  virtual double getUnitsPerStock() const { return getUnitsPerCase(); }
+  virtual double getUnitsPerServing() const { return mUnitsPerServing; }
   
   virtual void writeStatement(stringstream &output) const;
   
 private:
   double mUnitsPerServing = 1;
   double mServingsPerBottle = 1;
-  double mBottlesPerCase = 1;
+  unsigned int mBottlesPerCase = 1;
   
 };
+
+//virtual
+void AlcoholicItem::writeStatement(stringstream &output) const {
+  output << "Alcohol Type: " << getAlcoholSType(getType()) << endl;
+  InventoryItem::writeStatement(output);
+  output << getUnitName(getUnit()) << " per serving: " << mUnitsPerServing << endl
+  << "Servings per bottle: " << mServingsPerBottle << endl
+  << "Bottles per case " << mBottlesPerCase << endl;
+  
+}
 
 #endif /* ALCOHOLICITEM_H */

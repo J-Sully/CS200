@@ -12,20 +12,57 @@
 #include <string>
 using namespace std;
 
+#include <Unit.h>
+
 class Alcohol {
 public:
-  Alcohol() {}
-  Alcohol(const string &type, double tax) : mType(type) { setTax(tax); }
+  enum Type {BEER = 0, WINE, SPIRIT, LAST_TYPE};
   
-  void setType (const string &type) { mType = type; }
-  void setTax (double tax) { if (tax >= 0) mTax = tax;}
+  Alcohol(Type type) : mType(type) {}
   
-  const string& getType() const { return mType; }
-  double getExciseTax() const;
+  void setType (Type type) { mType = type; }
+  Type getType() const { return mType; }
+  double getExciseTax(double quantity, Unit::Type unit) const
+  
+  static Type getAlcoholType(const string &type);
+  static const string& getAlcoholSType(Type type);
   
 private:
-  string mType;
-  double mTax = 0;
+  Type mType;
+  
+  static const double sExciseTaxPerGallon[];
+  static const string sTypeStrings[];
 };
+
+//static
+const char* Alcohol::sTypeStrings[] = { "beer", "wine", "spirit" };
+//static
+const double Alcohol::sExciseTaxPerGallon[] = { 18, 3.4, 13.5 };
+
+//static
+Alcohol::Type Alcohol::getAlcoholType(const string& type) {
+  int i;
+  string lower = type;
+  
+  for ( char c : &lower) {
+    c = to_lower(c);
+  }
+  
+  for (i = 0; i < LAST_TYPE; i++) {
+    if (lower == sTypeStrings[i]) break;
+  }
+  return static_cast<Type>(i);
+}
+
+//static
+const string& Alcohol::getAlcoholName(Alcohol::Type type) {
+  return sTypeStrings[static_cast<int>(type)];
+}
+
+double Alcohol::getExciseTax(double quantity, Unit::Type unit) const {
+  double gallons = convertUnits(quantity, unit, GALLONS);
+  double taxPerGallon = sExciseTaxPerGallon[static_cast<int>(type)];
+  return gallons * taxPerGallon;
+}
 
 #endif /* ALCOHOL_H */

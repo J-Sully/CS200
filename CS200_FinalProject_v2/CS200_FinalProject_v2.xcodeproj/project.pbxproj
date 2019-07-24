@@ -64,8 +64,8 @@
 			children = (
 				428C6E0022E7B9FB00D74367 /* main.cpp */,
 				428C6E0822E7BA1200D74367 /* InventoryItem.h */,
-				428C6E0E22E7BD5E00D74367 /* Alcohol.h */,
 				428C6E0B22E7BBA600D74367 /* NonAlcoholicItem.h */,
+				428C6E0E22E7BD5E00D74367 /* Alcohol.h */,
 				428C6E1122E7BF2900D74367 /* AlcoholicItem.h */,
 				428C6E2722E7D84500D74367 /* Unit.h */,
 			);
