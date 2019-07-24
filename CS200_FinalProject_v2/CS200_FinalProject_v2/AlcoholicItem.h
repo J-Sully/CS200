@@ -15,8 +15,8 @@
 
 class AlcoholicItem : public InventoryItem, public Alcohol {
 public:
-  AlcoholicItem(const string &ID, double price, double threshold, Unit::Type unit, double unitsRemaining, double unitsPerServing, double servingsPerBottle, double bottlesPerCase) :
-  InventoryItem(ID, pricePerCase, thresholdCases, unit), Alcohol(type),
+  AlcoholicItem(const string &ID, double pricePerCase, double thresholdCases, Unit::Type unit, double unitsRemaining, Alcohol::Type type, double unitsPerServing, double servingsPerBottle, double bottlesPerCase) :
+  InventoryItem(ID, pricePerCase, thresholdCases, unit, unitsRemaining), Alcohol(type),
   mUnitsPerServing(unitsPerServing), mServingsPerBottle(servingsPerBottle),
   mBottlesPerCase(bottlesPerCase) {}
   
@@ -25,7 +25,7 @@ public:
     { return getTax(servings * getUnitsPerServing(), getUnit()); }
   
   virtual double getTax(double quantity, Unit::Type unit) const
-    { return getExciseTax(qty, unit); }
+    { return getExciseTax(quantity, unit); }
   
   double getServingsPerBottle() const { return mServingsPerBottle; }
   double getBottlesPerCase() const { return mBottlesPerCase; }

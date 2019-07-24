@@ -10,11 +10,16 @@
 
 #include "Unit.h"
 #include "NonAlcoholicItem.h"
+#include "AlcoholicItem.h"
 
 int main(int argc, const char * argv[]) {
   Unit::Type unit = Unit::OUNCES;
   NonAlcoholicItem pretzels("Pretzels", 10.99, 1, Unit::OUNCES, 20, 50, 5);
   pretzels.print();
+  
+  AlcoholicItem Vodka("Vodka of the Gods", 120.99, 5/12, Unit::LITERS, 12, Alcohol::SPIRIT, Unit::convertUnits(2, Unit::OUNCES, Unit::LITERS), 1/Unit::convertUnits(2, Unit::OUNCES, Unit::LITERS), 12);
+  
+  Vodka.print();
   
   return 0;
 }
