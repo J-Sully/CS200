@@ -48,6 +48,7 @@ public:
   double getBottlesPerCase() const { return mBottlesPerCase; }
   double getBottlesRemaining() const { return getUnitsRemaining() / mServingsPerBottle; }
   
+  virtual bool readCSV(istream& csvLine);
   virtual void writeCSV(ostream &output) const;
   virtual void writeStatement(ostream &output) const;
 
@@ -72,6 +73,17 @@ void AlcoholicItem::writeStatement(ostream &output) const {
 }
 
 /* virtual */
+bool AlcoholicItem::readCSV(istream& csvLine) {
+  bool success = InventoryItem::readCSV(csvLine);
+  
+  success &= readToken(csvLine, mUnitsPerServing);
+  success &= readToken(csvLine, mServingsPerBottle);
+  success &= readToken(csvLine, mBottlesPerCase);
+  
+  return success;
+}
+
+/* virtual */
 void AlcoholicItem::writeCSV(ostream &output) const {
   InventoryItem::writeCSV(output);
   output << ',' << mUnitsPerServing << ','
@@ -86,7 +98,7 @@ public:
   : AlcoholicItem(ID, pricePerCase, thresholdCases, Unit::OUNCES, Alcohol::BEER,
                   unitsPerServing, 1, bottlesPerCase, unitsRemaining) {}
   
-  BeerItem(istream& csvLine) : AlcoholicItem() { readCSV(csvLine); }
+  BeerItem(istream& csvLine) : AlcoholicItem() { readCSV(csvLine); setType(Alcohol::BEER); }
 };
 
 class AgedAlcoholicItem : public AlcoholicItem {
@@ -101,6 +113,7 @@ public:
   
   AgedAlcoholicItem(istream& csvLine) : AlcoholicItem() { readCSV(csvLine); }
   
+  virtual bool readCSV(istream& csvLine);
   virtual void writeCSV(ostream &output) const;
   virtual void writeStatement(ostream &output) const;
   
@@ -110,6 +123,15 @@ protected:
 private:
   unsigned int mYear = 1970;
 };
+
+/* virtual */
+bool AgedAlcoholicItem::readCSV(istream& csvLine) {
+  bool success = AlcoholicItem::readCSV(csvLine);
+  
+  success &= readToken(csvLine, mYear);
+  
+  return success;
+}
 
 /* virtual */
 void AgedAlcoholicItem::writeCSV(ostream &output) const {
@@ -133,7 +155,7 @@ public:
                   Alcohol::WINE, unitsPerServing,
                   servingsPerBottle, bottlesPerCase, unitsRemaining) {}
   
-  WineItem(istream& csvLine) : AgedAlcoholicItem() { readCSV(csvLine); }
+  WineItem(istream& csvLine) : AgedAlcoholicItem() { readCSV(csvLine);  setType(Alcohol::WINE); }
 };
 
 class SpiritItem : public AgedAlcoholicItem {
@@ -146,7 +168,7 @@ public:
                   Alcohol::SPIRIT, unitsPerServing,
                   servingsPerBottle, bottlesPerCase, unitsRemaining) {}
   
-  SpiritItem(istream& csvLine) : AgedAlcoholicItem() { readCSV(csvLine); }
+  SpiritItem(istream& csvLine) : AgedAlcoholicItem() { readCSV(csvLine); setType(Alcohol::SPIRIT); }
 };
 
 

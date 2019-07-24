@@ -21,6 +21,7 @@ public:
   Alcohol(Type type) : mType(type) {}
   
   Type getType() const { return mType; }
+  void setType(Type type) { mType = type; }
   double getExciseTax(double qty, Unit::Type unit) const;
   
   static Type getAlcoholType(const string& type);

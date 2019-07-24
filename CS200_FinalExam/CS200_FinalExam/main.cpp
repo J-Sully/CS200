@@ -133,7 +133,7 @@ bool Inventory::readCSV(const string& filename) {
 }
 
 int main(int argc, const char * argv[]) {
-  //writeCSV(INVENTORY_CSV);
+  //generateCSV(INVENTORY_CSV);
   Inventory inventory(INVENTORY_CSV);
   inventory.dumpContents();
   inventory.writeCSV(ROUNDTRIP_CSV);

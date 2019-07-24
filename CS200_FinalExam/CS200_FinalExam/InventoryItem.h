@@ -65,7 +65,7 @@ private:
 
 /* virtual */
 void InventoryItem::writeStatement(ostream &output) const {
-  const string& units = getUnitName(mUnit);
+  const string& units = Unit::getUnitName(mUnit);
   output << "ID: " << mID << endl
   << "Item Type: " << getItemType() << endl
   << "Purchase Price: $" << fixed << setprecision(2) << mPrice << setprecision(0)
@@ -114,7 +114,7 @@ bool InventoryItem::readCSV(istream& csvLine) {
   
   mUnit = Unit::getUnit(unitName);
   success &= (mUnit != Unit::LAST_UNIT);
-  
+
   return success;
 }
 
@@ -124,7 +124,7 @@ void InventoryItem::writeCSV(ostream &output) const {
   << mPrice << ','
   << mLowStockThreshold << ','
   << mUnitsRemaining << ','
-  << getUnitName(mUnit);
+  << Unit::getUnitName(mUnit);
 }
 
 void InventoryItem::print() const {
