@@ -30,6 +30,7 @@
 		428C6E0E22E7BD5E00D74367 /* Alcohol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Alcohol.h; sourceTree = "<group>"; };
 		428C6E1122E7BF2900D74367 /* AlcoholicItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AlcoholicItem.h; sourceTree = "<group>"; };
 		428C6E2722E7D84500D74367 /* Unit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Unit.h; sourceTree = "<group>"; };
+		428C6E2A22E816DD00D74367 /* Beer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Beer.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +69,7 @@
 				428C6E0E22E7BD5E00D74367 /* Alcohol.h */,
 				428C6E1122E7BF2900D74367 /* AlcoholicItem.h */,
 				428C6E2722E7D84500D74367 /* Unit.h */,
+				428C6E2A22E816DD00D74367 /* Beer.h */,
 			);
 			path = CS200_FinalProject_v2;
 			sourceTree = "<group>";
