@@ -15,8 +15,8 @@ class NonAlcoholicItem : public InventoryItem {
 public:
   static const string ItemType;
   
-  NonAlcoholicItem(const string &ID, double price, double threshold, Unit::Type unit, double unitsPerStock, double unitsPerServing, double unitsRemaining = 0) :
-  InventoryItem(ID, price, threshold, unit, unitsRemaining),
+  NonAlcoholicItem(const string &ID, double price, double threshold, Unit::Type unit, double servingPrice, double unitsPerStock, double unitsPerServing, double unitsRemaining = 0) :
+  InventoryItem(ID, price, threshold, unit, servingPrice, unitsRemaining),
   mUnitsPerStock(unitsPerStock), mUnitsPerServing(unitsPerServing) {}
   
   NonAlcoholicItem(istream &csvLine) : InventoryItem() { readCSV(csvLine); }

@@ -18,7 +18,7 @@ using namespace std;
 
 class InventoryItem {
 public:
-  InventoryItem(const string &ID, double price, double threshold, Unit::Type unit, double unitsRemaining = 0) : mID(ID), mPrice(price), mLowStockThreshold(threshold), mUnit(unit), mUnitsRemaining(unitsRemaining) {}
+  InventoryItem(const string &ID, double price, double threshold, Unit::Type unit, double servingPrice, double unitsRemaining = 0) : mID(ID), mPrice(price), mLowStockThreshold(threshold), mUnit(unit) {setServingPrice(servingPrice); setUnitsRemaining(unitsRemaining);}
   
   InventoryItem(istream& csvLine) { readCSV(csvLine); }
   
@@ -28,12 +28,14 @@ public:
   void setID(const string& ID)  { mID = ID; }
   void setPrice(double price) { if(price >= 0) mPrice = price; }
   void setUnitsRemaining(double unitsRemaining) { if (unitsRemaining >= 0) mUnitsRemaining = unitsRemaining;}
+  void setServingPrice(double servingPrice) {if (servingPrice >= 0) mServingPrice = servingPrice;}
   
   const string& getID() const { return mID; }
   double getPrice() { return mPrice; }
   double getLowStockThreshold() const { return mLowStockThreshold; }
   Unit::Type getUnit() const { return mUnit; }
   double getUnitsRemaining() const { return mUnitsRemaining; }
+  double getServingPrice() const { return mServingPrice; }
   
   virtual bool hasTax() const { return false; }
   virtual double getTax(double servings) const { return 0; }
@@ -61,6 +63,7 @@ private:
   double mLowStockThreshold = 1; //threshold number of containers
   Unit::Type mUnit = Unit::LAST_UNIT;
   double mUnitsRemaining = 0;
+  double mServingPrice = 0;
 };
 
 //virtual
@@ -74,7 +77,8 @@ void InventoryItem::writeStatement(ostream &output) const {
     output << "Tax per serving: $" << setprecision(2) << getTax(1) << endl;
   }
   output << "Inventory has: " << setprecision(3) << mUnitsRemaining << ' ' << unit << endl
-  << "Stock remaining: " << setprecision(3) << getStockRemaining() << endl;
+  << "Stock remaining: " << setprecision(3) << getStockRemaining() << endl
+  << "Price per serving: $" << setprecision(2) << mServingPrice << endl;
 }
 
 void InventoryItem::print() const {
@@ -107,6 +111,7 @@ void InventoryItem::readCSV(istream &csvLine) {
   getToken(csvLine, mPrice);
   getToken(csvLine, mLowStockThreshold);
   getToken(csvLine, unitName);
+  getToken(csvLine, mServingPrice);
   getToken(csvLine, mUnitsRemaining);
   
   mUnit = Unit::getUnit(unitName);
@@ -118,6 +123,7 @@ void InventoryItem::writeCSV(ostream &csvLine) const {
           << mPrice << ','
           << mLowStockThreshold << ','
           << Unit::getUnitName(mUnit) << ','
+          << mServingPrice << ','
           << mUnitsRemaining;
 }
 

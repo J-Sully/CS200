@@ -50,9 +50,9 @@ const string Alcohol::sTypeStrings[] = { "beer", "wine", "spirit" };
 //static
 const double Alcohol::sExciseTaxPerGallon[] = { 18, 3.4, 13.5 };
 //static
-const double sPriceForStandardServing[] = {10.99, 14.99, 9.99};
+const double Alcohol::sPriceForStandardServing[] = {10.99, 14.99, 9.99};
 //static
-const double sUnitsPerStandardServing[] = {12, 0.15, 0.0375}; // beer is in oz, rest in L
+const double Alcohol::sUnitsPerStandardServing[] = {12, 0.15, 0.0375}; // beer is in oz, rest in L
 
 //static
 Alcohol::Type Alcohol::getAlcoholType(const string& type) {
@@ -86,17 +86,17 @@ double Alcohol::getPricePerUnit(Type type) {
 }
 
 //static
-double Alcohol::getStandardServingPrice(Alcohol::Type type) {
+double Alcohol::getStandardServingPrice(Type type) {
   return sPriceForStandardServing[static_cast<int>(type)];
 }
 
 //static
-double Alcohol::getStandardPriceForOrder(Alcohol::Type type, unsigned int quantity) {
+double Alcohol::getStandardPriceForOrder(Type type, unsigned int quantity) {
   return quantity * getStandardServingPrice(type);
 }
 
 //static
-double Alcohol::getPriceForOrder(Alcohol::Type type, double unitsServed, unsigned int quantity) {
+double Alcohol::getPriceForOrder(Type type, double unitsServed, unsigned int quantity) {
   return quantity * unitsServed * getPricePerUnit(type);
 }
 

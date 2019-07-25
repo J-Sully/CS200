@@ -14,8 +14,8 @@
 
 class AgedAlcoholicItem : public AlcoholicItem {
 public:
-  AgedAlcoholicItem(const string &ID, double pricePerCase, unsigned int year, double thresholdCases, Unit::Type unit, double unitsRemaining, Alcohol::Type type, double unitsPerServing, double servingsPerBottle, double bottlesPerCase) :
-  AlcoholicItem(ID, pricePerCase, thresholdCases, unit, unitsRemaining, type, unitsPerServing, servingsPerBottle, bottlesPerCase), mYear(year) {}
+  AgedAlcoholicItem(const string &ID, double pricePerCase, unsigned int year, double thresholdCases, Unit::Type unit, double servingPrice, double unitsRemaining, Alcohol::Type type, double unitsPerServing, double servingsPerBottle, double bottlesPerCase) :
+  AlcoholicItem(ID, pricePerCase, thresholdCases, unit, servingPrice, unitsRemaining, type, unitsPerServing, servingsPerBottle, bottlesPerCase), mYear(year) {}
   
   AgedAlcoholicItem(istream &csvLine) : AlcoholicItem() { readCSV(csvLine); }
   
