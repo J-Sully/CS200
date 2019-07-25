@@ -26,7 +26,12 @@ public:
   double getExciseTax(double quantity, Unit::Type unit) const;
   
   static Type getAlcoholType(const string &type);
-  static const string& getAlcoholSType(Type type);
+  static const string& getAlcoholSType(Alcohol::Type type);
+  
+  static double getPricePerUnit(Alcohol::Type type);
+  static double getStandardServingPrice(Alcohol::Type type);
+  static double getStandardPriceForOrder(Alcohol::Type type, unsigned int quantity = 1);
+  static double getPriceForOrder(Alcohol::Type type, double unitsServed, unsigned int quantity = 1);
   
 protected:
   Alcohol (){}
@@ -36,12 +41,18 @@ private:
   
   static const double sExciseTaxPerGallon[];
   static const string sTypeStrings[];
+  static const double sPriceForStandardServing[]; // 12oz Beer, .15L Wine, .0375L Spirit
+  static const double sUnitsPerStandardServing[];
 };
 
 //static
 const string Alcohol::sTypeStrings[] = { "beer", "wine", "spirit" };
 //static
 const double Alcohol::sExciseTaxPerGallon[] = { 18, 3.4, 13.5 };
+//static
+const double sPriceForStandardServing[] = {10.99, 14.99, 9.99};
+//static
+const double sUnitsPerStandardServing[] = {12, 0.15, 0.0375}; // beer is in oz, rest in L
 
 //static
 Alcohol::Type Alcohol::getAlcoholType(const string& type) {
@@ -67,6 +78,26 @@ double Alcohol::getExciseTax(double quantity, Unit::Type unit) const {
   double gallons = convertUnits(quantity, unit, Unit::GALLONS);
   double taxPerGallon = sExciseTaxPerGallon[static_cast<int>(mType)];
   return gallons * taxPerGallon;
+}
+
+//static
+double Alcohol::getPricePerUnit(Type type) {
+  return sPriceForStandardServing[static_cast<int>(type)] / sUnitsPerStandardServing[static_cast<int>(type)];
+}
+
+//static
+double Alcohol::getStandardServingPrice(Alcohol::Type type) {
+  return sPriceForStandardServing[static_cast<int>(type)];
+}
+
+//static
+double Alcohol::getStandardPriceForOrder(Alcohol::Type type, unsigned int quantity) {
+  return quantity * getStandardServingPrice(type);
+}
+
+//static
+double Alcohol::getPriceForOrder(Alcohol::Type type, double unitsServed, unsigned int quantity) {
+  return quantity * unitsServed * getPricePerUnit(type);
 }
 
 #endif /* ALCOHOL_H */
