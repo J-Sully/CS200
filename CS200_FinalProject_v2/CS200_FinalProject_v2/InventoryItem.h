@@ -48,12 +48,16 @@ public:
   virtual double getUnitsPerServing() const = 0;
   
   double getStockRemaining() const { return mUnitsRemaining / getUnitsPerStock(); }
+  double getServingsRemaining() const { return mUnitsRemaining / getUnitsPerServing(); }
+  bool isLowStock() const {return getStockRemaining() <= getStockRemaining(); }
+  
   
   virtual void readCSV(istream &csvLine);
   virtual void writeCSV(ostream &csvLine) const;
   virtual void writeStatement(ostream &output) const;
   
   void print() const;
+  void printLowStockMessaage() const;
   
 protected:
   InventoryItem(){}
@@ -86,6 +90,10 @@ void InventoryItem::print() const {
   stringstream output;
   writeStatement(output);
   cout << output.str() << endl;
+}
+
+void InventoryItem::printLowStockMessaage() const {
+  cout << '\t' << mID << " - " << getServingsRemaining() << " servings remaining." << endl;
 }
 
 //helper function for readCSV

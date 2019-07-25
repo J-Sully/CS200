@@ -28,7 +28,8 @@ public:
   
   unsigned long getNumItems() const { return mItems.size(); }
   bool empty() const { return mItems.empty(); }
-  void printContents();
+  void printContents() const;
+  void printLowStock() const;
   
 private:
   vector<InventoryItem*> mItems;
@@ -89,9 +90,17 @@ void Inventory::writeCSV(const string &filename) const {
   }
 }
 
-void Inventory::printContents() {
+void Inventory::printContents() const {
   for(InventoryItem* item : mItems) {
     item->print();
+  }
+}
+
+void Inventory::printLowStock() const {
+  for(InventoryItem* item : mItems) {
+    if(item->isLowStock()) {
+      item->printLowStockMessaage();
+    }
   }
 }
 

@@ -16,20 +16,141 @@
 #include "SpiritItem.h"
 #include "Inventory.h"
 
+
+
 static const string INVENTORY_CSV = "inventory.csv";
 static const string ROUNDTRIP_CSV = "roundtrip.csv";
 
 void generateCSV(const string& filename);
 
+
+const string MAINMENU = { R"(
+Welcome to the Main Menu:
+  
+  1: Enter a sale
+  2: View Report
+  3: Manage Inventory
+  4: End Day
+  
+Please enter your selection: )"
+};
+
+enum OptMainMenu {OPT_SALE = 1, OPT_REPORT, OPT_INVENTORY, OPT_EXIT};
+
+const string SALEMENU = { R"(
+Welcome to the Sale Menu:
+  
+  1: View Drink List
+  2: Enter Drink Sale
+  3: Exit to Main Menu
+  
+Please enter your selection: )"
+};
+
+enum eOptSaleMenu {OPT_LISTDRINKS = 1, OPT_ENTERDRINK, OPT_EXITSALE};
+
+const string INVENTORYMENU = { R"(
+Welcome to the Inventory Menu:
+  
+  1: View Inventory
+  2: Add Stock Items to Inventory
+  3: Remove Stock from Inventory
+  4: Exit to Main Menu
+  
+Please enter your selection: )"
+};
+
+enum OptInventoryMenu {OPT_VIEWINVENTORY = 1, OPT_ADDINVENTORY, OPT_REMINVENTORY, OPT_EXITINVENTORY};
+
+void displayMainMenu() { cout << MAINMENU; }
+void displaySaleMenu() { cout << SALEMENU; }
+void displayInventorymenu() { cout << INVENTORYMENU; }
+
+void printReport(Inventory &inventory, double revenue);
+
+
+
+
+
 int main(int argc, const char * argv[]) {
 
-  generateCSV(INVENTORY_CSV);
+  //generateCSV(INVENTORY_CSV);
   Inventory inventory(INVENTORY_CSV);
-  inventory.printContents();
-  inventory.writeCSV(ROUNDTRIP_CSV);
+  //inventory.printContents();
+  //inventory.writeCSV(ROUNDTRIP_CSV);
+  
+  stringstream ss;
+  string input;
+  int selection = 0;
+  double totalSales = 0;
+  
+  
+  do {
+    ss.clear();
+    ss.str("");
+    
+    displayMainMenu();
+    getline(cin, input);
+    ss.str(input);
+    ss >> selection;
+    
+    if (selection != 0) {
+      switch (selection) {
+        case OPT_SALE :
+          displaySaleMenu();
+          
+          break;
+        
+        case OPT_REPORT :
+          printReport(inventory, totalSales);
+          break;
+        
+        case OPT_INVENTORY :
+          break;
+        
+        default :
+          break;
+      }
+    }
+    else {
+      cerr << "Error, please enter a valid selection." << endl;
+    }
+    
+  } while (selection != OPT_EXIT && !cin.fail());
+  
+  
+  
   
   return 0;
 }
+
+void printReport(Inventory &inventory, double revenue) {
+  cout << endl << "Report: " << endl
+       << endl << "  Today's total revenue is: $" << fixed << setprecision(2)
+       << revenue << endl << endl;
+  cout << "  Low Stock Items:" << endl;
+  inventory.printLowStock();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 void generateCSV(const string& filename) {
   stringstream csv;
