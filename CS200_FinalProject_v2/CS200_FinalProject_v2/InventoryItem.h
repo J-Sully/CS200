@@ -49,7 +49,8 @@ public:
   
   double getStockRemaining() const { return mUnitsRemaining / getUnitsPerStock(); }
   double getServingsRemaining() const { return mUnitsRemaining / getUnitsPerServing(); }
-  bool isLowStock() const {return getStockRemaining() <= getStockRemaining(); }
+  bool isOutOfStock() const {return getUnitsRemaining() <= getUnitsPerServing();}
+  bool isLowStock() const {return getStockRemaining() <= getLowStockThreshold() && !isOutOfStock(); }
   
   
   virtual void readCSV(istream &csvLine);
@@ -58,6 +59,8 @@ public:
   
   void print() const;
   void printLowStockMessaage() const;
+  void printOutOfStockMessage() const;
+  void printDrinkListing() const;
   
 protected:
   InventoryItem(){}
@@ -94,6 +97,15 @@ void InventoryItem::print() const {
 
 void InventoryItem::printLowStockMessaage() const {
   cout << '\t' << mID << " - " << getServingsRemaining() << " servings remaining." << endl;
+}
+
+void InventoryItem::printOutOfStockMessage() const {
+  cout << '\t' << mID << " - " << " out of Stock" << endl;
+}
+
+void InventoryItem::printDrinkListing() const {
+  cout << '\t' << mID << ": $" << fixed << setprecision(2) << mServingPrice << " for "
+  << setprecision(1) << Unit::convertUnits(getUnitsPerServing(), mUnit, Unit::OUNCES) << " oz" << endl;
 }
 
 //helper function for readCSV

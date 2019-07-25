@@ -15,7 +15,7 @@
 
 class AlcoholicItem : public InventoryItem, public Alcohol {
 public:
-  AlcoholicItem(const string &ID, double pricePerCase, double thresholdCases, Unit::Type unit, double servingPrice, double unitsRemaining, Alcohol::Type type, double unitsPerServing, double servingsPerBottle, double bottlesPerCase) :
+  AlcoholicItem(const string &ID, double pricePerCase, double thresholdCases, double servingPrice, double unitsRemaining, Unit::Type unit, Alcohol::Type type, double unitsPerServing, double servingsPerBottle, double bottlesPerCase) :
   InventoryItem(ID, pricePerCase, thresholdCases, unit, servingPrice, unitsRemaining), Alcohol(type),
   mUnitsPerServing(unitsPerServing), mServingsPerBottle(servingsPerBottle),
   mBottlesPerCase(bottlesPerCase) {}

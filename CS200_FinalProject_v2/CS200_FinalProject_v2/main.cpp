@@ -109,6 +109,7 @@ int main(int argc, const char * argv[]) {
             if (selection != 0) {
               switch (selection) {
                 case OPT_LISTDRINKS :
+                  inventory.printMenu();
                   break;
                 
                 case OPT_ENTERDRINK :
@@ -154,6 +155,13 @@ void printReport(Inventory &inventory, double revenue) {
        << revenue << endl << endl;
   cout << "  Low Stock Items:" << endl;
   inventory.printLowStock();
+  cout << "  Out of Stock Items:" << endl;
+  inventory.printOutOfStock();
+}
+
+void printMenu(Inventory &inventory) {
+  cout << endl << "Menu: " << endl;
+  inventory.printMenu();
 }
 
 
@@ -178,12 +186,12 @@ void printReport(Inventory &inventory, double revenue) {
 
 void generateCSV(const string& filename) {
   stringstream csv;
-  BeerItem beer("Lagunitas", 13, 10.99, 4);
+  BeerItem beer("Lagunitas", 13, 10.99, 864);
   beer.print();
   beer.writeCSV(csv);
   csv << endl;
   
-  WineItem wine("Meiomi Pinot Noir", 191, 2017, 15.99);
+  WineItem wine("Meiomi Pinot Noir", 191, 2017, 15.99, 13.5);
   wine.print();
   wine.writeCSV(csv);
   csv << endl;

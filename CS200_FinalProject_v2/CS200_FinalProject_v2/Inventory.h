@@ -30,6 +30,8 @@ public:
   bool empty() const { return mItems.empty(); }
   void printContents() const;
   void printLowStock() const;
+  void printOutOfStock() const;
+  void printMenu() const;
   
 private:
   vector<InventoryItem*> mItems;
@@ -100,6 +102,22 @@ void Inventory::printLowStock() const {
   for(InventoryItem* item : mItems) {
     if(item->isLowStock()) {
       item->printLowStockMessaage();
+    }
+  }
+}
+
+void Inventory::printOutOfStock() const {
+  for(InventoryItem* item : mItems) {
+    if(item->isOutOfStock()) {
+      item->printOutOfStockMessage();
+    }
+  }
+}
+
+void Inventory::printMenu() const {
+  for(InventoryItem* item : mItems) {
+    if(!item->isOutOfStock()) {
+      item->printDrinkListing();
     }
   }
 }
