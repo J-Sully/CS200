@@ -54,16 +54,16 @@ void Inventory::readCSV(const string &filename) {
       lineStream.str(csvLine);
       if(getline(lineStream, type, ',')) {
         if (type == NonAlcoholicItem::ItemType) {
-          item = new NonAlcoholicItem(is);
+          item = new NonAlcoholicItem(lineStream);
         }
         else if (type == Alcohol::getAlcoholSType(Alcohol::BEER)) {
-          item = new BeerItem(is);
+          item = new BeerItem(lineStream);
         }
         else if (type == Alcohol::getAlcoholSType(Alcohol::SPIRIT)) {
-          item = new SpiritItem(is);
+          item = new SpiritItem(lineStream);
         }
         else if (type == Alcohol::getAlcoholSType(Alcohol::WINE)) {
-          item = new WineItem(is);
+          item = new WineItem(lineStream);
         }
         else {
           cerr << "Unknown Type: " << type << endl;
