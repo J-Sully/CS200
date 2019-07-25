@@ -25,7 +25,7 @@ public:
   virtual bool hasTax() const { return true; }
   
   virtual double getTax(double servings) const
-    { return getTax(servings * getUnitsPerServing(), getUnit()); }
+    { return getExciseTax(servings * getUnitsPerServing(), getUnit()); }
   
   virtual double getTax(double quantity, Unit::Type unit) const
     { return getExciseTax(quantity, unit); }
@@ -36,6 +36,7 @@ public:
   
   double getServingsPerBottle() const { return mServingsPerBottle; }
   double getBottlesPerCase() const { return mBottlesPerCase; }
+  double getTotalPrice() const { return InventoryItem::getServingPrice() + getTax(1); }
   
   double getUnitsPerBottle() const { return mUnitsPerServing * mServingsPerBottle; }
   double getUnitsPerCase() const { return getUnitsPerBottle() * mBottlesPerCase; }

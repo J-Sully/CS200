@@ -23,7 +23,7 @@ namespace Unit {
     {3.78541, 128, 1} // gallons
   };
   
-  double convertUnits(unsigned int quantity, Type fromType, Type toType) {
+  double convertUnits(double quantity, Type fromType, Type toType) {
     return quantity * sConversions[fromType][toType];
   }
   

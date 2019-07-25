@@ -35,6 +35,7 @@ public:
   double getLowStockThreshold() const { return mLowStockThreshold; }
   Unit::Type getUnit() const { return mUnit; }
   double getUnitsRemaining() const { return mUnitsRemaining; }
+  
   double getServingPrice() const { return mServingPrice; }
   
   virtual bool hasTax() const { return false; }
@@ -78,7 +79,7 @@ void InventoryItem::writeStatement(ostream &output) const {
   }
   output << "Inventory has: " << setprecision(3) << mUnitsRemaining << ' ' << unit << endl
   << "Stock remaining: " << setprecision(3) << getStockRemaining() << endl
-  << "Price per serving: $" << setprecision(2) << mServingPrice << endl;
+  << "Price per serving no tax: $" << setprecision(2) << getServingPrice() << endl;
 }
 
 void InventoryItem::print() const {

@@ -30,8 +30,8 @@ public:
   
   static double getPricePerUnit(Alcohol::Type type);
   static double getStandardServingPrice(Alcohol::Type type);
-  static double getStandardPriceForOrder(Alcohol::Type type, unsigned int quantity = 1);
-  static double getPriceForOrder(Alcohol::Type type, double unitsServed, unsigned int quantity = 1);
+  static double getStandardPriceForOrder(Alcohol::Type type, double quantity = 1);
+  static double getPriceForOrder(Alcohol::Type type, double unitsServed, double quantity = 1);
   
 protected:
   Alcohol (){}
@@ -75,7 +75,7 @@ const string& Alcohol::getAlcoholSType(Alcohol::Type type) {
 }
 
 double Alcohol::getExciseTax(double quantity, Unit::Type unit) const {
-  double gallons = convertUnits(quantity, unit, Unit::GALLONS);
+  double gallons = Unit::convertUnits(quantity, unit, Unit::GALLONS);
   double taxPerGallon = sExciseTaxPerGallon[static_cast<int>(mType)];
   return gallons * taxPerGallon;
 }
@@ -91,12 +91,12 @@ double Alcohol::getStandardServingPrice(Type type) {
 }
 
 //static
-double Alcohol::getStandardPriceForOrder(Type type, unsigned int quantity) {
+double Alcohol::getStandardPriceForOrder(Type type, double quantity) {
   return quantity * getStandardServingPrice(type);
 }
 
 //static
-double Alcohol::getPriceForOrder(Type type, double unitsServed, unsigned int quantity) {
+double Alcohol::getPriceForOrder(Type type, double unitsServed, double quantity) {
   return quantity * unitsServed * getPricePerUnit(type);
 }
 
