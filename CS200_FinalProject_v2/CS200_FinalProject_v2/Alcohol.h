@@ -28,6 +28,9 @@ public:
   static Type getAlcoholType(const string &type);
   static const string& getAlcoholSType(Type type);
   
+protected:
+  Alcohol (){}
+  
 private:
   Type mType;
   

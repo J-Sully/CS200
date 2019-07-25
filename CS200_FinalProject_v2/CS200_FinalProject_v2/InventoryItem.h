@@ -18,7 +18,11 @@ using namespace std;
 
 class InventoryItem {
 public:
-  InventoryItem(const string &ID, double price, double threshold, Unit::Type unit, double unitsRemaining) : mID(ID), mPrice(price), mLowStockThreshold(threshold), mUnit(unit), mUnitsRemaining(unitsRemaining) {}
+  InventoryItem(const string &ID, double price, double threshold, Unit::Type unit, double unitsRemaining = 0) : mID(ID), mPrice(price), mLowStockThreshold(threshold), mUnit(unit), mUnitsRemaining(unitsRemaining) {}
+  
+  InventoryItem(istream& csvLine) { readCSV(csvLine); }
+  
+  virtual ~InventoryItem() {}
   
   void setLowStockThreshold(double threshold) { mLowStockThreshold = threshold; }
   void setID(const string& ID)  { mID = ID; }
@@ -35,12 +39,21 @@ public:
   virtual double getTax(double servings) const { return 0; }
   virtual double getTax(double quantity, Unit::Type unit) const { return 0; }
   
+  virtual const string& getItemType() const = 0;
+  
   virtual double getUnitsPerStock() const = 0;
   virtual double getUnitsPerServing() const = 0;
   
   double getStockRemaining() const { return mUnitsRemaining / getUnitsPerStock(); }
-  virtual void writeStatement(stringstream &output) const;
+  
+  virtual void readCSV(istream &csvLine);
+  virtual void writeCSV(ostream &csvLine) const;
+  virtual void writeStatement(ostream &output) const;
+  
   void print() const;
+  
+protected:
+  InventoryItem(){}
   
 private:
   string mID;
@@ -51,7 +64,7 @@ private:
 };
 
 //virtual
-void InventoryItem::writeStatement(stringstream &output) const {
+void InventoryItem::writeStatement(ostream &output) const {
   const string unit = Unit::getUnitName(mUnit);
   output << "ID: " << mID << endl
   << "Purchase Price: $" << fixed << setprecision(2) << mPrice << setprecision(0)
@@ -68,6 +81,44 @@ void InventoryItem::print() const {
   stringstream output;
   writeStatement(output);
   cout << output.str() << endl;
+}
+
+//helper function for readCSV
+template <typename T>
+void getToken(istream &csvLine, T &value) {
+  string token;
+  stringstream ss;
+  getline(csvLine, token, ',');
+  ss.str(token);
+  ss >> value;
+}
+
+//helper function for readCSV
+void getToken(istream &csvLine, string &value) {
+  getline(csvLine, value, ',');
+}
+
+//virtual
+void InventoryItem::readCSV(istream &csvLine) {
+  
+  string unitName;
+  
+  getToken(csvLine, mID);
+  getToken(csvLine, mPrice);
+  getToken(csvLine, mLowStockThreshold);
+  getToken(csvLine, unitName);
+  getToken(csvLine, mUnitsRemaining);
+  
+  mUnit = Unit::getUnit(unitName);
+}
+
+//virtual
+void InventoryItem::writeCSV(ostream &csvLine) const {
+  csvLine << getItemType() << ',' << mID << ',' << fixed << setprecision(6)
+          << mPrice << ','
+          << mLowStockThreshold << ','
+          << Unit::getUnitName(mUnit) << ','
+          << mUnitsRemaining;
 }
 
 #endif /* INVENTORYITEM_H */

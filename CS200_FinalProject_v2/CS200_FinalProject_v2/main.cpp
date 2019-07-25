@@ -11,15 +11,54 @@
 #include "Unit.h"
 #include "NonAlcoholicItem.h"
 #include "AlcoholicItem.h"
+#include "Beer.h"
+#include "Wine.h"
+#include "Spirit.h"
+#include "Inventory.h"
+
+static const string INVENTORY_CSV = "inventory.csv";
+static const string ROUNDTRIP_CSV = "roundtrip.csv";
+
+void generateCSV(const string& filename);
 
 int main(int argc, const char * argv[]) {
-  Unit::Type unit = Unit::OUNCES;
-  NonAlcoholicItem pretzels("Pretzels", 10.99, 1, Unit::OUNCES, 20, 50, 5);
-  pretzels.print();
-  
-  AlcoholicItem Vodka("Vodka of the Gods", 120.99, 5/12, Unit::LITERS, 12, Alcohol::SPIRIT, Unit::convertUnits(2, Unit::OUNCES, Unit::LITERS), 1/Unit::convertUnits(2, Unit::OUNCES, Unit::LITERS), 12);
-  
-  Vodka.print();
+
+  generateCSV(INVENTORY_CSV);
+  Inventory inventory(INVENTORY_CSV);
+  inventory.printContents();
+  inventory.writeCSV(ROUNDTRIP_CSV);
   
   return 0;
+}
+
+void generateCSV(const string& filename) {
+  stringstream csv;
+  BeerItem beer("Lagunitas", 13, 4);
+  beer.print();
+  beer.writeCSV(csv);
+  csv << endl;
+  
+  WineItem wine("Meiomi Pinot Noir", 191, 2017);
+  wine.print();
+  wine.writeCSV(csv);
+  csv << endl;
+  
+  SpiritItem spirit("Orendain Tequila Blanco", 180, 2019);
+  spirit.print();
+  spirit.writeCSV(csv);
+  csv << endl;
+  
+  NonAlcoholicItem pretzels("Snyder's of Hanover Snaps Pretzels", 6.59, 3, Unit::OUNCES, 50, 1.06383);
+  pretzels.print();
+  pretzels.writeCSV(csv);
+  csv << endl;
+  
+  cout << csv.str();
+  
+  ofstream inv_csv;
+  inv_csv.open(filename);
+  if (inv_csv) {
+    inv_csv << csv.str();
+  }
+  inv_csv.close();
 }

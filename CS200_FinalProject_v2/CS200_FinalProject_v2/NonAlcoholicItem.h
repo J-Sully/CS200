@@ -13,20 +13,44 @@
 
 class NonAlcoholicItem : public InventoryItem {
 public:
-  NonAlcoholicItem(const string &ID, double price, double threshold, Unit::Type unit, double unitsRemaining, double unitsPerPurchase, double unitsPerServing) :
-  InventoryItem(ID, price, threshold, unit, unitsRemaining),
-  mUnitsPerPurchase(unitsPerPurchase), mUnitsPerServing(unitsPerServing) {}
+  static const string ItemType;
   
-  void setUnitsPerPurchase(double unitsPerPurchase) { mUnitsPerPurchase = unitsPerPurchase; }
+  NonAlcoholicItem(const string &ID, double price, double threshold, Unit::Type unit, double unitsPerStock, double unitsPerServing, double unitsRemaining = 0) :
+  InventoryItem(ID, price, threshold, unit, unitsRemaining),
+  mUnitsPerStock(unitsPerStock), mUnitsPerServing(unitsPerServing) {}
+  
+  NonAlcoholicItem(istream &csvLine) : InventoryItem() { readCSV(csvLine); }
+  
+  void setUnitsPerStock(double unitsPerStock) { mUnitsPerStock = unitsPerStock; }
   void setUnitsPerServing(double unitsPerServing) { mUnitsPerServing = unitsPerServing; }
   
-  virtual double getUnitsPerStock() const { return mUnitsPerPurchase; }
+  virtual double getUnitsPerStock() const { return mUnitsPerStock; }
   virtual double getUnitsPerServing() const { return mUnitsPerServing; }
   
+  virtual void readCSV(istream &csvLine);
+  virtual void writeCSV(ostream &csvLine) const;
+  virtual const string& getItemType() const { return ItemType; }
+  
 private:
-  double mUnitsPerPurchase = 1;
+  double mUnitsPerStock = 1;
   double mUnitsPerServing = 1;
 };
+
+//static
+const string NonAlcoholicItem::ItemType = "non-alcoholic";
+
+//virtual
+void NonAlcoholicItem::readCSV(istream &csvLine) {
+  InventoryItem::readCSV(csvLine);
+  getToken(csvLine, mUnitsPerStock);
+  getToken(csvLine, mUnitsPerServing);
+}
+
+//virtual 
+void NonAlcoholicItem::writeCSV(ostream &csvLine) const {
+  InventoryItem::writeCSV(csvLine);
+  csvLine << ',' << mUnitsPerStock << ',' << mUnitsPerServing;
+}
 
 
 #endif /* NONALOHOLICITEM_H */

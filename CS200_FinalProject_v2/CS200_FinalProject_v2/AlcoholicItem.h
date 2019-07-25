@@ -20,12 +20,19 @@ public:
   mUnitsPerServing(unitsPerServing), mServingsPerBottle(servingsPerBottle),
   mBottlesPerCase(bottlesPerCase) {}
   
+  AlcoholicItem(istream &csvLine) : InventoryItem(), Alcohol() { readCSV(csvLine); }
+  
   virtual bool hasTax() const { return true; }
+  
   virtual double getTax(double servings) const
     { return getTax(servings * getUnitsPerServing(), getUnit()); }
   
   virtual double getTax(double quantity, Unit::Type unit) const
     { return getExciseTax(quantity, unit); }
+  
+  virtual const string& getItemType() const { return getAlcoholSType(getType()); }
+  
+  //virtual double getUnitsPerStock() const { return getUnitsPerCase(); }
   
   double getServingsPerBottle() const { return mServingsPerBottle; }
   double getBottlesPerCase() const { return mBottlesPerCase; }
@@ -37,7 +44,12 @@ public:
   virtual double getUnitsPerStock() const { return getUnitsPerCase(); }
   virtual double getUnitsPerServing() const { return mUnitsPerServing; }
   
-  virtual void writeStatement(stringstream &output) const;
+  virtual void readCSV(istream &csvLine);
+  virtual void writeCSV(ostream &csvLine) const;
+  virtual void writeStatement(ostream &output) const;
+  
+protected:
+  AlcoholicItem() {}
   
 private:
   double mUnitsPerServing = 1;
@@ -47,7 +59,23 @@ private:
 };
 
 //virtual
-void AlcoholicItem::writeStatement(stringstream &output) const {
+void AlcoholicItem::readCSV(istream &csvLine) {
+  InventoryItem::readCSV(csvLine);
+  getToken(csvLine, mUnitsPerServing);
+  getToken(csvLine, mServingsPerBottle);
+  getToken(csvLine, mBottlesPerCase);
+}
+
+//virtual
+void AlcoholicItem::writeCSV(ostream &csvLine) const {
+  InventoryItem::writeCSV(csvLine);
+  csvLine << ',' << mUnitsPerServing
+          << ',' << mServingsPerBottle
+          << ',' << mBottlesPerCase;
+}
+
+//virtual
+void AlcoholicItem::writeStatement(ostream &output) const {
   output << "Alcohol Type: " << getAlcoholSType(getType()) << endl;
   InventoryItem::writeStatement(output);
   output << getUnitName(getUnit()) << " per serving: " << mUnitsPerServing << endl
