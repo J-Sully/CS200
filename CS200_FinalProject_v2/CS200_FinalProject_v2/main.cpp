@@ -97,8 +97,32 @@ int main(int argc, const char * argv[]) {
     if (selection != 0) {
       switch (selection) {
         case OPT_SALE :
-          displaySaleMenu();
-          
+          do {
+            selection = 0;
+            displaySaleMenu();
+            ss.str("");
+            ss.clear();
+            getline(cin, input);
+            ss.str(input);
+            ss >> selection;
+            
+            if (selection != 0) {
+              switch (selection) {
+                case OPT_LISTDRINKS :
+                  break;
+                
+                case OPT_ENTERDRINK :
+                  break;
+                
+                default :
+                  break;
+              }
+            }
+            else {
+              cerr << "Error, please enter a valid selection. " << endl << endl;
+            }
+            
+          } while(selection != OPT_EXITSALE && !cin.fail());
           break;
         
         case OPT_REPORT :
@@ -113,7 +137,7 @@ int main(int argc, const char * argv[]) {
       }
     }
     else {
-      cerr << "Error, please enter a valid selection." << endl;
+      cerr << "Error, please enter a valid selection." << endl << endl;
     }
     
   } while (selection != OPT_EXIT && !cin.fail());
