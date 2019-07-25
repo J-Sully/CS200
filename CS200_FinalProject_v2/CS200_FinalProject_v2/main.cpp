@@ -80,8 +80,10 @@ int main(int argc, const char * argv[]) {
   //inventory.writeCSV(ROUNDTRIP_CSV);
   
   stringstream ss;
-  string input;
+  string input, name;
+  unsigned int dummy = 0;
   int selection = 0;
+  double quantity = 0, price = 0;
   double totalSales = 0;
   
   
@@ -113,6 +115,27 @@ int main(int argc, const char * argv[]) {
                   break;
                 
                 case OPT_ENTERDRINK :
+                  inventory.printMenu();
+                  cout << endl << "Please enter drink name: ";
+                  getline(cin, name);
+                  if (inventory.validateName(name, dummy)) {
+                    cout << endl << "Please enter quantity: ";
+                    getline(cin, input);
+                    ss.str("");
+                    ss.clear();
+                    ss.str(input);
+                    ss >> quantity;
+                    if (quantity >= 0 && inventory.placeOrder(name, price, quantity)) {
+                      totalSales += price;
+                      cout << "Total: $" << fixed << setprecision(2) << price << endl;
+                    }
+                    else {
+                      cerr << endl << "Invalid Quantity." << endl;
+                    }
+                  }
+                  else {
+                    cerr << endl << "Invalid Drink Name." << endl;
+                  }
                   break;
                 
                 default :

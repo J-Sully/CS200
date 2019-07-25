@@ -51,7 +51,9 @@ public:
   double getServingsRemaining() const { return mUnitsRemaining / getUnitsPerServing(); }
   bool isOutOfStock() const {return getUnitsRemaining() <= getUnitsPerServing();}
   bool isLowStock() const {return getStockRemaining() <= getLowStockThreshold() && !isOutOfStock(); }
-  
+  bool isValidOrder(double quantity) {return quantity * getUnitsPerServing() <= getUnitsRemaining(); }
+  void placeOrder(double quantity = 1) {mUnitsRemaining - quantity * getUnitsPerServing();}
+ 
   
   virtual void readCSV(istream &csvLine);
   virtual void writeCSV(ostream &csvLine) const;

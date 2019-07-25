@@ -27,7 +27,10 @@ public:
   void writeCSV(const string &filename) const;
   
   unsigned long getNumItems() const { return mItems.size(); }
+  unsigned int getNumInStockItems() const;
   bool empty() const { return mItems.empty(); }
+  bool validateName(const string &name, unsigned int &index) const;
+  bool placeOrder(const string &name, double &totalPrice, double quantity = 1) const;
   void printContents() const;
   void printLowStock() const;
   void printOutOfStock() const;
@@ -92,6 +95,14 @@ void Inventory::writeCSV(const string &filename) const {
   }
 }
 
+unsigned int Inventory::getNumInStockItems() const {
+  int i = 0, num = 0;
+  for (; i < mItems.size(); i++) {
+    if (!mItems.at(i)->isOutOfStock()) num++;
+  }
+  return num;
+}
+
 void Inventory::printContents() const {
   for(InventoryItem* item : mItems) {
     item->print();
@@ -120,6 +131,35 @@ void Inventory::printMenu() const {
       item->printDrinkListing();
     }
   }
+}
+
+bool Inventory::placeOrder(const string &name, double &price, double quantity) const {
+  bool validOrder;
+  unsigned int i = 0;
+  
+  validOrder = validateName(name, i);
+  
+  if (validOrder) {
+    validOrder &= mItems.at(i)->isValidOrder(quantity);
+    if(validOrder) {
+      price = quantity * mItems.at(i)->getServingPrice();
+      if (mItems.at(i)->hasTax()) {
+        price += mItems.at(i)->getTax(quantity);
+      }
+    }
+  }
+  return validOrder;
+}
+
+bool Inventory::validateName(const string &name, unsigned int &index) const {
+  bool valid = false;
+  for(int i = 0; !valid && i < mItems.size(); i++) {
+    if (name == mItems.at(i)->getID()) {
+      valid = true;
+      index = i;
+    }
+  }
+  return valid;
 }
 
 
