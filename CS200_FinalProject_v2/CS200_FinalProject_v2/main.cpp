@@ -126,9 +126,12 @@ void printReport(Inventory &inventory, double sales, double costs) {
   inventory.printOutOfStock();
 }
 
-void printMenu(Inventory &inventory) {
+void printMenu(const vector<InventoryItem*> &menuItems) {
   cout << endl << "Menu: " << endl;
-  inventory.printMenu();
+  for (int i = 0; i < menuItems.size(); i++) {
+    cout << '\t' << i + 1;
+    menuItems.at(i)->printDrinkListing();
+  }
 }
 
 template <typename T>
@@ -144,6 +147,7 @@ void saleMenu(Inventory &inventory, double &totalSales) {
   string input, name;
   double quantity = 0, price = 0;
   InventoryItem* item = nullptr;
+  vector<InventoryItem*> menuItems;
 
   do {
     displaySaleMenu();
@@ -151,9 +155,10 @@ void saleMenu(Inventory &inventory, double &totalSales) {
     getValue(input, selection);
     
     if (selection >= OPT_LISTDRINKS && selection <= OPT_EXITSALE) {
+      inventory.getInStockItems(menuItems);
       switch (selection) {
         case OPT_LISTDRINKS :
-          inventory.printMenu();
+          printMenu(menuItems);
           break;
           
         case OPT_ENTERDRINK :
@@ -171,7 +176,7 @@ void saleMenu(Inventory &inventory, double &totalSales) {
               cout << "Sale: $" << fixed << setprecision(2) << price << endl;
             }
             else {
-              cerr << endl << "Invalid Quantity." << endl;
+              cerr << endl << "Invalid Quantity. Max servings: " << item->getServingsRemaining() << endl;
             }
           }
           else {

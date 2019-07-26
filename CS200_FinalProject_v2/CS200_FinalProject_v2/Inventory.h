@@ -31,6 +31,7 @@ public:
   bool empty() const { return mItems.empty(); }
   
   InventoryItem* getItem(string &name);
+  void getInStockItems(vector<InventoryItem*> &itemsInStock) const;
   
   void printContents() const;
   void printLowStock() const;
@@ -113,6 +114,15 @@ unsigned int Inventory::getNumInStockItems() const {
     if (!mItems.at(i)->isOutOfStock()) num++;
   }
   return num;
+}
+
+void Inventory::getInStockItems(vector<InventoryItem*> &itemsInStock) const {
+  itemsInStock.clear();
+  for(InventoryItem* item : mItems) {
+    if(!item->isOutOfStock()) {
+      itemsInStock.push_back(item);
+    }
+  }
 }
 
 void Inventory::printContents() const {
