@@ -11,26 +11,48 @@
 
 #include "InventoryItem.h"
 
+/*
+ -----------------------
+ NonAlcoholicItem : InventoryItem
+ -----------------------
+ - mUnitsPerServing : double
+ - mUnitsPerStock : double
+ -----------------------
+ + ItemType : string
+ + NonAlcoholicItem(ID : string, pricePerStock : double, thresholdStock : double,
+ unit : Unit::Type , servingPrice : double, unitsPerStock : double,
+ unitsPerServing: double, unitsRemaining : double)
+ + NonAlcoholicItem(csvLine : istream)
+ + NonAlcoholicItem::ItemType = "non-alcoholic"
+ + readCSV (csvLine : istream) : void
+ + writeCSV (csvLine : ostream) : void
+ + setUnitsPerStock(unitsPerStock : double) : void
+ + setUnitsPerServing(unitsPerServing : double) : void
+ + getUnitsPerStock() : double
+ + getUnitsPerServing() : double
+ ----------------------
+ */
+
 class NonAlcoholicItem : public InventoryItem {
 public:
   static const string ItemType;
   
-  NonAlcoholicItem(const string &ID, double price, double threshold, Unit::Type unit, double servingPrice, double unitsPerStock, double unitsPerServing, double unitsRemaining = 0) :
-  InventoryItem(ID, price, threshold, unit, servingPrice, unitsRemaining),
+  NonAlcoholicItem(const string &ID, double pricePerStock, double thresholdStock, Unit::Type unit, double servingPrice, double unitsPerStock, double unitsPerServing, double unitsRemaining = 0) :
+  InventoryItem(ID, pricePerStock, thresholdStock, unit, servingPrice, unitsRemaining),
   mUnitsPerStock(unitsPerStock), mUnitsPerServing(unitsPerServing) {}
   
   NonAlcoholicItem(istream &csvLine) : InventoryItem() { readCSV(csvLine); }
-  
-  void setUnitsPerStock(double unitsPerStock) { mUnitsPerStock = unitsPerStock; }
-  void setUnitsPerServing(double unitsPerServing) { mUnitsPerServing = unitsPerServing; }
-  
-  virtual double getUnitsPerStock() const { return mUnitsPerStock; }
-  virtual double getUnitsPerServing() const { return mUnitsPerServing; }
   
   virtual void readCSV(istream &csvLine);
   virtual void writeCSV(ostream &csvLine) const;
   virtual const string& getItemType() const { return ItemType; }
   
+  void setUnitsPerStock(double unitsPerStock) { if (unitsPerStock > 0) mUnitsPerStock = unitsPerStock; }
+  void setUnitsPerServing(double unitsPerServing) { if (unitsPerServing > 0) mUnitsPerServing = unitsPerServing; }
+  
+  virtual double getUnitsPerStock() const { return mUnitsPerStock; }
+  virtual double getUnitsPerServing() const { return mUnitsPerServing; }
+
 private:
   double mUnitsPerStock = 1;
   double mUnitsPerServing = 1;

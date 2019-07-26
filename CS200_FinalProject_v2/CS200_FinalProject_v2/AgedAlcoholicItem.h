@@ -12,16 +12,45 @@
 #include "AlcoholicItem.h"
 #include "Unit.h"
 
+/*
+-----------------------
+AgedAlcoholicItem : AlcoholicItem
+-----------------------
+- mItems : vector<InventoryItem*>
+-----------------------
+# AgedAlcoholicItem()
+ + AgedAlcoholicItem(ID : string, pricePerCase : double, year : unsigned int,
+ thresholdCases : double, unit : Unit::Type , servingPrice : double,
+ unitsRemaining : double, type : Alcohol::Type, unitsPerServing: double,
+ servingsPerBottle : double, bottlesPerCase : double)
++ AgedAlcoholicItem(csvLine : istream)
++ readCSV (csvLine : istream) : void
++ writeCSV (csvLine : ostream) : void
++ writeStatement(ostream &output) : void
++ setYear(year : unsigned int) : void
++ getYear() : unsigned int
+----------------------
+*/
+
 class AgedAlcoholicItem : public AlcoholicItem {
 public:
-  AgedAlcoholicItem(const string &ID, double pricePerCase, unsigned int year, double thresholdCases, Unit::Type unit, double servingPrice, double unitsRemaining, Alcohol::Type type, double unitsPerServing, double servingsPerBottle, double bottlesPerCase) :
-  AlcoholicItem(ID, pricePerCase, thresholdCases, servingPrice, unitsRemaining, unit, type, unitsPerServing, servingsPerBottle, bottlesPerCase), mYear(year) {}
+  AgedAlcoholicItem(const string &ID, double pricePerCase, unsigned int year,
+                    double thresholdCases, Unit::Type unit, double servingPrice,
+                    double unitsRemaining, Alcohol::Type type, double unitsPerServing,
+                    double servingsPerBottle, double bottlesPerCase) :
+  AlcoholicItem(ID, pricePerCase, thresholdCases, servingPrice, unitsRemaining,
+                unit, type, unitsPerServing, servingsPerBottle, bottlesPerCase),
+mYear(year) {}
   
   AgedAlcoholicItem(istream &csvLine) : AlcoholicItem() { readCSV(csvLine); }
   
   virtual void readCSV(istream &csvLine);
   virtual void writeCSV(ostream &output) const;
   virtual void writeStatement(ostream &output) const;
+  
+  void setYear(unsigned int year) { mYear = year; }
+  
+  unsigned int getYear() const { return mYear; }
   
 protected:
   AgedAlcoholicItem(){}

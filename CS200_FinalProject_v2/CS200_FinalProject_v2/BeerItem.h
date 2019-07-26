@@ -12,10 +12,24 @@
 #include "AlcoholicItem.h"
 #include "Unit.h"
 
+/*
+ -----------------------
+ BeerItem : AlcoholicItem
+ -----------------------
+ + BeerItem(ID : string, pricePerCase : double, servingPrice : double,
+ unitsRemaining : double, thresholdCases : double, unitsPerServing : double,
+ bottlesPerCase : double)
+ + BeerItem(csvLine : istream)
+ ----------------------
+ */
+
 class BeerItem : public AlcoholicItem {
 public:
-  BeerItem(const string &ID, double pricePerCase, double servingPrice, double unitsRemaining = 0, double thresholdCases = 2, double unitsPerServing = 12, double bottlesPerCase = 24) :
-  AlcoholicItem(ID, pricePerCase, thresholdCases, servingPrice, unitsRemaining, Unit::OUNCES, Alcohol::BEER, unitsPerServing, 1, bottlesPerCase) {}
+  BeerItem(const string &ID, double pricePerCase, double servingPrice,
+           double unitsRemaining = 0, double thresholdCases = 2,
+           double unitsPerServing = 12, double bottlesPerCase = 24) :
+  AlcoholicItem(ID, pricePerCase, thresholdCases, servingPrice, unitsRemaining,
+                Unit::OUNCES, Alcohol::BEER, unitsPerServing, 1, bottlesPerCase) {}
   
   BeerItem(istream &csvLine) : AlcoholicItem() { readCSV(csvLine); setType(Alcohol::BEER);}  
 };

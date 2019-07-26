@@ -21,9 +21,6 @@
 static const string INVENTORY_CSV = "inventory.csv";
 static const string ROUNDTRIP_CSV = "roundtrip.csv";
 
-void generateCSV(const string& filename);
-
-
 const string MAINMENU = { R"(
 Welcome to the Main Menu:
   
@@ -75,11 +72,12 @@ void getValue(const string &input, T &value);
 void printInventory(const Inventory &inventory);
 void printMenu(const vector<InventoryItem*> &menuItems);
 
+//void generateCSV(const string& filename);
+
 int main(int argc, const char * argv[]) {
 
   //generateCSV(INVENTORY_CSV);
   Inventory inventory(INVENTORY_CSV);
-  //inventory.printContents();
   
   string input;
   int selection = 0;

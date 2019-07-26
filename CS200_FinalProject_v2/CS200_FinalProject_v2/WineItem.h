@@ -12,12 +12,29 @@
 #include "AgedAlcoholicItem.h"
 #include "Unit.h"
 
+/*
+ -----------------------
+ WineItem : AgedAlcoholicItem
+ -----------------------
+ + WineItem(ID : string, pricePerCase : double, year : unsigned int,
+ servingPrice : double, unitsRemaining : double, thresholdCases : double,
+ unitsPerServing : double, servingsPerBottle : double, bottlesPerCase : double)
+ + WineItem(csvLine : istream)
+ ----------------------
+ */
+
 class WineItem : public AgedAlcoholicItem {
 public:
-  WineItem(const string &ID, double pricePerCase, unsigned int year, double servingPrice, double unitsRemaining = 0, unsigned int thresholdCases = 2, double unitsPerServing = .15, double servingsPerBottle = 5, double bottlesPerCase = 12) :
-  AgedAlcoholicItem(ID, pricePerCase, year, thresholdCases, Unit::LITERS, servingPrice, unitsRemaining, Alcohol::WINE, unitsPerServing, servingsPerBottle, bottlesPerCase) {}
+  WineItem(const string &ID, double pricePerCase, unsigned int year,
+           double servingPrice, double unitsRemaining = 0,
+           double thresholdCases = 2, double unitsPerServing = .15,
+           double servingsPerBottle = 5, double bottlesPerCase = 12) :
+  AgedAlcoholicItem(ID, pricePerCase, year, thresholdCases, Unit::LITERS,
+                    servingPrice, unitsRemaining, Alcohol::WINE, unitsPerServing,
+                    servingsPerBottle, bottlesPerCase) {}
   
-  WineItem(istream &csvLine) : AgedAlcoholicItem() { readCSV(csvLine); setType(Alcohol::WINE);}
+  WineItem(istream &csvLine) : AgedAlcoholicItem()
+    { readCSV(csvLine); setType(Alcohol::WINE);}
 };
 
 #endif /* WINEITEM_H */

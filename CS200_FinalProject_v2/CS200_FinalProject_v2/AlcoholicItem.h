@@ -13,41 +13,76 @@
 #include "InventoryItem.h"
 #include "Unit.h"
 
+/*
+ -----------------------
+ AlcoholicItem : InventoryItem, Alcohol
+ -----------------------
+ - mUnitsPerServing : double
+ - mServingsPerBottle : double
+ - mBottlesPerCase : double
+ -----------------------
+ # AlcoholicItem()
+ + AlcoholicItem(ID : string, pricePerCase : double, thresholdCases : double,
+ unit : Unit::Type , servingPrice : double, unitsRemaining : double,
+ type : Alcohol::Type, unitsPerServing: double, servingsPerBottle : double,
+ bottlesPerCase : double)
+ + AlcoholicItem(csvLine : istream)
+ + readCSV (csvLine : istream) : void
+ + writeCSV (csvLine : ostream) : void
+ + writeStatement(ostream &output) : void
+ + hasTax() : bool
+ + getTax(servings : double) : double
+ + getTax(quantity : double, unit : Unit::Type) : double
+ + getItemType() : string
+ + getUnitsPerStock() : double
+ + getUnitsPerServing() : double
+ + getServingsPerBottle() : double
+ + getBottlesPerCase() : double
+ + getUnitsPerBottle() : double
+ + getUnitsPerCase() : double
+ + setUnitsPerServing(unitsPerServing : double) : void
+ + setServingsPerBottle(servingsPerBottle : double) : void
+ + setBottlesPerCase(bottlesPerCase : double) : void
+ ----------------------
+ */
+
 class AlcoholicItem : public InventoryItem, public Alcohol {
 public:
-  AlcoholicItem(const string &ID, double pricePerCase, double thresholdCases, double servingPrice, double unitsRemaining, Unit::Type unit, Alcohol::Type type, double unitsPerServing, double servingsPerBottle, double bottlesPerCase) :
-  InventoryItem(ID, pricePerCase, thresholdCases, unit, servingPrice, unitsRemaining), Alcohol(type),
-  mUnitsPerServing(unitsPerServing), mServingsPerBottle(servingsPerBottle),
+  AlcoholicItem(const string &ID, double pricePerCase, double thresholdCases,
+                double servingPrice, double unitsRemaining, Unit::Type unit,
+                Alcohol::Type type, double unitsPerServing, double servingsPerBottle,
+                double bottlesPerCase) :
+  InventoryItem(ID, pricePerCase, thresholdCases, unit, servingPrice, unitsRemaining),
+  Alcohol(type), mUnitsPerServing(unitsPerServing), mServingsPerBottle(servingsPerBottle),
   mBottlesPerCase(bottlesPerCase) {}
   
   AlcoholicItem(istream &csvLine) : InventoryItem(), Alcohol() { readCSV(csvLine); }
   
-  virtual bool hasTax() const { return true; }
+  virtual void readCSV(istream &csvLine);
+  virtual void writeCSV(ostream &csvLine) const;
+  virtual void writeStatement(ostream &output) const;
   
+  virtual bool hasTax() const { return true; }
   virtual double getTax(double servings) const
     { return getExciseTax(servings * getUnitsPerServing(), getUnit()); }
-  
   virtual double getTax(double quantity, Unit::Type unit) const
     { return getExciseTax(quantity, unit); }
   
   virtual const string& getItemType() const { return getAlcoholSType(getType()); }
-  
-  //virtual double getUnitsPerStock() const { return getUnitsPerCase(); }
-  
-  double getServingsPerBottle() const { return mServingsPerBottle; }
-  double getBottlesPerCase() const { return mBottlesPerCase; }
-  double getTotalPrice() const { return InventoryItem::getServingPrice() + getTax(1); }
-  
-  double getUnitsPerBottle() const { return mUnitsPerServing * mServingsPerBottle; }
-  double getUnitsPerCase() const { return getUnitsPerBottle() * mBottlesPerCase; }
-  double getServingsPerCase() const { return mServingsPerBottle * mBottlesPerCase; }
-  
   virtual double getUnitsPerStock() const { return getUnitsPerCase(); }
   virtual double getUnitsPerServing() const { return mUnitsPerServing; }
   
-  virtual void readCSV(istream &csvLine);
-  virtual void writeCSV(ostream &csvLine) const;
-  virtual void writeStatement(ostream &output) const;
+  double getServingsPerBottle() const { return mServingsPerBottle; }
+  double getBottlesPerCase() const { return mBottlesPerCase; }
+  double getUnitsPerBottle() const { return mUnitsPerServing * mServingsPerBottle; }
+  double getUnitsPerCase() const { return getUnitsPerBottle() * mBottlesPerCase; }
+  
+  void setUnitsPerServing(double unitsPerServing)
+    { if (unitsPerServing > 0) mUnitsPerServing = unitsPerServing; }
+  void setServingsPerBottle(double servingsPerBottle)
+    { if (servingsPerBottle > 0) mServingsPerBottle = servingsPerBottle; }
+  void setBottlesPerCase (double bottlesPerCase)
+    { if (bottlesPerCase > 0) mBottlesPerCase = bottlesPerCase; }
   
 protected:
   AlcoholicItem() {}
@@ -55,7 +90,7 @@ protected:
 private:
   double mUnitsPerServing = 1;
   double mServingsPerBottle = 1;
-  unsigned int mBottlesPerCase = 1;
+  double mBottlesPerCase = 1;
   
 };
 

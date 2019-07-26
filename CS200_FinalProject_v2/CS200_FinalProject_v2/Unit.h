@@ -16,7 +16,6 @@ namespace Unit {
   enum Type {LITERS = 0, OUNCES, GALLONS, LAST_UNIT};
   
   static const string sTypeString[] = {"liters", "ounces", "gallons"};
-  
   static const double sConversions[][3] = {
     {1, 33.814, 0.264172}, // liters
     {0.0295735, 1, 0.0078125}, // ounces

@@ -16,17 +16,76 @@ using namespace std;
 
 #include "Unit.h"
 
+/*
+ -----------------------
+ InventoryItem
+ -----------------------
+ - mID : string
+ - mPrice : double
+ - mLowStockThreshould : double
+ - mUnit : Unit::Type
+ - mUnitsRemaining : double
+ - mServingPrice : double
+ -----------------------
+ # InventoryItem()
+ + InventoryItem(ID : string, price : double, threshold : double,
+ unit : Unit::Type, servingPrice : double, unitsRemaining : double)
+ + InventoryItem(csvLine : istream)
+ + ~InventoryItem()
+ + readCSV (csvLine : istream) : void
+ + writeCSV (csvLine : ostream) : void
+ + writeStatement(ostream &output) : void
+ + setID(ID : string) : void
+ + setPrice(price : double) : void
+ + setLowThreshold(threshold : double) : void
+ + setUnit(unitName : string) : void
+ + setUnitsRemaining(unitsRemaining : double) : void
+ + setServingPrice(servingPrice : double) : void
+ + getID() : string
+ + getPrice() : double
+ + getThreshould() : double
+ + getUnit() : Unit::Type
+ + getUnitsRemaining() : double
+ + getServingPrice() : double
+ + hasTax() : bool
+ + getTax(servings : double) : double
+ + getTax(quantity : double, unit : Unit::Type) : double
+ + getItemType() : string
+ + getUnitsPerStock() : double
+ + getUnitsPerServing() : double
+ + isOutOfStock() : bool
+ + isLowStock() : bool
+ + isValidOrder(quantity : double) : bool
+ + isValidStockLoss(quantity : double) : bool
+ + placeOrder(cose : double, quantity : double) : double
+ + addStock(quantity : double) : double
+ + loseStock(quantity : double) : double
+ + print() : void
+ + printLowStockMessage() : void
+ + printOutOfStockMessage() : void
+ + printDrinkListing() : void
+ + printInventoryListing() : void
+ ----------------------
+ */
+
 class InventoryItem {
 public:
-  InventoryItem(const string &ID, double price, double threshold, Unit::Type unit, double servingPrice, double unitsRemaining = 0) : mID(ID), mPrice(price), mLowStockThreshold(threshold), mUnit(unit) {setServingPrice(servingPrice); setUnitsRemaining(unitsRemaining);}
+  InventoryItem(const string &ID, double price, double threshold,
+                Unit::Type unit, double servingPrice, double unitsRemaining = 0) :
+  mID(ID), mPrice(price), mLowStockThreshold(threshold), mUnit(unit)
+  {setServingPrice(servingPrice); setUnitsRemaining(unitsRemaining);}
   
   InventoryItem(istream& csvLine) { readCSV(csvLine); }
   
   virtual ~InventoryItem() {}
   
-  void setLowStockThreshold(double threshold) { mLowStockThreshold = threshold; }
+  virtual void readCSV(istream &csvLine);
+  virtual void writeCSV(ostream &csvLine) const;
+  
   void setID(const string& ID)  { mID = ID; }
   void setPrice(double price) { if(price >= 0) mPrice = price; }
+  void setLowStockThreshold(double threshold) { mLowStockThreshold = threshold; }
+  void setUnit(const string &unitName) { mUnit = Unit::getUnit(unitName); }
   void setUnitsRemaining(double unitsRemaining) { if (unitsRemaining >= 0) mUnitsRemaining = unitsRemaining;}
   void setServingPrice(double servingPrice) {if (servingPrice >= 0) mServingPrice = servingPrice;}
   
@@ -35,7 +94,6 @@ public:
   double getLowStockThreshold() const { return mLowStockThreshold; }
   Unit::Type getUnit() const { return mUnit; }
   double getUnitsRemaining() const { return mUnitsRemaining; }
-  
   double getServingPrice() const { return mServingPrice; }
   
   virtual bool hasTax() const { return false; }
@@ -43,7 +101,6 @@ public:
   virtual double getTax(double quantity, Unit::Type unit) const { return 0; }
   
   virtual const string& getItemType() const = 0;
-  
   virtual double getUnitsPerStock() const = 0;
   virtual double getUnitsPerServing() const = 0;
   
@@ -53,14 +110,11 @@ public:
   bool isLowStock() const {return !isOutOfStock() && getLowStockThreshold() - getStockRemaining() >= 0; }
   bool isValidOrder(double quantity) {return  getUnitsRemaining() - quantity * getUnitsPerServing() >= 0; }
   bool isValidStockLoss(double quantity) {return getStockRemaining() - quantity >= 0;}
-  double placeOrder(double &cost, double quantity = 1);
   
+  double placeOrder(double &cost, double quantity = 1);
   double addStock(double quantity);
   double loseStock(double quantity);
-  bool loseUnits(double quantity);
  
-  virtual void readCSV(istream &csvLine);
-  virtual void writeCSV(ostream &csvLine) const;
   virtual void writeStatement(ostream &output) const;
   
   void print() const;
@@ -106,14 +160,6 @@ double InventoryItem::loseStock(double quantity) {
     cost = quantity * getPrice();
   }
   return cost;
-}
-
-bool InventoryItem::loseUnits(double quantity) {
-  bool isValid = quantity <= mUnitsRemaining;
-  if (isValid) {
-    mUnitsRemaining -= quantity * getUnitsPerStock();
-  }
-  return isValid;
 }
 
 //virtual

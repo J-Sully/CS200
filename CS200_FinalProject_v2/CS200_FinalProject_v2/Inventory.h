@@ -12,10 +12,32 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <sstream>
 using namespace std;
 
 #include "InventoryItem.h"
+
+/*
+ -----------------------
+ Inventory
+ -----------------------
+ - mItems : vector<InventoryItem*>
+ -----------------------
+ + Inventory()
+ + Inventory(filename : string)
+ + ~Inventory()
+ - readCSV (filename : string) : void
+ + writeCSV (filename : string) : void
+ + getItem(index : int) : InventoryItem*
+ + getNumItems() : unsigned long
+ + empty() : bool
+ + getInStockItems(itemsInStock : vector<InventoryItem*>) : void
+ + printContents() : void
+ + printLowStock() : void
+ + printOutOfStock() : void
+ + printMenu() : void
+ + printInventoryList() : void
+ ----------------------
+ */
 
 class Inventory {
 public:
@@ -23,15 +45,13 @@ public:
   Inventory(const string &filename) { readCSV(filename); }
   ~Inventory();
   
-  void readCSV(const string &filename);
   void writeCSV(const string &filename) const;
   
-  unsigned long getNumItems() const { return mItems.size(); }
-  unsigned int getNumInStockItems() const;
-  bool empty() const { return mItems.empty(); }
-  
   InventoryItem* getItem(int index) const;
+  unsigned long getNumItems() const { return mItems.size(); }
   void getInStockItems(vector<InventoryItem*> &itemsInStock) const;
+  
+  bool empty() const { return mItems.empty(); }
   
   void printContents() const;
   void printLowStock() const;
@@ -39,18 +59,9 @@ public:
   void printMenu() const;
   void printInventoryList() const;
   
-  /*
-   bool validateName(const string &name, unsigned int &index) const;
-   bool validateName(const string &name) const;
-   bool placeOrder(const string &name, double &totalPrice, double quantity = 1) const;
-   double addInventory(string &name, double quantity) const;
-   bool loseInventory(string &name, double quantity, const bool isStockUnit) const;
-   bool hasInventory(string &name) const;
-   
-   */
-  
 private:
   vector<InventoryItem*> mItems;
+  void readCSV(const string &filename);
 };
 
 Inventory::~Inventory() {
@@ -109,12 +120,8 @@ void Inventory::writeCSV(const string &filename) const {
   }
 }
 
-unsigned int Inventory::getNumInStockItems() const {
-  int i = 0, num = 0;
-  for (; i < mItems.size(); i++) {
-    if (!mItems.at(i)->isOutOfStock()) num++;
-  }
-  return num;
+InventoryItem* Inventory::getItem(int index) const {
+  return mItems.at(index);
 }
 
 void Inventory::getInStockItems(vector<InventoryItem*> &itemsInStock) const {
@@ -129,22 +136,6 @@ void Inventory::getInStockItems(vector<InventoryItem*> &itemsInStock) const {
 void Inventory::printContents() const {
   for(InventoryItem* item : mItems) {
     item->print();
-  }
-}
-
-void Inventory::printLowStock() const {
-  for(InventoryItem* item : mItems) {
-    if(item->isLowStock()) {
-      item->printLowStockMessaage();
-    }
-  }
-}
-
-void Inventory::printOutOfStock() const {
-  for(InventoryItem* item : mItems) {
-    if(item->isOutOfStock()) {
-      item->printOutOfStockMessage();
-    }
   }
 }
 
@@ -163,89 +154,20 @@ void Inventory::printInventoryList() const {
   }
 }
 
-InventoryItem* Inventory::getItem(int index) const {
-  return mItems.at(index);
-}
-
-/*
-bool Inventory::placeOrder(const string &name, double &price, double quantity) const {
-  bool validOrder;
-  unsigned int i = 0;
-  
-  validOrder = validateName(name, i);
-  
-  if (validOrder) {
-    validOrder &= mItems.at(i)->isValidOrder(quantity);
-    if(validOrder) {
-      price = quantity * mItems.at(i)->getServingPrice();
-      mItems.at(i)->placeOrder(quantity);
-      if (mItems.at(i)->hasTax()) {
-        price += mItems.at(i)->getTax(quantity);
-      }
+void Inventory::printLowStock() const {
+  for(InventoryItem* item : mItems) {
+    if(item->isLowStock()) {
+      item->printLowStockMessaage();
     }
   }
-  return validOrder;
 }
 
-
-double Inventory::addInventory(string &name, double quantity) const {
-  bool valid;
-  unsigned int i = 0;
-  double price = 0;
-  
-  valid = validateName(name, i);
-  if (valid) {
-    price = mItems.at(i)->addStock(quantity);
-  }
-  return price;
-}
-
-bool Inventory::loseInventory(string &name, double quantity, const bool isStockUnit) const {
-  bool valid;
-  unsigned int i = 0;
-  
-  valid = validateName(name, i);
-  
-  if (valid && isStockUnit) { // quantity is stock unit
-    valid &= mItems.at(i)->loseStock(quantity);
-  }
-  else if (valid && !isStockUnit) { //quantity is not stock unit
-    valid &= mItems.at(i)->loseUnits(quantity);
-  }
-  return valid;
-}
-
-bool Inventory::hasInventory(string &name) const {
-  bool valid;
-  unsigned int i = 0;
-  
-  valid = validateName(name, i);
-  if (valid) {
-    valid &= mItems.at(i)->getUnitsRemaining() >= 0;
-  }
-}
-
-bool Inventory::validateName(const string &name, unsigned int &index) const {
-  bool valid = false;
-  for(int i = 0; !valid && i < mItems.size(); i++) {
-    if (name == mItems.at(i)->getID()) {
-      valid = true;
-      index = i;
+void Inventory::printOutOfStock() const {
+  for(InventoryItem* item : mItems) {
+    if(item->isOutOfStock()) {
+      item->printOutOfStockMessage();
     }
   }
-  return valid;
 }
-
-bool Inventory::validateName(const string &name) const {
-  bool valid = false;
-  for(int i = 0; !valid && i < mItems.size(); i++) {
-    if (name == mItems.at(i)->getID()) {
-      valid = true;
-    }
-  }
-  return valid;
-}
-
-*/
 
 #endif /* INVENTORY_H */

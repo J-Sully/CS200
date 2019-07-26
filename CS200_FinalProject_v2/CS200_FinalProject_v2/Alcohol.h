@@ -15,6 +15,25 @@ using namespace std;
 
 #include "Unit.h"
 
+/*
+ -----------------------
+ Alcohol
+ -----------------------
+ - mType : Type
+ - sExciseTaxPerGallon[] : double
+ - sTypeStrings[] : string
+ -----------------------
+ # Alcohol()
+ + AlcoholicItem(type : Type)
+ + Type : enum
+ + setType(type : Type) : void
+ + getType() : Type
+ + getExciseTax(quantity : double, unit : Unit::Type) : double
+ + getAlcoholType(type : string) : Type
+ + getAlcoholSType(type : Type) : string
+ ----------------------
+ */
+
 class Alcohol {
 public:
   enum Type {BEER = 0, WINE, SPIRIT, LAST_TYPE};
@@ -26,7 +45,7 @@ public:
   double getExciseTax(double quantity, Unit::Type unit) const;
   
   static Type getAlcoholType(const string &type);
-  static const string& getAlcoholSType(Alcohol::Type type);
+  static const string& getAlcoholSType(Type type);
   
 protected:
   Alcohol (){}
@@ -59,7 +78,7 @@ Alcohol::Type Alcohol::getAlcoholType(const string& type) {
 }
 
 //static
-const string& Alcohol::getAlcoholSType(Alcohol::Type type) {
+const string& Alcohol::getAlcoholSType(Type type) {
   return sTypeStrings[static_cast<int>(type)];
 }
 
