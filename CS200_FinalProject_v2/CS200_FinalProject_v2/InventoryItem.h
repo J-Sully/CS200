@@ -52,7 +52,8 @@ public:
   bool isOutOfStock() const {return getUnitsRemaining() <= getUnitsPerServing();}
   bool isLowStock() const {return getStockRemaining() <= getLowStockThreshold() && !isOutOfStock(); }
   bool isValidOrder(double quantity) {return quantity * getUnitsPerServing() <= getUnitsRemaining(); }
-  void placeOrder(double quantity = 1) {if (isValidOrder(quantity)) mUnitsRemaining -= quantity * getUnitsPerServing();}
+  bool isValidStockLoss(double quantity) {return quantity <= getStockRemaining();}
+  double placeOrder(double quantity = 1);
   
   double addStock(double quantity);
   bool loseStock(double quantity);
@@ -78,6 +79,15 @@ private:
   double mUnitsRemaining = 0;
   double mServingPrice = 0;
 };
+
+double InventoryItem::placeOrder(double quantity) {
+  double totalPrice = 0;
+  if (isValidOrder(quantity)) {
+    totalPrice = quantity * mServingPrice;
+    mUnitsRemaining -= quantity * getUnitsPerServing();
+  }
+  return totalPrice;
+}
 
 double InventoryItem::addStock(double quantity) {
   double price = 0;

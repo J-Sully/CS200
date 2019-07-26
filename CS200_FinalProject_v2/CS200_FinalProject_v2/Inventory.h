@@ -150,6 +150,7 @@ InventoryItem* Inventory::getItem(string &name) {
   for(InventoryItem* item : mItems) {
     if (item->getID() == name) {
       foundItem = item;
+      break;
     }
   }
   return foundItem;

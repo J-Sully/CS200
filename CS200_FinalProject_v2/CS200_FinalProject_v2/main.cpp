@@ -143,6 +143,7 @@ void saleMenu(Inventory &inventory, double &totalSales) {
   int selection = 0;
   string input, name;
   double quantity = 0, price = 0;
+  InventoryItem* item = nullptr;
 
   do {
     displaySaleMenu();
@@ -159,11 +160,13 @@ void saleMenu(Inventory &inventory, double &totalSales) {
           inventory.printMenu();
           cout << endl << "Please enter item name: ";
           getline(cin, name);
-          if (inventory.validateName(name)) {
+          item = inventory.getItem(name);
+          if (item) {
             cout << endl << "Please enter quantity: ";
             getline(cin, input);
             getValue(input, quantity);
-            if (quantity >= 0 && inventory.placeOrder(name, price, quantity)) {
+            if (quantity >= 0 && item->isValidOrder(quantity)) {
+              price = item->placeOrder(quantity);
               totalSales += price;
               cout << "Sale: $" << fixed << setprecision(2) << price << endl;
             }
@@ -183,7 +186,7 @@ void saleMenu(Inventory &inventory, double &totalSales) {
     else {
       cerr << "Error, please enter a valid selection. " << endl << endl;
     }
-    
+    item = nullptr;
   } while(selection != OPT_EXITSALE && !cin.fail());
 }
 
@@ -191,7 +194,8 @@ void inventoryMenu(Inventory &inventory, double &totalCost) {
   int selection = 0;
   string input, name;
   double quantity = 0, cost = 0;
-  valid = false;
+  InventoryItem* item = nullptr;
+
   do {
     displayInventorymenu();
     getline(cin, input);
@@ -206,12 +210,13 @@ void inventoryMenu(Inventory &inventory, double &totalCost) {
         case OPT_ADDINVENTORY :
           cout << endl << "Please enter item name: ";
           getline(cin, name);
-          if (inventory.validateName(name)) {
-            cout << endl << "Please enter quantity: ";
+          item = inventory.getItem(name);
+          if (item) {
+            cout << endl << "Please enter amount to increase stock: ";
             getline(cin, input);
             getValue(input, quantity);
             if (quantity >= 0) {
-              cost = inventory.addInventory(name, quantity);
+              cost = item->addStock(quantity); 
               totalCost += cost;
               cout << "Cost: $" << fixed << setprecision(2) << cost << endl;
             }
@@ -227,28 +232,16 @@ void inventoryMenu(Inventory &inventory, double &totalCost) {
         case OPT_REMINVENTORY :
           cout << endl << "Please enter item name: ";
           getline(cin, name);
-          if (inventory.validateName(name)) {
-            if (inventory.hasInventory(name)) {
-              cout << endl << "Please enter quantity lost: ";
+          item = inventory.getItem(name);
+          if (item) {
+            if (!item->isOutOfStock()) {
+              cout << endl << "Please enter stock amount lost: ";
               getline(cin, input);
               getValue(input, quantity);
-              valid = quantity >= 0 && (inventory.)
-              if (quantity >= 0) {
-                do {
-                  cout << endl << "enter stock for stock loss or unit for unit loss: ";
-                  getline(cin, input);
-                  if (input == "stock") {
-                    inventory.loseInventory(name, quantity, true);
-                  }
-                  else if (input == "unit") {
-                    inventory.loseInventory(name, quantity, false);
-                  }
-                  else {
-                    cerr << "error in input" << endl;
-                  }
-                } while (input != "stock" && input != "unit");
-                
-                cout << "Inventory has been updated." << endl;
+              if (quantity >= 0 && item->isValidStockLoss(quantity)) {
+                item->loseStock(quantity);
+                cout << "Item Stock has been updated: " << endl;
+                item->print();
               }
               else {
                 cerr << endl << "Invalid Quantity." << endl;
@@ -267,6 +260,7 @@ void inventoryMenu(Inventory &inventory, double &totalCost) {
     else {
       cerr << "Error, please enter a valid selection. " << endl << endl;
     }
+    item = nullptr;
   } while (selection != OPT_EXITINVENTORY);
 }
 
