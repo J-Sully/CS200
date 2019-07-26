@@ -40,8 +40,8 @@ enum OptMainMenu {OPT_SALE = 1, OPT_REPORT, OPT_INVENTORY, OPT_EXIT};
 const string SALEMENU = { R"(
 Welcome to the Sale Menu:
   
-  1: View Drink List
-  2: Enter Drink Sale
+  1: View Item List
+  2: Enter Item Sale
   3: Exit to Main Menu
   
 Please enter your selection: )"
@@ -66,11 +66,12 @@ void displayMainMenu() { cout << MAINMENU; }
 void displaySaleMenu() { cout << SALEMENU; }
 void displayInventorymenu() { cout << INVENTORYMENU; }
 
-void printReport(Inventory &inventory, double revenue);
+void printReport(Inventory &inventory, double sales, double costs);
+void saleMenu(Inventory &inventory, double &totalSales);
+void inventoryMenu(Inventory &inventory, double &totalCost);
 
-
-
-
+template <typename T>
+void getValue(const string &input, T &value);
 
 int main(int argc, const char * argv[]) {
 
@@ -79,81 +80,27 @@ int main(int argc, const char * argv[]) {
   //inventory.printContents();
   //inventory.writeCSV(ROUNDTRIP_CSV);
   
-  stringstream ss;
-  string input, name;
-  unsigned int dummy = 0;
+  string input;
   int selection = 0;
-  double quantity = 0, price = 0;
-  double totalSales = 0;
-  
+  double totalSales = 0, totalCost = 0;
   
   do {
-    ss.clear();
-    ss.str("");
-    
     displayMainMenu();
     getline(cin, input);
-    ss.str(input);
-    ss >> selection;
+    getValue(input, selection);
     
-    if (selection != 0) {
+    if (selection >= OPT_SALE && selection <= OPT_EXIT) {
       switch (selection) {
         case OPT_SALE :
-          do {
-            selection = 0;
-            displaySaleMenu();
-            ss.str("");
-            ss.clear();
-            getline(cin, input);
-            ss.str(input);
-            ss >> selection;
-            
-            if (selection != 0) {
-              switch (selection) {
-                case OPT_LISTDRINKS :
-                  inventory.printMenu();
-                  break;
-                
-                case OPT_ENTERDRINK :
-                  inventory.printMenu();
-                  cout << endl << "Please enter drink name: ";
-                  getline(cin, name);
-                  if (inventory.validateName(name, dummy)) {
-                    cout << endl << "Please enter quantity: ";
-                    getline(cin, input);
-                    ss.str("");
-                    ss.clear();
-                    ss.str(input);
-                    ss >> quantity;
-                    if (quantity >= 0 && inventory.placeOrder(name, price, quantity)) {
-                      totalSales += price;
-                      cout << "Total: $" << fixed << setprecision(2) << price << endl;
-                    }
-                    else {
-                      cerr << endl << "Invalid Quantity." << endl;
-                    }
-                  }
-                  else {
-                    cerr << endl << "Invalid Drink Name." << endl;
-                  }
-                  break;
-                
-                default :
-                  break;
-              }
-            }
-            else {
-              cerr << "Error, please enter a valid selection. " << endl << endl;
-            }
-            
-          } while(selection != OPT_EXITSALE && !cin.fail());
+          saleMenu(inventory, totalSales);
           break;
         
         case OPT_REPORT :
-          printReport(inventory, totalSales);
+          printReport(inventory, totalSales, totalCost);
           break;
         
         case OPT_INVENTORY :
+          inventoryMenu(inventory, totalCost);
           break;
         
         default :
@@ -163,19 +110,16 @@ int main(int argc, const char * argv[]) {
     else {
       cerr << "Error, please enter a valid selection." << endl << endl;
     }
-    
   } while (selection != OPT_EXIT && !cin.fail());
-  
-  
-  
   
   return 0;
 }
 
-void printReport(Inventory &inventory, double revenue) {
+void printReport(Inventory &inventory, double sales, double costs) {
   cout << endl << "Report: " << endl
-       << endl << "  Today's total revenue is: $" << fixed << setprecision(2)
-       << revenue << endl << endl;
+       << endl << "  Total sales: $" << fixed << setprecision(2) << sales
+  << endl << "  Total costs: $" << costs
+  << endl << "  Total revenue: $" << (sales - costs) << endl << endl;
   cout << "  Low Stock Items:" << endl;
   inventory.printLowStock();
   cout << "  Out of Stock Items:" << endl;
@@ -185,6 +129,145 @@ void printReport(Inventory &inventory, double revenue) {
 void printMenu(Inventory &inventory) {
   cout << endl << "Menu: " << endl;
   inventory.printMenu();
+}
+
+template <typename T>
+void getValue(const string &input, T &value) {
+  stringstream ss;
+  value = 0;
+  ss.str(input);
+  ss >> value;
+}
+
+void saleMenu(Inventory &inventory, double &totalSales) {
+  int selection = 0;
+  string input, name;
+  double quantity = 0, price = 0;
+
+  do {
+    displaySaleMenu();
+    getline(cin, input);
+    getValue(input, selection);
+    
+    if (selection >= OPT_ENTERDRINK && selection <= OPT_EXITSALE) {
+      switch (selection) {
+        case OPT_LISTDRINKS :
+          inventory.printMenu();
+          break;
+          
+        case OPT_ENTERDRINK :
+          inventory.printMenu();
+          cout << endl << "Please enter item name: ";
+          getline(cin, name);
+          if (inventory.validateName(name)) {
+            cout << endl << "Please enter quantity: ";
+            getline(cin, input);
+            getValue(input, quantity);
+            if (quantity >= 0 && inventory.placeOrder(name, price, quantity)) {
+              totalSales += price;
+              cout << "Sale: $" << fixed << setprecision(2) << price << endl;
+            }
+            else {
+              cerr << endl << "Invalid Quantity." << endl;
+            }
+          }
+          else {
+            cerr << endl << "Invalid Item Name." << endl;
+          }
+          break;
+          
+        default :
+          break;
+      }
+    }
+    else {
+      cerr << "Error, please enter a valid selection. " << endl << endl;
+    }
+    
+  } while(selection != OPT_EXITSALE && !cin.fail());
+}
+
+void inventoryMenu(Inventory &inventory, double &totalCost) {
+  int selection = 0;
+  string input, name;
+  double quantity = 0, cost = 0;
+  valid = false;
+  do {
+    displayInventorymenu();
+    getline(cin, input);
+    getValue(input, selection);
+    
+    if (selection >= OPT_VIEWINVENTORY && selection <= OPT_EXITINVENTORY) {
+      switch(selection) {
+        case OPT_VIEWINVENTORY :
+          inventory.printContents();
+          break;
+          
+        case OPT_ADDINVENTORY :
+          cout << endl << "Please enter item name: ";
+          getline(cin, name);
+          if (inventory.validateName(name)) {
+            cout << endl << "Please enter quantity: ";
+            getline(cin, input);
+            getValue(input, quantity);
+            if (quantity >= 0) {
+              cost = inventory.addInventory(name, quantity);
+              totalCost += cost;
+              cout << "Cost: $" << fixed << setprecision(2) << cost << endl;
+            }
+            else {
+              cerr << endl << "Invalid Quantity." << endl;
+            }
+          }
+          else {
+            cerr << endl << "Invalid Item Name." << endl;
+          }
+          break;
+          
+        case OPT_REMINVENTORY :
+          cout << endl << "Please enter item name: ";
+          getline(cin, name);
+          if (inventory.validateName(name)) {
+            if (inventory.hasInventory(name)) {
+              cout << endl << "Please enter quantity lost: ";
+              getline(cin, input);
+              getValue(input, quantity);
+              valid = quantity >= 0 && (inventory.)
+              if (quantity >= 0) {
+                do {
+                  cout << endl << "enter stock for stock loss or unit for unit loss: ";
+                  getline(cin, input);
+                  if (input == "stock") {
+                    inventory.loseInventory(name, quantity, true);
+                  }
+                  else if (input == "unit") {
+                    inventory.loseInventory(name, quantity, false);
+                  }
+                  else {
+                    cerr << "error in input" << endl;
+                  }
+                } while (input != "stock" && input != "unit");
+                
+                cout << "Inventory has been updated." << endl;
+              }
+              else {
+                cerr << endl << "Invalid Quantity." << endl;
+              }
+            }
+            else {
+              cerr << "Error, this item is not in stock. " << endl;
+            }
+          }
+          else {
+            cerr << endl << "Invalid Item Name." << endl;
+          }
+          break;
+      }
+    }
+    else {
+      cerr << "Error, please enter a valid selection. " << endl << endl;
+    }
+  } while (selection != OPT_EXITINVENTORY);
 }
 
 

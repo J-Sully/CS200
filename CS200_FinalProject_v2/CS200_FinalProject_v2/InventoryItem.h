@@ -52,9 +52,12 @@ public:
   bool isOutOfStock() const {return getUnitsRemaining() <= getUnitsPerServing();}
   bool isLowStock() const {return getStockRemaining() <= getLowStockThreshold() && !isOutOfStock(); }
   bool isValidOrder(double quantity) {return quantity * getUnitsPerServing() <= getUnitsRemaining(); }
-  void placeOrder(double quantity = 1) {mUnitsRemaining - quantity * getUnitsPerServing();}
- 
+  void placeOrder(double quantity = 1) {if (isValidOrder(quantity)) mUnitsRemaining -= quantity * getUnitsPerServing();}
   
+  double addStock(double quantity);
+  bool loseStock(double quantity);
+  bool loseUnits(double quantity);
+ 
   virtual void readCSV(istream &csvLine);
   virtual void writeCSV(ostream &csvLine) const;
   virtual void writeStatement(ostream &output) const;
@@ -75,6 +78,29 @@ private:
   double mUnitsRemaining = 0;
   double mServingPrice = 0;
 };
+
+double InventoryItem::addStock(double quantity) {
+  double price = 0;
+  mUnitsRemaining += quantity * getUnitsPerStock();
+  price = quantity * mPrice;
+  return price;
+}
+
+bool InventoryItem::loseStock(double quantity) {
+  bool isValid = quantity <= getStockRemaining();
+  if (isValid) {
+    mUnitsRemaining -= quantity * getUnitsPerStock();
+  }
+  return isValid;
+}
+
+bool InventoryItem::loseUnits(double quantity) {
+  bool isValid = quantity <= mUnitsRemaining;
+  if (isValid) {
+    mUnitsRemaining -= quantity * getUnitsPerStock();
+  }
+  return isValid;
+}
 
 //virtual
 void InventoryItem::writeStatement(ostream &output) const {
