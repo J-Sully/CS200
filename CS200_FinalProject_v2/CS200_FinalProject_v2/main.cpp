@@ -150,7 +150,7 @@ void saleMenu(Inventory &inventory, double &totalSales) {
     getline(cin, input);
     getValue(input, selection);
     
-    if (selection >= OPT_ENTERDRINK && selection <= OPT_EXITSALE) {
+    if (selection >= OPT_LISTDRINKS && selection <= OPT_EXITSALE) {
       switch (selection) {
         case OPT_LISTDRINKS :
           inventory.printMenu();
