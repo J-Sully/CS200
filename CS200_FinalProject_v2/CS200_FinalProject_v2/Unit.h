@@ -1,13 +1,13 @@
 //
-//  Units.h
+//  Unit.h
 //  CS200_FinalProject_v2
 //
 //  Created by Jessie Sully on 7/23/19.
 //  Copyright © 2019 Jessie Sully. All rights reserved.
 //
 
-#ifndef Units_hpp
-#define Units_hpp
+#ifndef UNIT_H
+#define UNIT_H
 
 #include <string>
 using namespace std;
@@ -41,4 +41,4 @@ namespace Unit {
 }
 
 
-#endif /* Units_hpp */
+#endif /* UNIT_H */

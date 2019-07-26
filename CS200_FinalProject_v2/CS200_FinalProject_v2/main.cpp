@@ -52,7 +52,7 @@ enum eOptSaleMenu {OPT_LISTDRINKS = 1, OPT_ENTERDRINK, OPT_EXITSALE};
 const string INVENTORYMENU = { R"(
 Welcome to the Inventory Menu:
   
-  1: View Inventory
+  1: View Inventory Details
   2: Add Stock Items to Inventory
   3: Remove Stock from Inventory
   4: Exit to Main Menu
@@ -66,23 +66,24 @@ void displayMainMenu() { cout << MAINMENU; }
 void displaySaleMenu() { cout << SALEMENU; }
 void displayInventorymenu() { cout << INVENTORYMENU; }
 
-void printReport(Inventory &inventory, double sales, double costs);
-void saleMenu(Inventory &inventory, double &totalSales);
-void inventoryMenu(Inventory &inventory, double &totalCost);
+void printReport(Inventory &inventory, double totalSales, double totalCosts, double totalPurchases);
+void saleMenu(Inventory &inventory, double &totalSales, double & totalCosts);
+void inventoryMenu(Inventory &inventory, double &totalPurchases, double &totalCosts);
 
 template <typename T>
 void getValue(const string &input, T &value);
+void printInventory(const Inventory &inventory);
+void printMenu(const vector<InventoryItem*> &menuItems);
 
 int main(int argc, const char * argv[]) {
 
   //generateCSV(INVENTORY_CSV);
   Inventory inventory(INVENTORY_CSV);
   //inventory.printContents();
-  //inventory.writeCSV(ROUNDTRIP_CSV);
   
   string input;
   int selection = 0;
-  double totalSales = 0, totalCost = 0;
+  double totalSales = 0, totalCosts = 0, totalPurchases = 0;
   
   do {
     displayMainMenu();
@@ -92,15 +93,15 @@ int main(int argc, const char * argv[]) {
     if (selection >= OPT_SALE && selection <= OPT_EXIT) {
       switch (selection) {
         case OPT_SALE :
-          saleMenu(inventory, totalSales);
+          saleMenu(inventory, totalSales, totalCosts);
           break;
         
         case OPT_REPORT :
-          printReport(inventory, totalSales, totalCost);
+          printReport(inventory, totalSales, totalCosts, totalPurchases);
           break;
         
         case OPT_INVENTORY :
-          inventoryMenu(inventory, totalCost);
+          inventoryMenu(inventory, totalPurchases, totalCosts);
           break;
         
         default :
@@ -108,18 +109,21 @@ int main(int argc, const char * argv[]) {
       }
     }
     else {
-      cerr << "Error, please enter a valid selection." << endl << endl;
+      cerr << "Error, please enter a number between" << OPT_SALE << " and " << OPT_EXIT << '.' << endl;
     }
   } while (selection != OPT_EXIT && !cin.fail());
   
+  inventory.writeCSV(ROUNDTRIP_CSV);
+  cout << endl << "Have a Great Day!" << endl;
   return 0;
 }
 
-void printReport(Inventory &inventory, double sales, double costs) {
+void printReport(Inventory &inventory, double sales, double costs, double purchases) {
   cout << endl << "Report: " << endl
        << endl << "  Total sales: $" << fixed << setprecision(2) << sales
   << endl << "  Total costs: $" << costs
-  << endl << "  Total revenue: $" << (sales - costs) << endl << endl;
+  << endl << "  Total revenue: $" << (sales - costs) << endl
+  << endl << "  Total purchases: $" << purchases << endl << endl;
   cout << "  Low Stock Items:" << endl;
   inventory.printLowStock();
   cout << "  Out of Stock Items:" << endl;
@@ -129,9 +133,14 @@ void printReport(Inventory &inventory, double sales, double costs) {
 void printMenu(const vector<InventoryItem*> &menuItems) {
   cout << endl << "Menu: " << endl;
   for (int i = 0; i < menuItems.size(); i++) {
-    cout << '\t' << i + 1;
+    cout << '\t' << i + 1 << " - ";
     menuItems.at(i)->printDrinkListing();
   }
+}
+
+void printInventory(const Inventory &inventory) {
+  cout << endl << "Inventory List: " << endl;
+  inventory.printInventoryList();
 }
 
 template <typename T>
@@ -142,10 +151,10 @@ void getValue(const string &input, T &value) {
   ss >> value;
 }
 
-void saleMenu(Inventory &inventory, double &totalSales) {
-  int selection = 0;
+void saleMenu(Inventory &inventory, double &totalSales, double & totalCosts) {
+  int selection = 0, index = 0;
   string input, name;
-  double quantity = 0, price = 0;
+  double quantity = 0, price = 0, cost = 0;
   InventoryItem* item = nullptr;
   vector<InventoryItem*> menuItems;
 
@@ -162,25 +171,29 @@ void saleMenu(Inventory &inventory, double &totalSales) {
           break;
           
         case OPT_ENTERDRINK :
-          inventory.printMenu();
-          cout << endl << "Please enter item name: ";
-          getline(cin, name);
-          item = inventory.getItem(name);
-          if (item) {
+          printMenu(menuItems);
+          cout << endl << "Please enter item number: ";
+          getline(cin, input);
+          getValue(input, index);
+          index--;
+          if (index >= 0 && index < menuItems.size()) {
+            item = menuItems.at(index);
             cout << endl << "Please enter quantity: ";
             getline(cin, input);
             getValue(input, quantity);
             if (quantity >= 0 && item->isValidOrder(quantity)) {
-              price = item->placeOrder(quantity);
+              price = item->placeOrder(cost, quantity);
               totalSales += price;
-              cout << "Sale: $" << fixed << setprecision(2) << price << endl;
+              totalCosts += cost;
+              cout << endl << "Sale: $" << fixed << setprecision(2) << price << endl
+              << "Cost: $" << cost << endl << endl;;
             }
             else {
               cerr << endl << "Invalid Quantity. Max servings: " << item->getServingsRemaining() << endl;
             }
           }
           else {
-            cerr << endl << "Invalid Item Name." << endl;
+            cerr << endl << "Invalid Item Number: Please enter number between 0 and " << menuItems.size() << endl;
           }
           break;
           
@@ -189,16 +202,16 @@ void saleMenu(Inventory &inventory, double &totalSales) {
       }
     }
     else {
-      cerr << "Error, please enter a valid selection. " << endl << endl;
+      cerr << "Error, please enter a number between" << OPT_LISTDRINKS << " and " << OPT_EXITSALE << '.' << endl;
     }
     item = nullptr;
   } while(selection != OPT_EXITSALE && !cin.fail());
 }
 
-void inventoryMenu(Inventory &inventory, double &totalCost) {
-  int selection = 0;
+void inventoryMenu(Inventory &inventory, double &totalPurchases, double &totalCosts) {
+  int selection = 0, index = 0;
   string input, name;
-  double quantity = 0, cost = 0;
+  double quantity = 0, cost = 0, purchase = 0;
   InventoryItem* item = nullptr;
 
   do {
@@ -213,43 +226,52 @@ void inventoryMenu(Inventory &inventory, double &totalCost) {
           break;
           
         case OPT_ADDINVENTORY :
-          cout << endl << "Please enter item name: ";
-          getline(cin, name);
-          item = inventory.getItem(name);
-          if (item) {
-            cout << endl << "Please enter amount to increase stock: ";
+          printInventory(inventory);
+          cout << endl << "Please enter item number: ";
+          getline(cin, input);
+          getValue(input, index);
+          index--;
+          if (index >= 0 && index < inventory.getNumItems()) {
+            item = inventory.getItem(index);
+            cout << endl << "Please enter amount of stock to purchase: ";
             getline(cin, input);
             getValue(input, quantity);
             if (quantity >= 0) {
-              cost = item->addStock(quantity); 
-              totalCost += cost;
-              cout << "Cost: $" << fixed << setprecision(2) << cost << endl;
+              purchase = item->addStock(quantity);
+              totalPurchases += purchase;
+              cout << endl << "Purchase: $" << fixed << setprecision(2) << purchase << endl
+              << endl << "Updated Item Listing: " << endl;
+              item->printInventoryListing();
             }
             else {
-              cerr << endl << "Invalid Quantity." << endl;
+              cerr << endl << "Invalid Quantity: Amount must be a positive value. " << endl;
             }
           }
           else {
-            cerr << endl << "Invalid Item Name." << endl;
+            cerr << endl << "Invalid Item Number." << endl;
           }
           break;
           
         case OPT_REMINVENTORY :
-          cout << endl << "Please enter item name: ";
-          getline(cin, name);
-          item = inventory.getItem(name);
-          if (item) {
+          printInventory(inventory);
+          cout << endl << "Please enter item number: ";
+          getline(cin, input);
+          getValue(input, index);
+          index--;
+          if (index >= 0 && index < inventory.getNumItems()) {
+            item = inventory.getItem(index);
             if (!item->isOutOfStock()) {
-              cout << endl << "Please enter stock amount lost: ";
+              cout << endl << "Please enter amount of stock lost: ";
               getline(cin, input);
               getValue(input, quantity);
               if (quantity >= 0 && item->isValidStockLoss(quantity)) {
-                item->loseStock(quantity);
-                cout << "Item Stock has been updated: " << endl;
+                cost = item->loseStock(quantity);
+                totalCosts += cost;
+                cout << endl << "Loss cost: " << cost << endl << "Updated Item Listing:" << endl;
                 item->print();
               }
               else {
-                cerr << endl << "Invalid Quantity." << endl;
+                cerr << endl << "Invalid Quantity: Maximum amount: " << item->getStockRemaining() << endl;
               }
             }
             else {
@@ -257,13 +279,16 @@ void inventoryMenu(Inventory &inventory, double &totalCost) {
             }
           }
           else {
-            cerr << endl << "Invalid Item Name." << endl;
+            cerr << endl << "Invalid Item Number." << endl;
           }
+          break;
+        
+        default:
           break;
       }
     }
     else {
-      cerr << "Error, please enter a valid selection. " << endl << endl;
+      cerr << "Error, please enter a number between" << OPT_VIEWINVENTORY << " and " << OPT_EXITINVENTORY << '.' << endl;
     }
     item = nullptr;
   } while (selection != OPT_EXITINVENTORY);

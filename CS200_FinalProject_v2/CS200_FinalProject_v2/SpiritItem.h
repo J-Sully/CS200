@@ -1,13 +1,13 @@
 //
-//  Spirit.hpp
+//  SpiritItem.h
 //  CS200_FinalProject_v2
 //
 //  Created by Jessie Sully on 7/24/19.
 //  Copyright © 2019 Jessie Sully. All rights reserved.
 //
 
-#ifndef Spirit_hpp
-#define Spirit_hpp
+#ifndef SPIRITITEM_H
+#define SPIRITITEM_H
 
 #include "AgedAlcoholicItem.h"
 #include "Unit.h"
@@ -21,4 +21,4 @@ public:
   SpiritItem(istream &csvLine) : AgedAlcoholicItem() { readCSV(csvLine); setType(Alcohol::SPIRIT);}
 };
 
-#endif /* Spirit_hpp */
+#endif /* SPIRITITEM_H */

@@ -6,8 +6,8 @@
 //  Copyright © 2019 Jessie Sully. All rights reserved.
 //
 
-#ifndef AgedAlcoholicItem_hpp
-#define AgedAlcoholicItem_hpp
+#ifndef AGEDALCOHOLICITEM_H
+#define AGEDALCOHOLICITEM_H
 
 #include "AlcoholicItem.h"
 #include "Unit.h"
@@ -48,4 +48,4 @@ void AgedAlcoholicItem::writeStatement(ostream &output) const {
   output << "Year bottled: " << mYear << endl;
 }
 
-#endif /* AgedAlcoholicItem_hpp */
+#endif /* AGEDALCOHOLICITEM_H */

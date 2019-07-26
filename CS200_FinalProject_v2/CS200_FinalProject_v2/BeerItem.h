@@ -1,13 +1,13 @@
 //
-//  Beer.hpp
+//  BeerItem.h
 //  CS200_FinalProject_v2
 //
 //  Created by Jessie Sully on 7/23/19.
 //  Copyright © 2019 Jessie Sully. All rights reserved.
 //
 
-#ifndef Beer_hpp
-#define Beer_hpp
+#ifndef BEERITEM_H
+#define BEERITEM_H
 
 #include "AlcoholicItem.h"
 #include "Unit.h"
@@ -20,4 +20,4 @@ public:
   BeerItem(istream &csvLine) : AlcoholicItem() { readCSV(csvLine); setType(Alcohol::BEER);}  
 };
 
-#endif /* Beer_hpp */
+#endif /* BEERITEM_H */

@@ -1,13 +1,13 @@
 //
-//  Wine.hpp
+//  WineItem.h
 //  CS200_FinalProject_v2
 //
 //  Created by Jessie Sully on 7/24/19.
 //  Copyright © 2019 Jessie Sully. All rights reserved.
 //
 
-#ifndef Wine_hpp
-#define Wine_hpp
+#ifndef WINEITEM_H
+#define WINEITEM_H
 
 #include "AgedAlcoholicItem.h"
 #include "Unit.h"
@@ -20,4 +20,4 @@ public:
   WineItem(istream &csvLine) : AgedAlcoholicItem() { readCSV(csvLine); setType(Alcohol::WINE);}
 };
 
-#endif /* Wine_hpp */
+#endif /* WINEITEM_H */

@@ -49,14 +49,14 @@ public:
   
   double getStockRemaining() const { return mUnitsRemaining / getUnitsPerStock(); }
   double getServingsRemaining() const { return mUnitsRemaining / getUnitsPerServing(); }
-  bool isOutOfStock() const {return getUnitsRemaining() <= getUnitsPerServing();}
-  bool isLowStock() const {return getStockRemaining() <= getLowStockThreshold() && !isOutOfStock(); }
-  bool isValidOrder(double quantity) {return quantity * getUnitsPerServing() <= getUnitsRemaining(); }
-  bool isValidStockLoss(double quantity) {return quantity <= getStockRemaining();}
-  double placeOrder(double quantity = 1);
+  bool isOutOfStock() const {return getUnitsPerServing()  - getUnitsRemaining() >= 0;}
+  bool isLowStock() const {return !isOutOfStock() && getLowStockThreshold() - getStockRemaining() >= 0; }
+  bool isValidOrder(double quantity) {return  getUnitsRemaining() - quantity * getUnitsPerServing() >= 0; }
+  bool isValidStockLoss(double quantity) {return getStockRemaining() - quantity >= 0;}
+  double placeOrder(double &cost, double quantity = 1);
   
   double addStock(double quantity);
-  bool loseStock(double quantity);
+  double loseStock(double quantity);
   bool loseUnits(double quantity);
  
   virtual void readCSV(istream &csvLine);
@@ -67,6 +67,7 @@ public:
   void printLowStockMessaage() const;
   void printOutOfStockMessage() const;
   void printDrinkListing() const;
+  void printInventoryListing() const;
   
 protected:
   InventoryItem(){}
@@ -80,10 +81,11 @@ private:
   double mServingPrice = 0;
 };
 
-double InventoryItem::placeOrder(double quantity) {
+double InventoryItem::placeOrder(double &cost, double quantity) {
   double totalPrice = 0;
   if (isValidOrder(quantity)) {
-    totalPrice = quantity * mServingPrice;
+    totalPrice = quantity * mServingPrice + getTax(quantity);
+    cost = mPrice * quantity * getUnitsPerServing() / getUnitsPerStock();
     mUnitsRemaining -= quantity * getUnitsPerServing();
   }
   return totalPrice;
@@ -96,12 +98,14 @@ double InventoryItem::addStock(double quantity) {
   return price;
 }
 
-bool InventoryItem::loseStock(double quantity) {
+double InventoryItem::loseStock(double quantity) {
   bool isValid = quantity <= getStockRemaining();
+  double cost = 0;
   if (isValid) {
     mUnitsRemaining -= quantity * getUnitsPerStock();
+    cost = quantity * getPrice();
   }
-  return isValid;
+  return cost;
 }
 
 bool InventoryItem::loseUnits(double quantity) {
@@ -138,12 +142,22 @@ void InventoryItem::printLowStockMessaage() const {
 }
 
 void InventoryItem::printOutOfStockMessage() const {
-  cout << '\t' << mID << " - " << " out of Stock" << endl;
+  cout << '\t' << mID << " - out of Stock" << endl;
 }
 
 void InventoryItem::printDrinkListing() const {
-  cout << '\t' << mID << ": $" << fixed << setprecision(2) << mServingPrice << " for "
+  cout << mID << ": $" << fixed << setprecision(2) << mServingPrice << " for "
   << setprecision(1) << Unit::convertUnits(getUnitsPerServing(), mUnit, Unit::OUNCES) << " oz" << endl;
+}
+
+void InventoryItem::printInventoryListing() const {
+  if (!isOutOfStock()) {
+    cout << mID << ": Stock Amount: " << getStockRemaining() << ", Servings Remaining: " << fixed << setprecision(1) << getServingsRemaining();
+  }
+  else {
+    cout << mID << " - out of Stock ";
+  }
+  cout << ", Restock Price: $" << setprecision(2) << mPrice << endl;
 }
 
 //helper function for readCSV

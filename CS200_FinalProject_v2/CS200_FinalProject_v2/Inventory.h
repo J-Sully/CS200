@@ -1,13 +1,13 @@
 //
-//  Inventory.hpp
+//  Inventory.h
 //  CS200_FinalProject_v2
 //
 //  Created by Jessie Sully on 7/24/19.
 //  Copyright © 2019 Jessie Sully. All rights reserved.
 //
 
-#ifndef Inventory_hpp
-#define Inventory_hpp
+#ifndef INVENTORY_H
+#define INVENTORY_H
 
 #include <iostream>
 #include <fstream>
@@ -30,13 +30,14 @@ public:
   unsigned int getNumInStockItems() const;
   bool empty() const { return mItems.empty(); }
   
-  InventoryItem* getItem(string &name);
+  InventoryItem* getItem(int index) const;
   void getInStockItems(vector<InventoryItem*> &itemsInStock) const;
   
   void printContents() const;
   void printLowStock() const;
   void printOutOfStock() const;
   void printMenu() const;
+  void printInventoryList() const;
   
   /*
    bool validateName(const string &name, unsigned int &index) const;
@@ -155,15 +156,15 @@ void Inventory::printMenu() const {
   }
 }
 
-InventoryItem* Inventory::getItem(string &name) {
-  InventoryItem* foundItem = nullptr;
-  for(InventoryItem* item : mItems) {
-    if (item->getID() == name) {
-      foundItem = item;
-      break;
-    }
+void Inventory::printInventoryList() const {
+  for(int i = 0; i < getNumItems(); i++) {
+    cout << '\t' << i + 1 << " - ";
+    mItems.at(i)->printInventoryListing();
   }
-  return foundItem;
+}
+
+InventoryItem* Inventory::getItem(int index) const {
+  return mItems.at(index);
 }
 
 /*
@@ -247,4 +248,4 @@ bool Inventory::validateName(const string &name) const {
 
 */
 
-#endif /* Inventory_hpp */
+#endif /* INVENTORY_H */
