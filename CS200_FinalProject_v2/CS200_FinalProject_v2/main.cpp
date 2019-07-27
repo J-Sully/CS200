@@ -235,6 +235,8 @@ void inventoryMenu(Inventory &inventory, double &totalPurchases, double &totalCo
           break;
           
         case OPT_ADDINVENTORY :
+          inventory.printLowStock();
+          inventory.printOutOfStock();
           printInventory(inventory);
           cout << endl << "Please enter item number: ";
           getline(cin, input);

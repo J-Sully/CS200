@@ -33,7 +33,8 @@ public:
                     servingPrice, unitsRemaining, Alcohol::SPIRIT, unitsPerServing,
                     servingsPerBottle, bottlesPerCase) {}
   
-  SpiritItem(istream &csvLine) : AgedAlcoholicItem() { readCSV(csvLine); setType(Alcohol::SPIRIT);}
+  SpiritItem(istream &csvLine) : AgedAlcoholicItem()
+    { readCSV(csvLine); setType(Alcohol::SPIRIT);}
 };
 
 #endif /* SPIRITITEM_H */

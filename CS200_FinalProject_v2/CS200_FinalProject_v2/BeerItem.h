@@ -31,7 +31,8 @@ public:
   AlcoholicItem(ID, pricePerCase, thresholdCases, servingPrice, unitsRemaining,
                 Unit::OUNCES, Alcohol::BEER, unitsPerServing, 1, bottlesPerCase) {}
   
-  BeerItem(istream &csvLine) : AlcoholicItem() { readCSV(csvLine); setType(Alcohol::BEER);}  
+  BeerItem(istream &csvLine) : AlcoholicItem()
+    { readCSV(csvLine); setType(Alcohol::BEER);}  
 };
 
 #endif /* BEERITEM_H */
