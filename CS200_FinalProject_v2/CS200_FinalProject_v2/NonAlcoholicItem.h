@@ -37,7 +37,9 @@ class NonAlcoholicItem : public InventoryItem {
 public:
   static const string ItemType;
   
-  NonAlcoholicItem(const string &ID, double pricePerStock, double thresholdStock, Unit::Type unit, double servingPrice, double unitsPerStock, double unitsPerServing, double unitsRemaining = 0) :
+  NonAlcoholicItem(const string &ID, double pricePerStock, double thresholdStock,
+                   Unit::Type unit, double servingPrice, double unitsPerStock,
+                   double unitsPerServing, double unitsRemaining = 0) :
   InventoryItem(ID, pricePerStock, thresholdStock, unit, servingPrice, unitsRemaining),
   mUnitsPerStock(unitsPerStock), mUnitsPerServing(unitsPerServing) {}
   

@@ -275,7 +275,8 @@ void inventoryMenu(Inventory &inventory, double &totalPurchases, double &totalCo
           if (index >= 0 && index < inventory.getNumItems()) {
             item = inventory.getItem(index);
             if (!item->isOutOfStock()) {
-              cout << endl << "Please enter amount of stock lost (maximum: " << item->getStockRemaining() << "): ";
+              cout << endl << "Please enter amount of stock lost (maximum: "
+                   << item->getStockRemaining() << "): ";
               getline(cin, input);
               getValue(input, quantity);
               if (quantity >= 0 && item->isValidStockLoss(quantity)) {

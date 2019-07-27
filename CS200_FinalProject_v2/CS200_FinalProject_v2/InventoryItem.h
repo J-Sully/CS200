@@ -86,8 +86,10 @@ public:
   void setPrice(double price) { if(price >= 0) mPrice = price; }
   void setLowStockThreshold(double threshold) { mLowStockThreshold = threshold; }
   void setUnit(const string &unitName) { mUnit = Unit::getUnit(unitName); }
-  void setUnitsRemaining(double unitsRemaining) { if (unitsRemaining >= 0) mUnitsRemaining = unitsRemaining;}
-  void setServingPrice(double servingPrice) {if (servingPrice >= 0) mServingPrice = servingPrice;}
+  void setUnitsRemaining(double unitsRemaining)
+    { if (unitsRemaining >= 0) mUnitsRemaining = unitsRemaining;}
+  void setServingPrice(double servingPrice)
+    {if (servingPrice >= 0) mServingPrice = servingPrice;}
   
   const string& getID() const { return mID; }
   double getPrice() { return mPrice; }
@@ -105,13 +107,19 @@ public:
   virtual double getUnitsPerStock() const = 0;
   virtual double getUnitsPerServing() const = 0;
   
-  double getStockRemaining() const { return mUnitsRemaining / getUnitsPerStock(); }
-  double getServingsRemaining() const { return mUnitsRemaining / getUnitsPerServing(); }
+  double getStockRemaining() const
+    { return mUnitsRemaining / getUnitsPerStock(); }
+  double getServingsRemaining() const
+    { return mUnitsRemaining / getUnitsPerServing(); }
   // Items are either out of stock OR low stock, not both.
-  bool isOutOfStock() const { return getUnitsRemaining() < getUnitsPerServing(); }
-  bool isLowStock() const { return !isOutOfStock() && getStockRemaining() < getLowStockThreshold(); }
-  bool isValidOrder(double quantity) { return  getUnitsRemaining() >= quantity * getUnitsPerServing(); }
-  bool isValidStockLoss(double quantity) { return getStockRemaining() >= quantity; }
+  bool isOutOfStock() const
+    { return getUnitsRemaining() < getUnitsPerServing(); }
+  bool isLowStock() const
+    { return !isOutOfStock() && getStockRemaining() < getLowStockThreshold(); }
+  bool isValidOrder(double quantity)
+    { return  getUnitsRemaining() >= quantity * getUnitsPerServing(); }
+  bool isValidStockLoss(double quantity)
+    { return getStockRemaining() >= quantity; }
   
   double placeOrder(double &cost, double quantity = 1);
   double addStock(double quantity);
@@ -168,18 +176,22 @@ double InventoryItem::loseStock(double quantity) {
 void InventoryItem::writeStatement(ostream &output) const {
   const string unit = Unit::getUnitName(mUnit);
   output << "ID: " << mID << endl
-  << "Purchase Price: $" << fixed << setprecision(2) << mPrice << setprecision(0)
-  << " for " << getUnitsPerStock() << " " << unit << endl
-  << "Serving size: " << setprecision(3) << getUnitsPerServing() << " " << unit << endl;
+         << "Purchase Price: $" << fixed << setprecision(2) << mPrice
+         << setprecision(0) << " for " << getUnitsPerStock() << ' '
+         << unit << endl
+         << "Serving size: " << setprecision(3) << getUnitsPerServing()
+         << ' ' << unit << endl;
   if (hasTax()) {
     output << "Tax per serving: $" << setprecision(2) << getTax(1) << endl;
   }
-  output << "Inventory has: " << setprecision(3) << mUnitsRemaining << ' ' << unit << endl
-  << "Low Stock Threshold: " << getLowStockThreshold() << " ("
-  << getLowStockThreshold() * getUnitsPerStock() << " " << unit << ")" << endl
-  << "Stock remaining: " << setprecision(3) << getStockRemaining() << endl
-  << "Servings remaining: " << setprecision(1) << getServingsRemaining() << endl
-  << "Price per serving no tax: $" << setprecision(2) << getServingPrice() << endl;
+  output << "Inventory has: " << setprecision(3) << mUnitsRemaining
+         << ' ' << unit << endl
+         << "Low Stock Threshold: " << getLowStockThreshold() << " ("
+         << getLowStockThreshold() * getUnitsPerStock() << " " << unit
+         << ")" << endl
+         << "Stock remaining: " << setprecision(3) << getStockRemaining() << endl
+         << "Servings remaining: " << setprecision(1) << getServingsRemaining() << endl
+         << "Price per serving no tax: $" << setprecision(2) << getServingPrice() << endl;
 }
 
 void InventoryItem::print() const {
@@ -189,21 +201,31 @@ void InventoryItem::print() const {
 }
 
 void InventoryItem::printLowStockMessaage() const {
-  cout << '\t' << mID << " - " << getServingsRemaining() <<  fixed << setprecision(3) << " servings remaining, Need " << getLowStockThreshold() - getStockRemaining() << " more stock to replenish." << endl;
+  cout << '\t' << mID << " - " << getServingsRemaining() <<  fixed
+       << setprecision(3) << " servings remaining, Need "
+       << getLowStockThreshold() - getStockRemaining()
+       << " more stock to replenish." << endl;
 }
 
 void InventoryItem::printOutOfStockMessage() const {
-  cout << '\t' << mID << " - out of Stock, Need " << fixed << setprecision(3) << getLowStockThreshold() - getStockRemaining() << " more stock to replenish." << endl;
+  cout << '\t' << mID << " - out of Stock, Need " << fixed << setprecision(3)
+       << getLowStockThreshold() - getStockRemaining()
+       << " more stock to replenish." << endl;
 }
 
 void InventoryItem::printDrinkListing() const {
   cout << mID << ": $" << fixed << setprecision(2) << mServingPrice << " for "
-  << setprecision(1) << Unit::convertUnits(getUnitsPerServing(), mUnit, Unit::OUNCES) << " oz" << endl;
+       << setprecision(1)
+       << Unit::convertUnits(getUnitsPerServing(), mUnit, Unit::OUNCES)
+       << " oz" << endl;
 }
 
 void InventoryItem::printInventoryListing() const {
   if (!isOutOfStock()) {
-    cout << mID << ": Stock Amount: " << getStockRemaining() << ", Servings Remaining: " << fixed << setprecision(1) << getServingsRemaining() << ", Stock Remaining: " << fixed << setprecision(3) << getStockRemaining();
+    cout << mID << ": Stock Amount: " << getStockRemaining()
+         << ", Servings Remaining: " << fixed << setprecision(1)
+         << getServingsRemaining() << ", Stock Remaining: " << fixed
+         << setprecision(3) << getStockRemaining();
   }
   else {
     cout << mID << " - out of Stock ";
