@@ -96,6 +96,7 @@ public:
   double getUnitsRemaining() const { return mUnitsRemaining; }
   double getServingPrice() const { return mServingPrice; }
   
+  //Alcoholic items will have tax, nonalcoholic items will not. 
   virtual bool hasTax() const { return false; }
   virtual double getTax(double servings) const { return 0; }
   virtual double getTax(double quantity, Unit::Type unit) const { return 0; }
@@ -106,10 +107,11 @@ public:
   
   double getStockRemaining() const { return mUnitsRemaining / getUnitsPerStock(); }
   double getServingsRemaining() const { return mUnitsRemaining / getUnitsPerServing(); }
-  bool isOutOfStock() const {return getUnitsPerServing()  - getUnitsRemaining() >= 0;}
-  bool isLowStock() const {return !isOutOfStock() && getLowStockThreshold() - getStockRemaining() >= 0; }
-  bool isValidOrder(double quantity) {return  getUnitsRemaining() - quantity * getUnitsPerServing() >= 0; }
-  bool isValidStockLoss(double quantity) {return getStockRemaining() - quantity >= 0;}
+  // Items are either out of stock OR low stock, not both.
+  bool isOutOfStock() const { return getUnitsRemaining() < getUnitsPerServing(); }
+  bool isLowStock() const { return !isOutOfStock() && getStockRemaining() < getLowStockThreshold(); }
+  bool isValidOrder(double quantity) { return  getUnitsRemaining() >= quantity * getUnitsPerServing(); }
+  bool isValidStockLoss(double quantity) { return getStockRemaining() >= quantity; }
   
   double placeOrder(double &cost, double quantity = 1);
   double addStock(double quantity);
@@ -173,7 +175,10 @@ void InventoryItem::writeStatement(ostream &output) const {
     output << "Tax per serving: $" << setprecision(2) << getTax(1) << endl;
   }
   output << "Inventory has: " << setprecision(3) << mUnitsRemaining << ' ' << unit << endl
+  << "Low Stock Threshold: " << getLowStockThreshold() << " ("
+  << getLowStockThreshold() * getUnitsPerStock() << " " << unit << ")" << endl
   << "Stock remaining: " << setprecision(3) << getStockRemaining() << endl
+  << "Servings remaining: " << setprecision(1) << getServingsRemaining() << endl
   << "Price per serving no tax: $" << setprecision(2) << getServingPrice() << endl;
 }
 
@@ -184,11 +189,11 @@ void InventoryItem::print() const {
 }
 
 void InventoryItem::printLowStockMessaage() const {
-  cout << '\t' << mID << " - " << getServingsRemaining() << " servings remaining." << endl;
+  cout << '\t' << mID << " - " << getServingsRemaining() <<  fixed << setprecision(3) << " servings remaining, Need " << getLowStockThreshold() - getStockRemaining() << " more stock to replenish." << endl;
 }
 
 void InventoryItem::printOutOfStockMessage() const {
-  cout << '\t' << mID << " - out of Stock" << endl;
+  cout << '\t' << mID << " - out of Stock, Need " << fixed << setprecision(3) << getLowStockThreshold() - getStockRemaining() << " more stock to replenish." << endl;
 }
 
 void InventoryItem::printDrinkListing() const {
@@ -198,7 +203,7 @@ void InventoryItem::printDrinkListing() const {
 
 void InventoryItem::printInventoryListing() const {
   if (!isOutOfStock()) {
-    cout << mID << ": Stock Amount: " << getStockRemaining() << ", Servings Remaining: " << fixed << setprecision(1) << getServingsRemaining();
+    cout << mID << ": Stock Amount: " << getStockRemaining() << ", Servings Remaining: " << fixed << setprecision(1) << getServingsRemaining() << ", Stock Remaining: " << fixed << setprecision(3) << getStockRemaining();
   }
   else {
     cout << mID << " - out of Stock ";

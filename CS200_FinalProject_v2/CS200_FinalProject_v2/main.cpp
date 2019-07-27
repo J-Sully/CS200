@@ -5,21 +5,17 @@
 //  Created by Jessie Sully on 7/23/19.
 //  Copyright © 2019 Jessie Sully. All rights reserved.
 //
-
 #include <iostream>
 
-#include "Unit.h"
 #include "NonAlcoholicItem.h"
-#include "AlcoholicItem.h"
 #include "BeerItem.h"
 #include "WineItem.h"
 #include "SpiritItem.h"
 #include "Inventory.h"
 
-
+using namespace std;
 
 static const string INVENTORY_CSV = "inventory.csv";
-static const string ROUNDTRIP_CSV = "roundtrip.csv";
 
 const string MAINMENU = { R"(
 Welcome to the Main Menu:
@@ -27,7 +23,7 @@ Welcome to the Main Menu:
   1: Enter a sale
   2: View Report
   3: Manage Inventory
-  4: End Day
+  4: Exit
   
 Please enter your selection: )"
 };
@@ -57,13 +53,15 @@ Welcome to the Inventory Menu:
 Please enter your selection: )"
 };
 
-enum OptInventoryMenu {OPT_VIEWINVENTORY = 1, OPT_ADDINVENTORY, OPT_REMINVENTORY, OPT_EXITINVENTORY};
+enum OptInventoryMenu {OPT_VIEWINVENTORY = 1, OPT_ADDINVENTORY,
+                       OPT_REMINVENTORY, OPT_EXITINVENTORY};
 
 void displayMainMenu() { cout << MAINMENU; }
 void displaySaleMenu() { cout << SALEMENU; }
 void displayInventorymenu() { cout << INVENTORYMENU; }
 
-void printReport(Inventory &inventory, double totalSales, double totalCosts, double totalPurchases);
+void printReport(Inventory &inventory, double totalSales, double totalCosts,
+                 double totalPurchases);
 void saleMenu(Inventory &inventory, double &totalSales, double & totalCosts);
 void inventoryMenu(Inventory &inventory, double &totalPurchases, double &totalCosts);
 
@@ -72,16 +70,17 @@ void getValue(const string &input, T &value);
 void printInventory(const Inventory &inventory);
 void printMenu(const vector<InventoryItem*> &menuItems);
 
-//void generateCSV(const string& filename);
+void generateInventory(Inventory &inventory);
 
 int main(int argc, const char * argv[]) {
-
-  //generateCSV(INVENTORY_CSV);
-  Inventory inventory(INVENTORY_CSV);
-  
+  Inventory inventory;
   string input;
   int selection = 0;
   double totalSales = 0, totalCosts = 0, totalPurchases = 0;
+  
+  if(!inventory.readCSV(INVENTORY_CSV)) {
+    generateInventory(inventory);
+  }
   
   do {
     displayMainMenu();
@@ -107,13 +106,22 @@ int main(int argc, const char * argv[]) {
       }
     }
     else {
-      cerr << "Error, please enter a number between" << OPT_SALE << " and " << OPT_EXIT << '.' << endl;
+      cerr << "Error, please enter a number between " << OPT_SALE << " and "
+           << OPT_EXIT << '.' << endl;
     }
   } while (selection != OPT_EXIT && !cin.fail());
   
-  inventory.writeCSV(ROUNDTRIP_CSV);
+  inventory.writeCSV(INVENTORY_CSV);
   cout << endl << "Have a Great Day!" << endl;
   return 0;
+}
+
+void generateInventory(Inventory &inventory) {
+  inventory.addItem(new BeerItem("Lagunitas", 21.99, 10.99, 864));
+  inventory.addItem(new WineItem("Meiomi Pinot Noir", 191, 2017, 15.99, 13.5));
+  inventory.addItem(new SpiritItem("Orendain Tequila Blanco", 180, 2019, 9.99));
+  inventory.addItem(new NonAlcoholicItem("Snyder's of Hanover Snaps Pretzels",
+                                         6.59, 3, Unit::OUNCES, 2.99, 50, 1.06383));
 }
 
 void printReport(Inventory &inventory, double sales, double costs, double purchases) {
@@ -183,15 +191,17 @@ void saleMenu(Inventory &inventory, double &totalSales, double & totalCosts) {
               price = item->placeOrder(cost, quantity);
               totalSales += price;
               totalCosts += cost;
-              cout << endl << "Sale: $" << fixed << setprecision(2) << price << endl
-              << "Cost: $" << cost << endl << endl;;
+              cout << endl << "Sale: $" << fixed << setprecision(2) << price
+                   << endl << "Cost: $" << cost << endl << endl;;
             }
             else {
-              cerr << endl << "Invalid Quantity. Max servings: " << item->getServingsRemaining() << endl;
+              cerr << endl << "Invalid Quantity. Max servings: "
+                   << item->getServingsRemaining() << endl;
             }
           }
           else {
-            cerr << endl << "Invalid Item Number: Please enter number between 0 and " << menuItems.size() << endl;
+            cerr << endl << "Invalid Item Number: Please enter number between 1 and "
+                 << menuItems.size() << endl;
           }
           break;
           
@@ -200,7 +210,8 @@ void saleMenu(Inventory &inventory, double &totalSales, double & totalCosts) {
       }
     }
     else {
-      cerr << "Error, please enter a number between" << OPT_LISTDRINKS << " and " << OPT_EXITSALE << '.' << endl;
+      cerr << "Error, please enter a number between " << OPT_LISTDRINKS
+           << " and " << OPT_EXITSALE << '.' << endl;
     }
     item = nullptr;
   } while(selection != OPT_EXITSALE && !cin.fail());
@@ -237,16 +248,19 @@ void inventoryMenu(Inventory &inventory, double &totalPurchases, double &totalCo
             if (quantity >= 0) {
               purchase = item->addStock(quantity);
               totalPurchases += purchase;
-              cout << endl << "Purchase: $" << fixed << setprecision(2) << purchase << endl
+              cout << endl << "Purchase: $" << fixed << setprecision(2)
+                   << purchase << endl
               << endl << "Updated Item Listing: " << endl;
               item->printInventoryListing();
             }
             else {
-              cerr << endl << "Invalid Quantity: Amount must be a positive value. " << endl;
+              cerr << endl << "Invalid Quantity: Amount must be a positive value. "
+                   << endl;
             }
           }
           else {
-            cerr << endl << "Invalid Item Number." << endl;
+            cerr << endl << "Invalid Item Number: Must be a number between 1 and "
+                 << inventory.getNumItems() << endl;
           }
           break;
           
@@ -265,11 +279,13 @@ void inventoryMenu(Inventory &inventory, double &totalPurchases, double &totalCo
               if (quantity >= 0 && item->isValidStockLoss(quantity)) {
                 cost = item->loseStock(quantity);
                 totalCosts += cost;
-                cout << endl << "Loss cost: " << cost << endl << "Updated Item Listing:" << endl;
+                cout << endl << "Loss cost: " << cost << endl
+                     << "Updated Item Listing:" << endl;
                 item->print();
               }
               else {
-                cerr << endl << "Invalid Quantity: Maximum amount: " << item->getStockRemaining() << endl;
+                cerr << endl << "Invalid Quantity: Maximum amount: "
+                     << item->getStockRemaining() << endl;
               }
             }
             else {
@@ -277,7 +293,8 @@ void inventoryMenu(Inventory &inventory, double &totalPurchases, double &totalCo
             }
           }
           else {
-            cerr << endl << "Invalid Item Number." << endl;
+            cerr << endl << "Invalid Item Number: Must be a number between 1 and "
+                 << inventory.getNumItems() << endl;
           }
           break;
         
@@ -286,60 +303,11 @@ void inventoryMenu(Inventory &inventory, double &totalPurchases, double &totalCo
       }
     }
     else {
-      cerr << "Error, please enter a number between" << OPT_VIEWINVENTORY << " and " << OPT_EXITINVENTORY << '.' << endl;
+      cerr << "Error, please enter a number between " << OPT_VIEWINVENTORY
+           << " and " << OPT_EXITINVENTORY << '.' << endl;
     }
     item = nullptr;
   } while (selection != OPT_EXITINVENTORY);
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-void generateCSV(const string& filename) {
-  stringstream csv;
-  BeerItem beer("Lagunitas", 13, 10.99, 864);
-  beer.print();
-  beer.writeCSV(csv);
-  csv << endl;
-  
-  WineItem wine("Meiomi Pinot Noir", 191, 2017, 15.99, 13.5);
-  wine.print();
-  wine.writeCSV(csv);
-  csv << endl;
-  
-  SpiritItem spirit("Orendain Tequila Blanco", 180, 2019, 9.99);
-  spirit.print();
-  spirit.writeCSV(csv);
-  csv << endl;
-  
-  NonAlcoholicItem pretzels("Snyder's of Hanover Snaps Pretzels", 6.59, 3, Unit::OUNCES, 2.99, 50, 1.06383);
-  pretzels.print();
-  pretzels.writeCSV(csv);
-  csv << endl;
-  
-  cout << csv.str();
-  
-  ofstream inv_csv;
-  inv_csv.open(filename);
-  if (inv_csv) {
-    inv_csv << csv.str();
-  }
-  inv_csv.close();
-}

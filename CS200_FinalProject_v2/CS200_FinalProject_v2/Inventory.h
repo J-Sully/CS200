@@ -25,11 +25,12 @@ using namespace std;
  + Inventory()
  + Inventory(filename : string)
  + ~Inventory()
- - readCSV (filename : string) : void
+ + readCSV (filename : string) : void
  + writeCSV (filename : string) : void
  + getItem(index : int) : InventoryItem*
  + getNumItems() : unsigned long
  + empty() : bool
+ + addItem(item : InventoryItem*) : void
  + getInStockItems(itemsInStock : vector<InventoryItem*>) : void
  + printContents() : void
  + printLowStock() : void
@@ -45,6 +46,7 @@ public:
   Inventory(const string &filename) { readCSV(filename); }
   ~Inventory();
   
+  bool readCSV(const string &filename);
   void writeCSV(const string &filename) const;
   
   InventoryItem* getItem(int index) const;
@@ -52,6 +54,7 @@ public:
   void getInStockItems(vector<InventoryItem*> &itemsInStock) const;
   
   bool empty() const { return mItems.empty(); }
+  void addItem(InventoryItem* item) { mItems.push_back(item); }
   
   void printContents() const;
   void printLowStock() const;
@@ -61,7 +64,6 @@ public:
   
 private:
   vector<InventoryItem*> mItems;
-  void readCSV(const string &filename);
 };
 
 Inventory::~Inventory() {
@@ -70,14 +72,16 @@ Inventory::~Inventory() {
   }
 }
 
-void Inventory::readCSV(const string &filename) {
+bool Inventory::readCSV(const string &filename) {
   ifstream is;
   stringstream lineStream;
   string csvLine, type;
   InventoryItem* item = nullptr;
+  bool success = false;
   
   is.open(filename);
   if(is) {
+    success = true;
     while(getline(is, csvLine)) {
       item = nullptr;
       lineStream.clear();
@@ -107,6 +111,7 @@ void Inventory::readCSV(const string &filename) {
     }
   }
   is.close();
+  return success;
 }
 
 void Inventory::writeCSV(const string &filename) const {
