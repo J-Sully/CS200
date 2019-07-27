@@ -47,8 +47,10 @@ public:
   virtual void writeCSV(ostream &csvLine) const;
   virtual const string& getItemType() const { return ItemType; }
   
-  void setUnitsPerStock(double unitsPerStock) { if (unitsPerStock > 0) mUnitsPerStock = unitsPerStock; }
-  void setUnitsPerServing(double unitsPerServing) { if (unitsPerServing > 0) mUnitsPerServing = unitsPerServing; }
+  void setUnitsPerStock(double unitsPerStock)
+    { if (unitsPerStock > 0) mUnitsPerStock = unitsPerStock; }
+  void setUnitsPerServing(double unitsPerServing)
+    { if (unitsPerServing > 0) mUnitsPerServing = unitsPerServing; }
   
   virtual double getUnitsPerStock() const { return mUnitsPerStock; }
   virtual double getUnitsPerServing() const { return mUnitsPerServing; }
